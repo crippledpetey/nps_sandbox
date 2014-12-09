@@ -74,11 +74,13 @@
 			<?php echo $this->getChildHtml('nps_below_header_promotion'); ?>
 		</div>
 		<?php } ?>
+		<?php if( !empty( $this->getChildHtml('topContainer') ) || !empty( $this->getChildHtml('store_language') ) ){ ?>
 		<div class="header">
 	        <?php //echo $this->getChildHtml('ebajes_header_block_info') ?>
 			<?php echo $this->getChildHtml('store_language') ?>
 	        <?php echo $this->getChildHtml('topContainer'); ?>
 	    </div>
+	    <?php } ?>
     </div>
 	<div class="header-bottom">
 		<div class="top-search">
