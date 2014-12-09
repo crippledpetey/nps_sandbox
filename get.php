@@ -32,7 +32,7 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
         . 'target="">Find out</a> how to install</a> Magento using PHP-CGI as a work-around.</p></div>';
     exit;
 }
-$start = microtime(true);
+$start = microtime(true);  
 /**
  * Error reporting
  */
