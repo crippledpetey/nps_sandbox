@@ -214,3 +214,12 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+
+#############
+## CUSTOM
+#############
+sftp-config.json
+*.access_log
+*-error_log
+_logs/
