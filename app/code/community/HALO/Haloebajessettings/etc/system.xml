@@ -28,7 +28,7 @@
 <config>
     <sections>
         <ebajes translate="label" module="ebajessettings">
-            <label>Halothemes Ebajes Settings</label>
+            <label>NPS Product Image Configuration</label>
             <tab>general</tab>
             <frontend_type>text</frontend_type>		
 			<frontend_model>ebajessettings/adminhtml_system_config_form</frontend_model>
@@ -74,7 +74,7 @@
 						</gutter>
 					</fields>
 				</products_grid>
-                
+
                 <products_list>
 					<label>Products List</label>
 					<frontend_type>text</frontend_type>
