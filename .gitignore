@@ -223,3 +223,4 @@ sftp-config.json
 *.access_log
 *-error_log
 _logs/
+app/code/community/HALO/Haloebajessettings/etc/system.xml
