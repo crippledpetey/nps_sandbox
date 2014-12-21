@@ -46,15 +46,13 @@ jQuery(document).ready(function($){
    
     function standardizeMainNav(){
         if( $(window).width() > 768 ){
-            var navfullWidth = $("#nav").width()-6;
+            var navfullWidth = $("#nav").innerWidth();
             var navMenuItems = $("#nav > li").length;
             $("#nav > li").each(function(){
-                $(this).addClass("found-it");
                 $(this).css("width", navfullWidth / navMenuItems );
             });
         } else {
             $("#nav > li").each(function(){
-                $(this).addClass("found-it");
                 $(this).css("width", "100%" );
             });
         }
