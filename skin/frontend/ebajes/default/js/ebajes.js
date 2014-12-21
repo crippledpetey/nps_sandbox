@@ -46,7 +46,7 @@ jQuery(document).ready(function($){
    
     function standardizeMainNav(){
         if( $(window).width() > 768 ){
-            var navfullWidth = $("#nav").width()-5;
+            var navfullWidth = $("#nav").width()-6;
             var navMenuItems = $("#nav > li").length;
             $("#nav > li").each(function(){
                 $(this).addClass("found-it");
