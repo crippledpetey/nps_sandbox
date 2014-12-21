@@ -48,6 +48,8 @@ jQuery(document).ready(function($){
         if( $(window).width() > 768 ){
             var navfullWidth = $("#nav").innerWidth();
             var navMenuItems = $("#nav > li").length;
+            console.log( 'width'+navfullWidth );
+            console.log( 'items:'+navMenuItems );
             $("#nav > li").each(function(){
                 $(this).css("width", navfullWidth / navMenuItems );
             });
