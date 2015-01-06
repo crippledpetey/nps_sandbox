@@ -833,7 +833,7 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#bdb8ad), to(#ebe7e0))
   background: -o-linear-gradient(bottom, #bdb8ad 0%, #ebe7e0 20%);}
 
 /* All Levels */ /* Style consistent throughout all nav levels */
-#nav li { position:relative; text-align:left; -webkit-box-sizing: border-box; box-sizing: border-box;}
+#nav li { position:relative; text-align:left; -webkit-box-sizing: border-box; box-sizing: border-box; }
 #nav li.over { z-index:998; }
 #nav a,
 #nav a:hover { display:block; line-height:1.3em; text-decoration:none; }
