@@ -23,7 +23,7 @@
  *
  * @category   MageWorx
  * @package    MageWorx_Adminhtml
- * @copyright  Copyright (c) 2011 MageWorx (http://www.mageworx.com/)
+ * @copyright  Copyright (c) 2009 MageWorx (http://www.mageworx.com/)
  * @license    http://www.mageworx.com/LICENSE-1.0.html
  */
 
@@ -39,7 +39,7 @@
     <modules>
         <MageWorx_Adminhtml>
             <active>true</active>
-            <codePool>local</codePool>
+            <codePool>community</codePool>
             <depends>
                 <Mage_Adminhtml />
             </depends>

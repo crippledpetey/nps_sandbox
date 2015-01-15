@@ -1,0 +1,89 @@
+﻿<?xml version="1.0"?>
+<!--
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@mageworx.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ * or send an email to sales@mageworx.com
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomerPlus
+ * @copyright  Copyright (c) 2009 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Customer extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomerPlus
+ * @author     MageWorx Dev Team <dev@mageworx.com>
+ */
+-->
+<config>
+    <modules>
+        <MageWorx_CustomerPlus>
+            <version>1.1.0</version>
+        </MageWorx_CustomerPlus>
+    </modules>
+
+    <admin>
+        <routers>
+            <mageworx>
+                <args>
+                    <modules>
+                        <MageWorx_CustomerPlus before="MageWorx_Adminhtml">MageWorx_CustomerPlus_Adminhtml</MageWorx_CustomerPlus>
+                    </modules>
+                </args>
+            </mageworx>
+        </routers>
+    </admin>
+    
+    <global>
+        <models>
+            <mageworx_customerplus>
+                <class>MageWorx_CustomerPlus_Model</class>
+                <resourceModel>mageworx_customerplus_mysql4</resourceModel>
+            </mageworx_customerplus>
+            <mageworx_customerplus_mysql4>
+                <class>MageWorx_CustomerPlus_Model_Mysql4</class>
+            </mageworx_customerplus_mysql4>
+        </models>
+        <blocks>
+            <mageworx_customerplus>
+                <class>MageWorx_CustomerPlus_Block</class>
+            </mageworx_customerplus>
+        </blocks>
+        <helpers>
+            <mageworx_customerplus>
+                <class>MageWorx_CustomerPlus_Helper</class>
+            </mageworx_customerplus>
+        </helpers>
+    </global>
+    
+    <adminhtml>
+        <layout>
+            <updates>
+                <mageworx_customerplus>
+                    <file>mageworx_customerplus.xml</file>
+                </mageworx_customerplus>
+            </updates>
+        </layout>
+    </adminhtml>
+
+</config>

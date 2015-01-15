@@ -224,4 +224,4 @@ sftp-config.json
 *-error_log
 _logs/
 app/code/community/HALO/Haloebajessettings/etc/system.xml
-/media/catalog/product/*
+/media

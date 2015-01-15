@@ -56,7 +56,20 @@ if (count($_options) || ((string)Mage::getConfig()->getModuleConfig('OrganicInte
 
         //Ensures that the gallery is loading all advanced options
         function createPrimaryGallery(){
-            var gImgs = document.getElementsByClassName("product-image");
+
+            jQuery(".product-image").children().each(function(){
+                
+                if( jQuery( this )[0].localName == "img" ){
+                    jQuery( this ).wrap('<a class="fancybox" rel="primarygroup" title="'+jQuery( this )[0].title+'" href="'+jQuery( this )[0].src+'><a/>');
+                } else {
+
+                    console.log( jQuery( this )[0].localName);
+                }
+            });
+            
+            var gImgs = jQuery(".product-image");
+            
+            /*
             var aNode = gImgs[0].getElementsByTagName('img');
             for (i = 0; i < aNode.length; i++) { 
                 if ( aNode[i].parent.is( "a" ) ) {
@@ -69,7 +82,7 @@ if (count($_options) || ((string)Mage::getConfig()->getModuleConfig('OrganicInte
                     anchor.href=aNode[i].src;
                     jQuery( aNode[i] ).wrap(anchor);
                 }
-            }
+            }*/
         }
         //<![CDATA[
         var optionFileUpload = {

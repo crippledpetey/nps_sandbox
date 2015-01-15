@@ -38,6 +38,8 @@
     $h = $setting->getImageProduct_BaseImageHeight(330);
     $wmoreview = $setting->getImageProduct_ThumbImageWidth(70);
     $hmoreview = $setting->getImageProduct_ThumbImageHeight(70);
+
+    //get product images for all product options
 ?>
 <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
 <p class="product-image product-image-zoom" style="width:<?php echo $setting->getImageProduct_BaseImageWidth(330) ?>px;height:<?php echo $setting->getImageProduct_BaseImageHeight(330) ?>px">
