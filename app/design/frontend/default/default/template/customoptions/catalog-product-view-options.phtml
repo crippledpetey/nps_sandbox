@@ -805,6 +805,7 @@ if (count($_options) || ((string)Mage::getConfig()->getModuleConfig('OrganicInte
                                 if (!radios[i].checked) {
                                     var overlayImage = $('overlay_image_' + radios[i].value);
                                     if (overlayImage) overlayImage.remove();
+                                    
                                 }
                             }
                         } else if (el.type=='checkbox') {
@@ -821,7 +822,6 @@ if (count($_options) || ((string)Mage::getConfig()->getModuleConfig('OrganicInte
                                 }
                             }
                         }
-
                         if (((el.type=='checkbox' || el.type=='radio') && el.checked && !el.disabled) || ((el.type=='select-one' || el.type=='select-multiple') && el.value!='')) {
                             // overlay option image
                             elValueArr.each(function(optionValueId) {

@@ -134,9 +134,10 @@ transition: none;}
 .col-left { float:left; width:195px; margin-left:0; padding-bottom: 20px;}
 .col-main { float:left; width:750px; margin-left:15px; padding-bottom: 20px;}
 .col-right { float:left; width:195px; margin-left:15px; padding-bottom: 20px;}
+/*.col-main { width: 100%; max-width: 1440px; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0 20px 40px 20px;}*/
 
 /* 1 Column Layout */
-.col1-layout .col-main { float:none; width:auto; margin-left:0}
+.col1-layout .col-main { float:none; width:auto; max-width: 1440px; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0 20px 40px 20px;}
 
 /* 2 Columns Layout */
 .col2-right-layout .col-main {margin-left:0;}
@@ -1534,9 +1535,12 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#1a82f7), to(#2F2727))
 
 .product-collateral { }
 .product-collateral h2 { }
-.product-collateral .box-collateral { margin:0 0 25px; }
+.product-collateral .box-collateral { margin:0 0 25px; float: left; width: 60%; box-sizing: border-box; -webkit-box-sizing: border-box; }
 .product-collateral .box-additional .data-table .odd{ background: #ffffff; }
 .product-collateral .box-additional .data-table .even{ background: #f4f4f4; }
+.product-collateral .box-collateral.box-additional { float: left; width: 38%; box-sizing: border-box; -webkit-box-sizing: border-box; margin-left: 2%; }
+.product-collateral .box-collateral.box-additional:after {display: block; width: 100%; white-space: normal; clear: both; height: 10px;}
+.product-collateral .box-collateral.box-tags { width: 100%; }
 
 /* Product Images */
 .product-view .product-img-box { float:left; width:280px; margin-right:15px; }
@@ -1544,7 +1548,7 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#1a82f7), to(#2F2727))
 .product-view .product-img-box .product-image { margin:0 0 13px; border: 1px solid #d0d0d0; border-bottom: 1px solid #bcbcbc; background: #ffffff;}
 .product-view .product-img-box .product-image img {}
 .product-view .product-img-box .product-image-zoom { position:relative; width:265px; height:265px; overflow:hidden; z-index:9; }
-.product-view .product-img-box .product-image-zoom img { position:absolute; left:0; top:0; cursor:move; }
+.product-view .product-img-box .product-image-zoom img { position:absolute; left:0; top:0; cursor:pointer;}
 .product-view .product-img-box .zoom-notice { font-size:11px; margin:0 0 5px; text-align:center; color: #6e6e6e;}
 .product-view .product-img-box .zoom { position:relative; z-index:9; height:10px; margin:0 auto 23px; padding:0;width:100%; cursor:pointer; }
 .product-view .product-img-box .zoom.disabled { -moz-opacity:.3; -webkit-opacity:.3; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";/*IE8*/ opacity:.3; }
@@ -3111,4 +3115,58 @@ input[type="checkbox"]:focus {
 }
 .cms-ebajes-homepage .col-main > div:first-child {
 	padding: 0;
+}
+
+/*--------START CUSTOM RESPONSIVE--------*/
+/* Medium Screens ----------- */
+@media only screen and (max-width : 720px) {
+/* Styles */
+	.product-collateral .box-collateral, .product-collateral .box-collateral.box-additional { float: none; width: 100%; margin-left: 0%; }
+	.product-collateral .box-collateral.box-additional { margin-left: 0%; }
+}
+
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+/* Styles */
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen and (min-width : 321px) {
+/* Styles */
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen and (max-width : 320px) {
+/* Styles */
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+/* Styles */
+}
+
+/* iPads (landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+/* Styles */
+}
+
+/* iPads (portrait) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width : 1224px) {
+/* Styles */
+}
+
+/* Large screens ----------- */
+@media only screen and (min-width : 1824px) {
+/* Styles */
+}
+
+/* iPhone 4 ----------- */
+@mediaonly screen and (-webkit-min-device-pixel-ratio : 1.5),only screen and (min-device-pixel-ratio : 1.5) {
+/* Styles */
 }

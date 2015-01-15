@@ -42,11 +42,13 @@
 <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
 <p class="product-image product-image-zoom" style="width:<?php echo $setting->getImageProduct_BaseImageWidth(330) ?>px;height:<?php echo $setting->getImageProduct_BaseImageHeight(330) ?>px">
     <?php
+
         $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
         echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
 </p>
-<p class="zoom-notice" id="track_hint"><?php echo $this->__('Double click on above image to view full picture') ?></p>
+<p class="zoom-notice" id="track_hint"><?php echo $this->__('Click on above image to view full picture') ?></p>
+<!--
 <div class="zoom">
     <img id="zoom_out" src="<?php echo $this->getSkinUrl('images/slider_btn_zoom_out.gif') ?>" alt="<?php echo $this->__('Zoom Out') ?>" title="<?php echo $this->__('Zoom Out') ?>" class="btn-zoom-out" />
     <div id="track">
@@ -61,6 +63,7 @@
     });
 //]]>
 </script>
+-->
 <?php else: ?>
 <p class="product-image">
     <?php
@@ -75,19 +78,30 @@
     <ul>
     <?php 
     if(!empty( $this->getGalleryImages() ) ){
-        $gallery_images = $this->getGalleryImages();        
+        $gallery_images = $this->getGalleryImages(); 
+
+        $displayed = array();
+
         foreach ($gallery_images as $key=>$_image) {
             $url = $_image->getData('url');
-            $label = $_image->getData('label');
-            if( $_image->getData('disabled') == '0' ){
 
-                //during development replce missing labels with "no label" flag
-                if(empty($label)){$label = 'No Label';}
+            if( !in_array($url, $displayed) ){
+                //add url to displayed images
+                $displayed[] = $url;
 
-                //output the elements
-                echo '<li>';
-                echo '  <a class="fancybox" rel="group" title="' . $label . '" href="' . $url . '"><img src="' . $url . '" alt="" /></a>';
-                echo '</li>';
+                //set label
+                $label = $_image->getData('label');
+
+                if( $_image->getData('disabled') == '0'){
+
+                    //during development replce missing labels with "no label" flag
+                    if(empty($label)){$label = 'No Label';}
+
+                    //output the elements
+                    echo '<li>';
+                    echo '  <a class="fancybox" rel="group" title="' . $label . '" href="' . $url . '"><img src="' . $url . '" alt="" /></a>';
+                    echo '</li>';
+                }
             }
         }
     } 

@@ -53,6 +53,24 @@ if (count($_options) || ((string)Mage::getConfig()->getModuleConfig('OrganicInte
         </style>
     <![endif]-->
     <script type="text/javascript">
+
+        //Ensures that the gallery is loading all advanced options
+        function createPrimaryGallery(){
+            var gImgs = document.getElementsByClassName("product-image");
+            var aNode = gImgs[0].getElementsByTagName('img');
+            for (i = 0; i < aNode.length; i++) { 
+                if ( aNode[i].parent.is( "a" ) ) {
+                    var anchor = document.createElement('a');
+                    var att = document.createAttribute("class");
+                    att.value = "fancybox";                           // Set the value of the class attribute
+                    anchor.setAttributeNode(att);  
+                    anchor.rel="primarygroup";
+                    anchor.title=aNode[i].title;
+                    anchor.href=aNode[i].src;
+                    jQuery( aNode[i] ).wrap(anchor);
+                }
+            }
+        }
         //<![CDATA[
         var optionFileUpload = {
             productForm : $('product_addtocart_form'),
@@ -853,6 +871,7 @@ if (count($_options) || ((string)Mage::getConfig()->getModuleConfig('OrganicInte
                             }.bind(this));
                         }
                     }
+                    createPrimaryGallery();
                 } else {
                     // replace and append variant
                     var ul = $$(this.ulId.join(', ')).first();
@@ -1001,6 +1020,7 @@ if (count($_options) || ((string)Mage::getConfig()->getModuleConfig('OrganicInte
                 this.prevMainImageUrl = this.mainImageUrl;
             },
             getMainImage: function() {
+
                 return $$('div.product-img-box div.MagicToolboxContainer', 'div.product-img-box div.main-image img', 'div.product-img-box .product-image img', '#image', '#image-main', 'div.img-box .product-image img').first();
             },
             changeMainImage: function() {
