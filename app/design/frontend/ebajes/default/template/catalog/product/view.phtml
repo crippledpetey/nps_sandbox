@@ -83,25 +83,31 @@
                 </div>
             <?php endif; ?>
 
-            <?php if ($_product->getShortDescription()):?>
+            <?php 
+            /* COMMENTING OUT THE SHORT DESCRIPTION CONTAINER
+                if ($_product->getShortDescription()):
+
                 <div class="short-description">
                     <h2><?php echo $this->__('Quick Overview') ?></h2>
                     <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
                 </div>
-            <?php endif;?>
-
-            <?php echo $this->getChildHtml('other');?>
+            endif;
+            */
+            ?>
 
             <?php if ($_product->isSaleable() && $this->hasOptions()):?>
                 <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
             <?php endif;?>
 
+            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+            <?php endif;?>
+
+            <?php echo $this->getChildHtml('other');?>
+
         </div>
 
         <div class="clearer"></div>
-        <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-            <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
-        <?php endif;?>
     </form>
     <script type="text/javascript">
     //<![CDATA[
@@ -171,4 +177,4 @@
         <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
 </div>
-<script type="text/javascript" src="/skin/frontend/ebajes/default/js/nps_product_page.js"></script>
+<script type="text/javascript" src="/skin/frontend/ebajes/default/js/nps_product_page.min.js"></script>

@@ -1,4 +1,5 @@
 jQuery(document).ready(function($){
 
-	//change qty to number field
+	//default qty to 1
+	$("#qty").val("1");
 });
