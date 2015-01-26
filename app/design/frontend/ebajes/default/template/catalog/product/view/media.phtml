@@ -86,7 +86,7 @@
     <h2><?php echo $this->__('More Views') ?></h2>
     <?php 
     if(!empty( $this->getGalleryImages() ) ){
-        echo '<span class="more-view-nav left"><</span><span class="more-view-nav right">></span><ul>';
+        echo '<ul>';
         
         foreach ($option_images as $key=>$_image) {
             $url = $_image['image_file'];
