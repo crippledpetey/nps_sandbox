@@ -38,8 +38,15 @@
     $h = $setting->getImageProduct_BaseImageHeight(330);
     $wmoreview = $setting->getImageProduct_ThumbImageWidth(70);
     $hmoreview = $setting->getImageProduct_ThumbImageHeight(70);
-
+    
     //get product images for all product options
+    $product_id = $_product->getId();
+    $query = "SELECT DISTINCT i.image_file FROM nps_dev.catalog_product_option AS p INNER JOIN nps_dev.catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN nps_dev.custom_options_option_type_image AS i ON i.option_type_id = o.option_type_id WHERE p.product_id = " . $product_id . " ORDER BY o.sort_order";
+
+    $resource = Mage::getSingleton('core/resource');
+    $readConnection = $resource->getConnection('core_read');
+    $option_images = $readConnection->fetchAll($query);
+    
 ?>
 <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
 <p class="product-image product-image-zoom" style="width:<?php echo $setting->getImageProduct_BaseImageWidth(330) ?>px;height:<?php echo $setting->getImageProduct_BaseImageHeight(330) ?>px">
@@ -49,8 +56,8 @@
         echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
 </p>
-<p class="zoom-notice" id="track_hint"><?php echo $this->__('Click on above image to view full picture') ?></p>
 <!--
+<p class="zoom-notice" id="track_hint"><?php echo $this->__('Click on above image to view full picture') ?></p>
 <div class="zoom">
     <img id="zoom_out" src="<?php echo $this->getSkinUrl('images/slider_btn_zoom_out.gif') ?>" alt="<?php echo $this->__('Zoom Out') ?>" title="<?php echo $this->__('Zoom Out') ?>" class="btn-zoom-out" />
     <div id="track">
@@ -77,37 +84,21 @@
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views">
     <h2><?php echo $this->__('More Views') ?></h2>
-    <ul>
     <?php 
     if(!empty( $this->getGalleryImages() ) ){
-        $gallery_images = $this->getGalleryImages(); 
+        echo '<ul>';
+        
+        foreach ($option_images as $key=>$_image) {
+            $url = $_image['image_file'];
 
-        $displayed = array();
-
-        foreach ($gallery_images as $key=>$_image) {
-            $url = $_image->getData('url');
-
-            if( !in_array($url, $displayed) ){
-                //add url to displayed images
-                $displayed[] = $url;
-
-                //set label
-                $label = $_image->getData('label');
-
-                if( $_image->getData('disabled') == '0'){
-
-                    //during development replce missing labels with "no label" flag
-                    if(empty($label)){$label = 'No Label';}
-
-                    //output the elements
-                    echo '<li>';
-                    echo '  <a class="fancybox" rel="group" title="' . $label . '" href="' . $url . '"><img src="' . $url . '" alt="" /></a>';
-                    echo '</li>';
-                }
-            }
+            //output the elements
+            echo '<li>';
+            echo '  <a class="fancybox" rel="group" title="" href="' . $url . '"><img src="/media/customoptions' . $url . '" alt="" /></a>';
+            echo '</li>';
         }
+
+        echo '</ul>';
     } 
 ?>
-    </ul>
 </div>
 <?php endif; ?>
