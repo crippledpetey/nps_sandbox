@@ -92,6 +92,12 @@
 $below_header_promo = Mage::getModel('cms/block')->load('nps_below_header_promotion');
 if( $below_header_promo->_origData['is_active'] ){ ?>
 <div id="subheader-promotion">
-	<?php echo $below_header_promo->getContent(); ?>
+	<?php 
+		//process content so shortcodes render correctly
+	 	$bhp_helper = Mage::helper('cms');
+		$bhp_processor = $bhp_helper->getPageTemplateProcessor();
+		$bhp_output = $bhp_processor->filter($below_header_promo->getContent()); 
+		echo $bhp_output;
+	?>
 </div>
 <?php } ?>
