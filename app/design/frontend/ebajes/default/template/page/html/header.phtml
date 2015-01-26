@@ -37,12 +37,13 @@
 		        <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
 		        <?php endif?>
 		    </div>
-			<div class="header-container-left" style="margin-left: 30px;">
+		    <div class="header-container-left" style="margin-left: 30px;">
 	            <p class="welcome-msg"><?php echo $this->getChildHtml('welcome') ?> <?php echo $this->getAdditionalHtml() ?></p>
 				<a href="<?php echo Mage::helper('customer')->getLoginUrl() ?>"><?php echo $this->__('Login');?></a>
 				<span><?php echo $this->__('or');?></span>
 				<a href="<?php echo Mage::helper('customer')->getRegisterUrl() ?>"><?php echo $this->__('Signup');?></a>
 			</div>
+				
             <?php echo $this->getChildHtml('topLinks') ?>
             <?php 
             	$store_phone = Mage::getStoreConfig('general/store_information/phone');
@@ -69,11 +70,6 @@
 				</div>
 			</div>
 		</div>
-		<?php if( !empty( $this->getChildHtml('nps_below_header_promotion') ) ){ ?>
-		<div id="subheader-promotion">
-			<?php echo $this->getChildHtml('nps_below_header_promotion'); ?>
-		</div>
-		<?php } ?>
 		<?php if( !empty( $this->getChildHtml('topContainer') ) || !empty( $this->getChildHtml('store_language') ) ){ ?>
 		<div class="header">
 	        <?php //echo $this->getChildHtml('ebajes_header_block_info') ?>
@@ -85,9 +81,17 @@
 	<div class="header-bottom">
 		<div class="top-search">
 		<?php echo $this->getChildHtml('topSearch') ?>
-		<a href="<?php echo $this->getUrl('catalogsearch/advanced/')?>"><?php echo $this->__('Advanced Search');?></a>
 		</div>
+		<div class="clearer"></div>
 		<?php echo $this->getChildHtml('topMenu') ?>
 	</div>
 	<div id="mobile-menu-toggle" onclick="toggleMobileMenu()"> &#9776;</div>
 </div>
+<?php 
+//ouput the below header 
+$below_header_promo = Mage::getModel('cms/block')->load('nps_below_header_promotion');
+if( $below_header_promo->_origData['is_active'] ){ ?>
+<div id="subheader-promotion">
+	<?php echo $below_header_promo->getContent(); ?>
+</div>
+<?php } ?>

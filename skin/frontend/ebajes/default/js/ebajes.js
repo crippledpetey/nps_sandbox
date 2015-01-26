@@ -75,11 +75,13 @@ jQuery(document).ready(function($){
     }
 
     //standardize menu on page load and resize if screen is large
+    /*
     standardizeMainNav();
     $(window).resize(function(){
         console.log( "resized window to: " + $(window).width() );
         standardizeMainNav()
     });
+    */
 
     //set mobile 
     setMobile( $(window).width() );
