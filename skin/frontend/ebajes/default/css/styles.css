@@ -1558,7 +1558,7 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#1a82f7), to(#2F2727))
 .product-view .product-img-box .product-image { margin:0 0 13px; border: 1px solid #d0d0d0; border-bottom: 1px solid #bcbcbc; background: #ffffff;}
 .product-view .product-img-box .product-image img {}
 .product-view .product-img-box .product-image-zoom { position:relative; width:265px; height:265px; overflow:hidden; z-index:9; }
-.product-view .product-img-box .product-image-zoom img { position:absolute; left:0; top:0; cursor:pointer;}
+.product-view .product-img-box .product-image-zoom img { position:absolute; left:0; top:0; }
 .product-view .product-img-box .zoom-notice { font-size:11px; margin:0 0 5px; text-align:center; color: #6e6e6e;}
 .product-view .product-img-box .zoom { position:relative; z-index:9; height:10px; margin:0 auto 23px; padding:0;width:100%; cursor:pointer; }
 .product-view .product-img-box .zoom.disabled { -moz-opacity:.3; -webkit-opacity:.3; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";/*IE8*/ opacity:.3; }
