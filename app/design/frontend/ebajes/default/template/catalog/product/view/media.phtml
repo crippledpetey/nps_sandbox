@@ -52,7 +52,7 @@
 <p class="product-image product-image-zoom" style="width:<?php echo $setting->getImageProduct_BaseImageWidth(330) ?>px;height:<?php echo $setting->getImageProduct_BaseImageHeight(330) ?>px">
     <?php
 
-        $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
+        $_img = '<a class="fancybox" rel="group" title="" href="'.$this->helper('catalog/image')->init($_product, 'image').'"><img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" /></a>';
         echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
 </p>
