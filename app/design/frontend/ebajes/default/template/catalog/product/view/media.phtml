@@ -82,7 +82,7 @@
 </p>
 <?php endif; ?>
 <?php if (count($this->getGalleryImages()) > 0): ?>
-<div class="more-views">
+<div id="product-more-views" class="more-views">
     <h2><?php echo $this->__('More Views') ?></h2>
     <?php 
     if(!empty( $this->getGalleryImages() ) ){
@@ -100,5 +100,6 @@
         echo '</ul>';
     } 
 ?>
+
 </div>
 <?php endif; ?>
