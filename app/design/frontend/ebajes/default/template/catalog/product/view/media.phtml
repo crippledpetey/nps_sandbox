@@ -53,7 +53,7 @@
     <?php
 
         $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
-        echo '<a class="fancybox" rel="group" title="" href="'.$this->helper('catalog/image')->init($_product, 'image').'">' . $_helper->productAttribute($_product, $_img, 'image') . '</a>';
+        echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
 </p>
 <!--
