@@ -1566,15 +1566,11 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#1a82f7), to(#2F2727))
 .product-view .product-img-box .zoom #handle { position:absolute; left:0; top:1px; width:14px; height:14px; background:url(../images/magnifier_handle.gif) 0 0 no-repeat;  }
 .product-view .product-img-box .zoom .btn-zoom-out { position:absolute; left:2px; top:4px; }
 .product-view .product-img-box .zoom .btn-zoom-in { position:absolute; right:2px; top:4px; }
-.product-view .product-img-box .more-views {overflow: hidden;max-height: 140px;}
 .product-view .product-img-box .more-views h2 { font-size:11px; border:none;background:none; padding:0; margin:0 0 8px; text-transform:uppercase;
 color: #6e6e6e; }
 .product-view .product-img-box .more-views ul { margin-left:-7px; width: 2000px;margin-left: 35px;}
 .product-view .product-img-box .more-views li { float:left; margin:0 0 8px 7px;  }
 .product-view .product-img-box .more-views li a { float:left; border:1px solid #dfdfdf;padding:5px;width:76px; height:76px; overflow:hidden; background:#ffffff;}
-.more-view-nav {float: left;display: inline-block;width: 23px;font-size: 30px;text-align: right;padding: 0;margin: 0;padding-top: 18px;cursor: pointer;border: 1px solid #ccc;height: 65px;background: #efefef;padding-bottom: 2px;position: absolute;}
-.more-view-nav.right {padding-right: 5px;float:left !important;left: 287px;}
-.more-view-nav.left {margin-left: 7px;padding-right: 7px;}
 
 .product-image-popup { margin:0 auto; }
 .product-image-popup .buttons-set { float:right; clear:none; border:0; margin:0; padding:0; }
