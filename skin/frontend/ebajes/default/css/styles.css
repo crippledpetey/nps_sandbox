@@ -851,7 +851,7 @@ background: url("../images/top-cart_blue.png") no-repeat right center transparen
 #nav ul li.parent a { background:url(../images/vertical_menu.png) 13em center no-repeat; }
 #nav ul li.parent li a { background-image:none; }
 
-#nav li.level-top { border-right: 1px solid #dfdfdf;margin-bottom: -1px; 
+#nav li.level-top { border-right: 1px solid #dfdfdf;margin-bottom: -1px;border-bottom: 1px solid #bcbcbc; 
 	/*background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999), to(#000));*/
   /* Safari 5.1, Chrome 10+ */
   /*background: -webkit-linear-gradient(bottom, #999 0%, #000 65%); */
@@ -1626,7 +1626,7 @@ color: #6e6e6e; }
 .product-options-bottom .tier-prices .price,
 .product-options-bottom .tier-prices .benefit { color:#e26703; }
 .product-options-bottom .price-box {/* float:left; */margin:0; padding:0;}
-.product-options-bottom .price-box .regular-price .price{font-size: 37px;color: #005b00;text-shadow: 1px 2px 2px rgba(0,0,0,.2);}
+.product-options-bottom .price-box .regular-price .price{font-size: 30px;color: #005b00;text-shadow: 1px 2px 2px rgba(0,0,0,.2);}
 .product-options-bottom .add-to-links { padding:0;float:left; line-height:34px; margin:0; clear:both}
 .product-options-bottom .add-to-links li { display:inline}
 .product-options-bottom .price-label { float:none; padding-right:5px; }
@@ -3145,16 +3145,30 @@ input[type="checkbox"]:focus {
 /* Styles */
 	.product-collateral .box-collateral, .product-collateral .box-collateral.box-additional { float: none; width: 100%; margin-left: 0%; }
 	.product-collateral .box-collateral.box-additional { margin-left: 0%; }
+	/*---------- PRODUCTS VIEW ----------*/
+	.product-shop > .product-options-bottom, #product-options-wrapper { width: 100%;}
 }
 
 
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-device-width : 300px) and (max-device-width : 480px) {
 /* Styles */
+
+	/*---------- MOBILE HEADER ----------*/
 	#header-phone {padding-left: 0;}
 	.header-container .quick-access .links li a.top-link-cart {background: transparent;}
 	.top-search #search_mini_form input.input-text {display: block;margin: 10px auto;}
-	#clear-search{display: none;}
+	#clear-search {display: block;float: right;position: relative;top: -30px;margin-right: 6px;}
+	#clear-search:after {display: block; content: " ";clear: both; white-space: normal nowrap;}
+	#search-buttons {margin-left: 18px;}
+
+
+	/*---------- PRODUCTS LIST ----------*/
+	.products-grid li.item { margin: 0 auto; float: none; margin-right: auto !important;}
+
+
+	/*---------- PRODUCTS VIEW ----------*/
+	.product-shop > .product-options-bottom, #product-options-wrapper { width: 100%;}
 }
 
 /* Smartphones (landscape) ----------- */
