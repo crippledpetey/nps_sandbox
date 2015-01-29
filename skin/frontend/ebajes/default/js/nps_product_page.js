@@ -52,10 +52,10 @@ jQuery(document).ready(function($){
 			if( $(".product-image.product-image-zoom").hasClass("scream-in-stock") ){
 				$(".product-image.product-image-zoom").removeClass("scream-in-stock");
 			}
+			
 			//add the out of stock flash class
-			if( !$(".product-image.product-image-zoom").hasClass("scream-out-of-stock") ){
-				$(".product-image.product-image-zoom").addClass("scream-out-of-stock");
-			}
+			$(".product-image.product-image-zoom").addClass("scream-out-of-stock");
+			
 			//change the text value to out of stock if it reads in stock
 			if( current.toLowerCase() == "in stock"){
 				$("#prd-page-availability").parent("p.availability").removeClass("in-stock");
@@ -68,10 +68,10 @@ jQuery(document).ready(function($){
 			if( $(".product-image.product-image-zoom").hasClass("scream-out-of-stock") ){
 				$(".product-image.product-image-zoom").removeClass("scream-out-of-stock");
 			}
+
 			//add in stock flash class
-			if( !$(".product-image.product-image-zoom").hasClass("scream-in-stock") ){
-				$(".product-image.product-image-zoom").addClass("scream-in-stock");
-			}
+			$(".product-image.product-image-zoom").addClass("scream-in-stock");
+
 			//change the text value to in stock if it reads out of stock
 			if( current.toLowerCase() == "out of stock"){
 				$("#prd-page-availability").parent("p.availability").addClass("in-stock");
