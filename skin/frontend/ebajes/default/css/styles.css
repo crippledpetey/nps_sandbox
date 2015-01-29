@@ -3235,3 +3235,29 @@ input[type="checkbox"]:focus {
 
 
 /* TESTING PURPOSES ONLY */
+.scream-in-stock {
+	-webkit-animation: prdImageAvailInStock 5s; 
+    animation: prdImageAvailInStock 5s;
+}
+.scream-out-of-stock {
+	-webkit-animation: prdImageAvailOutStock 5s; 
+    animation: prdImageAvailOutStock 5s;
+}
+
+@-webkit-keyframes prdImageAvailInStock {
+    from {box-shadow: 0 0 20px green;}
+    to {box-shadow: none;}
+}
+@keyframes prdImageAvailInStock {
+    from {box-shadow: 0 0 20px green;}
+    to {box-shadow: none;}
+}
+
+@-webkit-keyframes prdImageAvailOutStock {
+    from {box-shadow: 0 0 20px red;}
+    to {box-shadow: none;}
+}
+@keyframes prdImageAvailOutStock {
+    from {box-shadow: 0 0 20px red;}
+    to {box-shadow: none;}
+}

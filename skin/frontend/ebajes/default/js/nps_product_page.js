@@ -48,6 +48,13 @@ jQuery(document).ready(function($){
 		var current = $("#prd-page-availability").html();
 		
 		if( str.search("OUT OF STOCK") > 0 ){
+			//$(".product-image.product-image-zoom").css("box-shadow","0px 0px 40px red");
+			if( $(".product-image.product-image-zoom").hasClass("scream-in-stock") ){
+				$(".product-image.product-image-zoom").removeClass("scream-in-stock");
+			}
+			if( !$(".product-image.product-image-zoom").hasClass("scream-out-of-stock") ){
+				$(".product-image.product-image-zoom").addClass("scream-out-of-stock");
+			}
 			if( current.toLowerCase() == "in stock"){
 				$("#prd-page-availability").parent("p.availability").removeClass("in-stock");
 				$("#prd-page-availability").parent("p.availability").addClass("out-of-stock");
@@ -55,6 +62,12 @@ jQuery(document).ready(function($){
 				$("#prd-page-availability").append("OUT OF STOCK");
 			}
 		} else {
+			if( $(".product-image.product-image-zoom").hasClass("scream-out-of-stock") ){
+				$(".product-image.product-image-zoom").removeClass("scream-out-of-stock");
+			}
+			if( !$(".product-image.product-image-zoom").hasClass("scream-in-stock") ){
+				$(".product-image.product-image-zoom").addClass("scream-in-stock");
+			}
 			if( current.toLowerCase() == "out of stock"){
 				$("#prd-page-availability").parent("p.availability").addClass("in-stock");
 				$("#prd-page-availability").parent("p.availability").removeClass("out-of-stock");
