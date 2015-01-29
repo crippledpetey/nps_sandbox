@@ -42,6 +42,28 @@ jQuery(document).ready(function($){
 		$("#qty").val("1");
 	}
 
+	//ON CHANGE OF INVENTORY CONTROLLER OPTION
+	$(".inventory-controller select").change(function(){
+		var str = $(this).find(":selected").text();
+		var current = $("#prd-page-availability").html();
+		
+		if( str.search("OUT OF STOCK") > 0 ){
+			if( current.toLowerCase() == "in stock"){
+				$("#prd-page-availability").parent("p.availability").removeClass("in-stock");
+				$("#prd-page-availability").parent("p.availability").addClass("out-of-stock");
+				$("#prd-page-availability").empty();
+				$("#prd-page-availability").append("OUT OF STOCK");
+			}
+		} else {
+			if( current.toLowerCase() == "out of stock"){
+				$("#prd-page-availability").parent("p.availability").addClass("in-stock");
+				$("#prd-page-availability").parent("p.availability").removeClass("out-of-stock");
+				$("#prd-page-availability").empty();
+				$("#prd-page-availability").append("IN STOCK");
+			}
+		}
+	});
+
 	//ON A WINDOW RESOLUTION CHANGE
 	$(window).resize(function(){
 

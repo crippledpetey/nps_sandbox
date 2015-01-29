@@ -137,7 +137,9 @@ class MageWorx_CustomOptions_Block_Catalog_Product_View_Options_Type_Select exte
 
 				if ($enabledInventory) {
 					if ($displayQty && $customoptionsQty !== '') {
-						$qty = ' (' . ($customoptionsQty > 0 ? $customoptionsQty : $helper->__('Out of stock')) . ')';
+						$qty = ' (' . ($customoptionsQty > 0 ? $customoptionsQty : $helper->__('Out of stock')) . $helper->__(' AVAILABLE)');
+					} else {
+						$qty = ' (' . $helper->__('OUT OF STOCK') . ')';
 					}
 				}
 
