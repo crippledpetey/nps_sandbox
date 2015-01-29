@@ -507,8 +507,8 @@ p.required { font-size:11px; text-align:right; color:#f25704; }
 .notice { color:#e26703; }
 
 .messages,
-.messages ul { list-style:none !important; margin:0 !important; padding:0 !important; }
-.messages { width:100%; overflow:hidden; }
+.messages ul { list-style:none !important; margin: 0 auto !important; padding:0 !important;}
+.messages { width:75%; overflow:hidden; left: 12.5%; margin: 0 auto !important; position: fixed; top: 40%; z-index: 10000;}
 .messages li { margin:0 0 10px !important; }
 .messages li li { margin:0 0 0px !important; }
 .error-msg,
@@ -851,7 +851,7 @@ background: url("../images/top-cart_blue.png") no-repeat right center transparen
 #nav ul li.parent a { background:url(../images/vertical_menu.png) 13em center no-repeat; }
 #nav ul li.parent li a { background-image:none; }
 
-#nav li.level-top { border-right: 1px solid #dfdfdf;margin-bottom: -1px;border-bottom: 1px solid #bcbcbc; 
+#nav li.level-top { border-right: 1px solid #dfdfdf;margin-bottom: -1px; margin-bottom: 1px;
 	/*background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999), to(#000));*/
   /* Safari 5.1, Chrome 10+ */
   /*background: -webkit-linear-gradient(bottom, #999 0%, #000 65%); */
@@ -914,6 +914,9 @@ font-size: 15px; font-weight:100; font-family:'Roboto', Arial, sans-serif; margi
 #nav li .shown-sub li div.shown-sub { left:100%; }
 /********** Navigation > */
 /* ======================================================================================= */
+
+/* Subheader Promotion Area=============================================================== */
+#subheader-promotion {border-bottom: 2px solid rgba(0,0,0,.7);border-top: 2px solid rgba(0,0,0,.7);}
 
 
 /* Sidebar =============================================================================== */
@@ -2355,7 +2358,7 @@ background: -o-linear-gradient(bottom, #f0f0f0 0%, #ffffff 20%);}
 
 .footer-1-wrapper{ background:url(../images/bkg-footer.png) bottom center no-repeat transparent; padding-bottom: 3px;}
 .footer-1-inner{border-bottom: 1px solid #d0d0d0;}
-.footer-1{background:url(../images/bkg-top-footer.png) top left repeat-x transparent; padding-top: 3px; margin-top: -1px; overflow:hidden;}
+.footer-1{ padding-top: 3px; margin-top: -1px; overflow:hidden;}
 .footer-1 .block-subscribe{float:left; width: 65%; margin-right:2%;margin-bottom:0;}
 .footer-1 .block-subscribe .block-title{display:none;}
 .footer-1 .block-subscribe .block-content{background:none; border:none;}
@@ -3235,6 +3238,8 @@ input[type="checkbox"]:focus {
 
 
 /* TESTING PURPOSES ONLY */
+
+
 .scream-in-stock {
 	-webkit-animation: prdImageAvailInStock 5s; 
     animation: prdImageAvailInStock 5s;
@@ -3260,4 +3265,29 @@ input[type="checkbox"]:focus {
 @keyframes prdImageAvailOutStock {
     from {box-shadow: 0 0 20px red;}
     to {box-shadow: none;}
+}
+
+@-webkit-keyframes fadeOverlayOut {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+@keyframes fadeOverlayOut {
+	from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+.fade-out {
+	-webkit-animation: fadeOverlayOut 2s; 
+    animation: fadeOverlayOut 2s;
+}
+
+#page-overlay-dark {
+	display: block;
+	z-index: 9999;
+	background: rgba(0,0,0,.75);
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height:1000px;
+	cursor: pointer;
 }

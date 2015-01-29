@@ -24,9 +24,6 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php
-    $decode = 'PHA+PHNwYW4+TWFnZW50byBUaGVtZXMgYnkgPC9zcGFuPjxhIGhyZWY9Imh0dHA6Ly9oYWxvdGhlbWVzLmNvbS8iPkhhbG90aGVtZXMuY29tPC9hPjwvcD4=';
-?>
 <div class="footer-container">
 		<div class="footer-1-wrapper">
 			<div class="footer-1-inner">
@@ -57,26 +54,11 @@
 			</div>	
 			<!-- Copy Right -->
 			<address><?php echo $this->getCopyright() ?></address>
-			<address><?php echo base64_decode($decode); ?></address>
 		</div>
-		<div class = "footer-bottom-right">
-			<?php echo $this->getChildHtml('currency')?>
+		<div class="footer-bottom-right hidden">
+			<?php //echo $this->getChildHtml('currency')?>
 		</div>
-		<div style = "clear:both;"></div>
+		<div style="clear:both;"></div>
 	</div>
 </div>
-<script type="text/javascript">
-
-    jQuery(document).ready(function($){
-        //console.log("Testing the gallery process for the primary images");
-        //createPrimaryGallery();
-        /*
-        $(".product-image.product-image-zoom").find("img").each(function(){
-            var src = $(this).attr("src");
-            var title = $(this).attr("title");
-
-            $(this).wrap( '<a class="fancybox" rel="primarygroup" title="'+title+'" href="'+src+'"></a>' );
-        });
-		*/
-    });
-</script>
+<div id="page-overlay-dark" class="hidden"></div>

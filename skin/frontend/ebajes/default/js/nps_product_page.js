@@ -42,19 +42,21 @@ jQuery(document).ready(function($){
 		$("#qty").val("1");
 	}
 
-	//ON CHANGE OF INVENTORY CONTROLLER OPTION
+	//ON CHANGE OF INVENTORY CONTROLLER OPTION THIS WILL TRIGGER THE AVAILABILITY NOTICES AND THE IMAGE FLASH THAT OCCURS VIA CSS CLASSES
 	$(".inventory-controller select").change(function(){
 		var str = $(this).find(":selected").text();
 		var current = $("#prd-page-availability").html();
 		
 		if( str.search("OUT OF STOCK") > 0 ){
-			//$(".product-image.product-image-zoom").css("box-shadow","0px 0px 40px red");
+			//remove the out of stock flash class
 			if( $(".product-image.product-image-zoom").hasClass("scream-in-stock") ){
 				$(".product-image.product-image-zoom").removeClass("scream-in-stock");
 			}
+			//add the out of stock flash class
 			if( !$(".product-image.product-image-zoom").hasClass("scream-out-of-stock") ){
 				$(".product-image.product-image-zoom").addClass("scream-out-of-stock");
 			}
+			//change the text value to out of stock if it reads in stock
 			if( current.toLowerCase() == "in stock"){
 				$("#prd-page-availability").parent("p.availability").removeClass("in-stock");
 				$("#prd-page-availability").parent("p.availability").addClass("out-of-stock");
@@ -62,12 +64,15 @@ jQuery(document).ready(function($){
 				$("#prd-page-availability").append("OUT OF STOCK");
 			}
 		} else {
+			//remove out of stock flash class
 			if( $(".product-image.product-image-zoom").hasClass("scream-out-of-stock") ){
 				$(".product-image.product-image-zoom").removeClass("scream-out-of-stock");
 			}
+			//add in stock flash class
 			if( !$(".product-image.product-image-zoom").hasClass("scream-in-stock") ){
 				$(".product-image.product-image-zoom").addClass("scream-in-stock");
 			}
+			//change the text value to in stock if it reads out of stock
 			if( current.toLowerCase() == "out of stock"){
 				$("#prd-page-availability").parent("p.availability").addClass("in-stock");
 				$("#prd-page-availability").parent("p.availability").removeClass("out-of-stock");

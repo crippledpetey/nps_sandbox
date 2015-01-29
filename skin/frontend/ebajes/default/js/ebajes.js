@@ -69,19 +69,26 @@ jQuery(document).ready(function($){
             $(".header-container > .header-bottom > .nav-container > ul").children('li').each(function(){
                 height += $(this).height();
             });
-
-            //$(".header-container > .header-bottom > .nav-container").css({'height':height});
         }
     }
 
-    //standardize menu on page load and resize if screen is large
-    /*
-    standardizeMainNav();
-    $(window).resize(function(){
-        console.log( "resized window to: " + $(window).width() );
-        standardizeMainNav()
-    });
-    */
+    //hide the page overlay and message boxes
+    function hideMessageOverlay(){
+        //if overlay is not hidden
+        if( !$("#page-overlay-dark").hasClass("hidden") ){
+
+            //add the class to fade it out
+            $("#page-overlay-dark").addClass("fade-out");
+            $("ul.messages").addClass("fade-out");
+
+            //after half a second add the hidden class
+            setTimeout(function() {
+                $("#page-overlay-dark").addClass("hidden");
+                $("ul.messages").addClass("hidden");
+            }, 1000);
+        }
+    }
+
 
     //set mobile 
     setMobile( $(window).width() );
@@ -94,5 +101,22 @@ jQuery(document).ready(function($){
         if( $("#search").val() !== "Search entire store here..." ){
             $("#search").val('');
         }
+    });
+
+    //show page overlay if there is a page message
+    if ($("ul.messages").length > 0){
+      $("#page-overlay-dark").removeClass("hidden");
+    }
+    //on click of page overlay dark hide the overlay and the messages
+    $("#page-overlay-dark").click(function(){
+        hideMessageOverlay();   
+    });
+
+    //hide the overlay on esc push
+    $(document).keyup(function(e) {
+        //if escape key is pressed
+        if (e.keyCode == 27) { 
+            hideMessageOverlay(); 
+        }  
     });
 });
