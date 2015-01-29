@@ -508,6 +508,7 @@ class Varien_Simplexml_Config
     {
         if (is_string($string)) {
             $xml = simplexml_load_string($string, $this->_elementClass);
+            if(!$xml){ Mage::log($string); } 
 
             if ($xml instanceof Varien_Simplexml_Element) {
                 $this->_xml = $xml;
