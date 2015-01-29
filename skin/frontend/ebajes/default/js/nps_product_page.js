@@ -26,7 +26,7 @@ jQuery(document).ready(function($){
 			} 
 			
 			//EXTEND THE "MORE VIEWS" CONTAINER TO THE END OF THE PAGE
-			$("#product-more-views > ul").css("width",windowWidth-100);
+			//$("#product-more-views > ul").css("width",windowWidth-100);
 		}
 	}
 

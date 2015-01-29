@@ -56,13 +56,26 @@ jQuery(document).ready(function($){
 		$("ul.products-grid").children("div.clearer").remove();
 	}
 
+	function normalizeDropContainers(){
+		if( $(window).width() > 740 ){
+			var mainWidth = $(window).width() - 430;
+			$(".col-wrapper > .col-main").css("width",mainWidth);
+		} else {
+			$(".col-wrapper > .col-main").css("width","");
+		}
+	}
+
 
 	//clear the grid on page load
 	clearProductGrid();
 
-	///clear the grisd on resize
+	//normalize the grid container
+	normalizeDropContainers();
+
+	///re-run normalize on widow rezise
 	$( window ).resize(function() {
 	  clearProductGrid();
+	  normalizeDropContainers();
 	});
 	
 });

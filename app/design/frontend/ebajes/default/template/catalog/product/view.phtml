@@ -46,16 +46,20 @@
             <input type="hidden" name="related_product" id="related-products-field" value="" />
         </div>
 		
+        <div class="product-name">
+            <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+        </div>
+        
 		<div class="product-img-box">
 			<?php echo $this->getChildHtml('media') ?>
         </div>
 		
         <div class="product-shop" style="margin-left:<?php echo Mage::helper('ebajessettings')->getImageProduct_BaseImageWidth(360)+20 ?>px">
-            <div class="product-name">
-                <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
-            </div>
 
-            <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+            <?php 
+                //COMMENTING OUT PRODUCT REVIEW WARNING
+                //echo $this->getReviewsSummaryHtml($_product, false, true)
+            ?>
 			
             <?php echo $this->getChildHtml('alert_urls') ?>
             <?php echo $this->getChildHtml('product_type_data') ?>
