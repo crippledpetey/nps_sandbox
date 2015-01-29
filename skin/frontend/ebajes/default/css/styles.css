@@ -879,7 +879,7 @@ font-size: 15px; font-weight:100; font-family:'Roboto', Arial, sans-serif; margi
 /*#nav li.over > a,*/
 #nav a:hover { color:#3174d7; }
 #nav li.parent.level-top:hover{background: #ffffff; }
-#nav li.level-top:hover{background: #ffffff; border-bottom: 1px solid #bcbcbc; }
+#nav li.level-top:hover{background: #ffffff;}
 #nav li.level-top.over > a, #nav li.level-top > a:hover {color: #000000;}
 
 /* 1st Level */
@@ -1360,10 +1360,6 @@ background: url("../images/bkg-bottom-img.png") 10px bottom no-repeat transparen
 .products-list .add-to-links li { display:inline; }
 .products-list .add-to-links li:first-child { display:inline; margin-right:10px;}
 .products-list .add-to-links .separator { display:none; margin:0 2px; }
-/*Hieu ung them*/
-/*
-.products-list li.item:hover .product-image{
-opacity:0.6;}*/
 
 /* ======================================================================================= */
 
@@ -1530,7 +1526,7 @@ opacity:0.6;}*/
 .add-to-box .add-to-links li {}
 .add-to-box .add-to-links li .separator {display:none;}
 
-
+#product-page-manu-logo {border: none;margin: 0;padding: 0;}
 .product-view {}
 .product-view h2{ padding:8px 15px; color: #000000; font-size:14px; border: 1px solid #d0d0d0; border-bottom: 1px solid #bcbcbc;
 font-weight:bold; margin-bottom: 14px;
@@ -3290,4 +3286,18 @@ input[type="checkbox"]:focus {
 	width: 100%;
 	height:1000px;
 	cursor: pointer;
+}
+.help-text {
+	margin-left: 10px;
+	font-size: 85%;
+	font-weight: 100;
+	font-style: italic;
+	text-transform: lowercase;
+	color: #c9c9c9;
+}
+.help-text:before{
+	content: "(";
+}
+.help-text:after{
+	content: ")";
 }

@@ -24,6 +24,27 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<?php
+
+//GET THE PRODUCT INFORMATION
+$_product = $this->getProduct(); 
+
+//SET THE MANUFACTURER NAME
+$manu_name = ltrim( strtolower( $_product->getAttributeText('manufacturer') ) );
+
+//SET THE MANUFACTURER LOGO LOCATION
+$logo_src = Mage::getBaseDir() . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR .'manu_logos' . DIRECTORY_SEPARATOR . $manu_name . '.png';
+
+?>
 <div class="product-options-bottom">
-    <?php echo $this->getChildHtml('', true, true);?>
+	<?php
+		//CHECK IS MANUFACTURER LOGO IS PRESENT
+		if( file_exists( $logo_src ) ){
+			//OUTPUT MANUFATCURER LOGO
+			echo '<h2 id="product-page-manu-logo"><a href="/brands/' . str_replace(' ', '-', $manu_name) . '.html" title="Shop ' . ucwords( $manu_name ) . ' on Need Plumbing Supplies"><img src="/media/manu_logos/' . $manu_name . '.png" alt="Find the best ' . ucwords( $manu_name ) . ' on NeedPlumbingSupplies.com"></a></h2>';
+		} 
+
+		//OUTPUT THE PRICING INFORMATION AND ADD TO CART
+    	echo $this->getChildHtml('', true, true);
+    ?>
 </div>

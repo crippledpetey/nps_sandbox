@@ -99,6 +99,11 @@
 	<?php //endif ?>
 	<?php $i=0; foreach ($_productCollection as $_product): ?>
     <?php
+        /**
+        THIS FUNCTIONS HELPS OUT WITH SEO BY ASSURING THAT THE PRODUCT TITLE ALWAYS CONTAINS THE MANUFACTURER AND THE SKU
+        IF THE MANUFACTURER AND SKU IS ALREADY CONTAINED IN THE TITLE THEN THE ELEMENTS ARE OMITTED
+        THIS FUNCTIONALITY IS ALSO DUPLICATED ON THE PRODUCT VIEW PAGE
+        */
         //NPS SEO Title Configuration
         $manual_product_title = $_helper->productAttribute($_product, $_product->getName(), 'name');
         if( empty( $manual_product_title ) ){

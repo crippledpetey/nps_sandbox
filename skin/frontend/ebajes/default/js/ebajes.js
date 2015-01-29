@@ -1,6 +1,6 @@
 
 function toggleMobileMenu(){
-        console.log("triggered");        
+        
         var hidden_style = {'-ms-transform':'rotate(0deg)','-webkit-transform':'rotate(0deg)','transform':'rotate(0deg)'};
         var displayed_style = {'-ms-transform':'rotate(180deg)','-webkit-transform':'rotate(180deg)','transform':'rotate(180deg)'};
         if( jQuery(window).width() < 768 ){

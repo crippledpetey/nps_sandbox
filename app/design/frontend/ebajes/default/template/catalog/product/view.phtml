@@ -33,6 +33,64 @@
 ?>
 <?php $_helper = $this->helper('catalog/output'); ?>
 <?php $_product = $this->getProduct(); ?>
+
+<?php
+    /**
+    THIS FUNCTIONS HELPS OUT WITH SEO BY ASSURING THAT THE PRODUCT TITLE ALWAYS CONTAINS THE MANUFACTURER AND THE SKU
+    IF THE MANUFACTURER AND SKU IS ALREADY CONTAINED IN THE TITLE THEN THE ELEMENTS ARE OMITTED
+    THIS FUNCTIONALITY IS ALSO DUPLICATED ON THE PRODUCT LIST PAGE
+    */
+    //NPS SEO Title Configuration
+    $manual_product_title = $_helper->productAttribute($_product, $_product->getName(), 'name');
+    if( empty( $manual_product_title ) ){
+
+        //set base title as manu - sku
+        $nps_product_title = $_product->getAttributeText('manufacturer') . ' ' . $_product->getSku();
+
+        //check if there is a short description
+        $nps_short_desc = $_product->getShortDescription();
+        if( !empty( $nps_short_desc ) ){
+
+            //check if manufacturer name is included
+            $nps_append = '';
+            if( !strpos($nps_short_desc, $_product->getAttributeText('manufacturer') ) ){
+                $nps_append = $_product->getAttributeText('manufacturer') . ' ';
+            }
+
+            //check if sku is included
+            if( strpos($nps_short_desc, $_product->getSku() ) == 0){
+                $nps_append .= $_product->getSku();
+            }
+
+            //check if prepend manufacturer and sku if missing
+            if( !empty( $nps_append ) ){
+                $nps_product_title = $nps_append . ' - ' . $nps_short_desc;
+            }
+            
+        } else {
+            $nps_product_title = $_product->getAttributeText('manufacturer') . ' ' . $_product->getSku();
+        }
+
+    } else {
+        $nps_product_title = $manual_product_title;
+
+        //check if manufacturer name is included
+        $nps_append = '';
+        if( !strpos($nps_product_title, $_product->getAttributeText('manufacturer') ) ){
+            $nps_append = $_product->getAttributeText('manufacturer') . ' ';
+        }
+
+        //check if sku is included
+        if( strpos($nps_product_title, $_product->getSku() ) == 0){
+            $nps_append .= $_product->getSku();
+        }
+
+        //check if prepend manufacturer and sku if missing
+        if( !empty( $nps_append ) ){
+            $nps_product_title = $nps_append . ' - ' . $nps_product_title;
+        }
+    }
+    ?>
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
@@ -47,7 +105,7 @@
         </div>
 		
         <div class="product-name">
-            <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+            <h1><?php echo $nps_product_title; ?></h1>
         </div>
         
 		<div class="product-img-box">

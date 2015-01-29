@@ -41,7 +41,7 @@
     
     //get product images for all product options
     $product_id = $_product->getId();
-    $query = "SELECT DISTINCT i.image_file FROM nps_dev.catalog_product_option AS p INNER JOIN nps_dev.catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN nps_dev.custom_options_option_type_image AS i ON i.option_type_id = o.option_type_id WHERE p.product_id = " . $product_id . " ORDER BY o.sort_order";
+    $query = "SELECT DISTINCT i.image_file FROM `catalog_product_option` AS p INNER JOIN `catalog_product_option_type_value` AS o ON o.option_id = p.option_id INNER JOIN `custom_options_option_type_image` AS i ON i.option_type_id = o.option_type_id WHERE p.product_id = " . $product_id . " ORDER BY o.sort_order";
 
     $resource = Mage::getSingleton('core/resource');
     $readConnection = $resource->getConnection('core_read');
@@ -94,7 +94,7 @@
 
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div id="product-more-views" class="more-views">
-    <h2><?php echo $this->__('More Views') ?></h2>
+    <h2><?php echo $this->__('More Views') ?><span class="help-text"><?php echo $this->__('CLICK TO ENLARGE') ?></span></h2>
     <?php 
     if(!empty( $this->getGalleryImages() ) ){
         echo '<ul>';
