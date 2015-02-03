@@ -1251,13 +1251,14 @@ transition: background-color 250ms ease-in-out 0s;}
 .block-compared .block-title strong { }
 
 /* Block: Poll */
+.block-poll .block-content {padding: 0 0 10px 0;}
 .block-poll .block-title strong {}
-.block-poll .block-subtitle { font-size:12px; }
+.block-poll .block-subtitle { font-size: 13px;line-height: 18px;margin-bottom: 10px; background: #efefef;padding-top: 10px;border-bottom: 1px solid #d0d0d0;}
 .block-poll label { }
 .block-poll input.radio { float:left; margin:2px -18px 0 0; }
 .block-poll .label { display:block; margin-left:18px; }
-.block-poll li { }
-.block-poll ul#poll-answers { margin:0 10px;}
+.block-poll li { margin-bottom: 6px;border-bottom: 1px dotted #ccc;padding-bottom: 4px;}
+.block-poll ul#poll-answers, .block-poll ol#poll-answers { margin:0 10px;}
 .block-poll .actions { margin:5px 0 0; }
 .block-poll button.button span { }
 .block-poll .answer { font-weight:bold; }
@@ -1338,11 +1339,6 @@ background: url("../images/bkg-bottom-img.png") 10px bottom no-repeat transparen
 .col1-layout .category-products .products-grid li.item{margin-right:29px;}
 .col3-layout .products-grid li.item{margin-right:18px;}
 
-/*Hieu ung them*/
-/*
-.products-grid li.item:hover .product-image{
-opacity:0.6}
-*/
 
 /* One Column*/
 
@@ -1369,6 +1365,33 @@ background: url("../images/bkg-bottom-img.png") 10px bottom no-repeat transparen
 .products-list .add-to-links li:first-child { display:inline; margin-right:10px;}
 .products-list .add-to-links .separator { display:none; margin:0 2px; }
 
+/* ======================================================================================= */
+
+
+/* CATEGORY LANDING PAGE================================================================== */
+ul#category-list {}
+ul#category-list > li { float: left;margin: 0 10px 15px 0;text-align: center;border: 1px solid #d0d0d0;padding: 5px 4px 15px 4px; background: #fff;}
+ul#category-list img {width: 90%;display: block;margin: 10px auto;}
+ul#category-list > li > div > div > a {display: block; padding: 15px 0 2px;font-weight: bold;font-size: 14px;}
+/* ======================================================================================= */
+
+/* BRANDS LANDING PAGE==================================================================== */
+#brands-container-primary {padding-top: 20px;}
+#feat-brands-outer {border: 1px solid #d0d0d0;-webkit-box-sizing: border-box;box-sizing: border-box;padding: 10px 30px;background: #fff;}
+#feat-brands-title {}
+#feat-brands-title > span {display: inline-block;position: relative;top: -25px;width: 200px;padding: 3px 0 2px 12px;background: #ccc;font-size: 16px;text-transform: uppercase;left: -25px;}
+#feat-brands-inner {}
+#feat-brands-inner > ul {}
+#feat-brands-inner > ul > li {display: inline-block;width: 205px;height: 60px;text-align: center;list-style: none;margin: 0 15px 15px 0;}
+#feat-brands-inner > ul > li img {height: 100%;width: 100%;}
+#brands-list:before {content: "Shop All Our Brands"; font-weight: bold; font-size: 14px; margin-left: 10px;}
+#brands-list {margin-top:30px;}
+#brands-list > div {margin-top: 9px;border: 1px solid #d0d0d0;}
+#brands-list > div > h3 {background: #fff;padding: 3px 0 4px 5px;font-size: 20px;border-bottom: 1px solid #d0d0d0;}
+#brands-list > div.brand-name-listing > ul {-webkit-column-count: 5; -moz-column-count: 5; column-count: 5; margin-bottom: 8px;padding: 3px 0 0 30px;}
+#brands-list > div > ul > li {}
+#brand-toc {padding-top: 10px;margin-bottom: 20px;}
+#brand-toc > ul {-webkit-column-count: 10; -moz-column-count: 10; column-count: 10;text-align: center;font-size: 18px;margin-bottom: 0;}
 /* ======================================================================================= */
 
 
@@ -3241,6 +3264,8 @@ input[type="checkbox"]:focus {
 		float: none;
 		display: inline-block;
 	}
+	#brands-list > div > ul {-webkit-column-count: 2; -moz-column-count: 2; column-count: 2; }
+	#brand-toc > div > ul {-webkit-column-count: 4; -moz-column-count: 4; column-count: 4;}
 }
 
 /* Smartphones (landscape) ----------- */

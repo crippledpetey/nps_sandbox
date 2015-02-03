@@ -24,26 +24,24 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php
-/**
- * Currency switcher
- *
- * @see Mage_Directory_Block_Currency
- */
-?>
-<?php if($this->getCurrencyCount()>1): ?>
-<div class="block block-currency hidden">
+<?php if(isset($poll)) : ?>
+<div class="block block-poll">
     <div class="block-title">
-        <strong><span><?php echo $this->__('Currency') ?></span></strong>
+        <strong><span><?php echo $this->__('What People Think') ?></span></strong>
     </div>
     <div class="block-content">
-        <select name="currency" title="<?php echo $this->__('Select Your Currency') ?>" onchange="setLocation(this.value)">
-        <?php foreach ($this->getCurrencies() as $_code => $_name): ?>
-            <option value="<?php echo $this->getSwitchCurrencyUrl($_code) ?>"<?php if($_code==$this->getCurrentCurrencyCode()): ?> selected="selected"<?php endif; ?>>
-                <?php echo $_name ?> - <?php echo $_code ?>
-            </option>
-        <?php endforeach; ?>
-        </select>
+        <p class="block-subtitle"><?php echo $this->escapeHtml($poll->getPollTitle()); ?></p>
+        <?php if( $poll_answers ): ?>
+        <ol id="poll-answers">
+            <?php foreach( $poll_answers as $answer ): ?>
+                <li>
+                    <span class="votes"><?php echo $answer->getVotesCount() ?> (<?php echo $answer->getPercent() ?>%)</span>
+                    <span class="answer"><?php echo $this->escapeHtml($answer->getAnswerTitle()) ?>:</span>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+        <script type="text/javascript">decorateList('poll-answers');</script>
+        <?php endif; ?>
     </div>
 </div>
 <?php endif; ?>

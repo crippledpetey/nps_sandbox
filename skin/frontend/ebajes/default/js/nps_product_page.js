@@ -11,7 +11,7 @@ jQuery(document).ready(function($){
 		if( windowWidth > 479 ){
 
 			//COLLECT THE PRODUCT ADD TO CART BOX HEIGHT
-			boxHeight = $(".product-options-bottom").height() + parseInt($(".product-options-bottom").css('padding-top')) + parseInt($(".product-options-bottom").css('padding-bottom')) + 2;
+			boxHeight = $(".product-options-bottom").height() + parseInt($(".product-options-bottom").css('padding-top')) + parseInt($(".product-options-bottom").css('padding-bottom')) + 3;
 
 			//MAKE SURE THAT IT IS LARGER THAN THE CURRENT SIZE OF THE OPTIONS WRAPPER
 			if( boxHeight > $("#product-options-wrapper").outerHeight() ){

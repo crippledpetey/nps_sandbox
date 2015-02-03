@@ -36,7 +36,7 @@ jQuery(document).ready(function($){
 		if( $(window).width() > 740 ){
 			var mainWidth = $(window).width() - 430;
 			$(".col-wrapper > .col-main").css("width",mainWidth);
-			clearDisplayGrid("ul.products-grid");
+			clearDisplayGrid("ul#category-list");
 		} else {
 			$(".col-wrapper > .col-main").css("width","");
 		}
@@ -44,14 +44,14 @@ jQuery(document).ready(function($){
 
 
 	//clear the grid on page load
-	clearDisplayGrid("ul.products-grid");
+	clearDisplayGrid("ul#category-list");
 
 	//normalize the grid container
 	normalizeDropContainers();
 
 	///re-run normalize on widow rezise
 	$( window ).resize(function() {
-	  clearDisplayGrid("ul.products-grid");
+	  clearDisplayGrid("ul#category-list");
 	  normalizeDropContainers();
 	});
 	

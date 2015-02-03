@@ -84,6 +84,9 @@ Category default layout
             </block>
 		</reference>
         <reference name="content">
+            <block type="cms/block" name="nps_above_products_non_anchor" >
+                <action method="setBlockId"><block_id>nps_above_products_non_anchor</block_id></action>
+            </block>
             <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
                 <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml">
                     <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
@@ -109,8 +112,8 @@ Category default layout
             </block>
         </reference>
 		<reference name="right">
-			<block type="cms/block" name="envora_right_sidebar_ads" before="right.poll" >
-                <action method="setBlockId"><block_id>envora_right_sidebar_ads</block_id></action>
+			<block type="cms/block" name="nps_right_sidebar_above_poll_anchor" before="right.poll" >
+                <action method="setBlockId"><block_id>nps_right_sidebar_above_poll_non_anchor</block_id></action>
             </block>
 			<remove name="right.permanent.callout" />
 			<remove name="paypal.partner.right.logo" />					
@@ -135,13 +138,16 @@ Category layered navigation layout
             </block>
         </reference>
 		<reference name="right">
-			<block type="cms/block" name="envora_right_sidebar_ads" before="right.poll" >
-                <action method="setBlockId"><block_id>envora_right_sidebar_ads</block_id></action>
+			<block type="cms/block" name="nps_right_sidebar_above_poll_anchor" before="right.poll" >
+                <action method="setBlockId"><block_id>nps_right_sidebar_above_poll_anchor</block_id></action>
             </block>	
 			<remove name="right.permanent.callout" />
 			<remove name="paypal.partner.right.logo" />			
 		</reference>
         <reference name="content">
+            <block type="cms/block" name="nps_above_products_anchor" >
+                <action method="setBlockId"><block_id>nps_above_products_anchor</block_id></action>
+            </block>
             <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
                 <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml">
                     <!-- <action method="addReviewSummaryTemplate"><type>default</type><template>review/helper/su.phtml</template></action> -->

@@ -26,24 +26,22 @@
 ?>
 <?php
 /**
- * Currency switcher
+ * Template for filter items block
  *
- * @see Mage_Directory_Block_Currency
+ * @see Mage_Catalog_Block_Layer_Filter
  */
 ?>
-<?php if($this->getCurrencyCount()>1): ?>
-<div class="block block-currency hidden">
-    <div class="block-title">
-        <strong><span><?php echo $this->__('Currency') ?></span></strong>
-    </div>
-    <div class="block-content">
-        <select name="currency" title="<?php echo $this->__('Select Your Currency') ?>" onchange="setLocation(this.value)">
-        <?php foreach ($this->getCurrencies() as $_code => $_name): ?>
-            <option value="<?php echo $this->getSwitchCurrencyUrl($_code) ?>"<?php if($_code==$this->getCurrentCurrencyCode()): ?> selected="selected"<?php endif; ?>>
-                <?php echo $_name ?> - <?php echo $_code ?>
-            </option>
-        <?php endforeach; ?>
-        </select>
-    </div>
-</div>
-<?php endif; ?>
+
+<ol>
+<?php foreach ($this->getItems() as $_item): ?>
+    <li>
+        <?php if ($_item->getCount() > 0): ?>
+        <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>"><?php echo $_item->getLabel() ?></a>
+        <?php else: echo $_item->getLabel() ?>
+        <?php endif; ?>
+        <?php if ($this->shouldDisplayProductCount()): ?>
+        (<?php echo $_item->getCount() ?>)
+        <?php endif; ?>
+    </li>
+<?php endforeach ?>
+</ol>
