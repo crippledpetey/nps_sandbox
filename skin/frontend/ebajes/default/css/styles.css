@@ -145,7 +145,7 @@ transition: none;}
 /*.col-main { width: 100%; max-width: 1440px; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0 20px 40px 20px;}*/
 
 /* 1 Column Layout */
-.col1-layout .col-main { float:none; width:auto; max-width: 1440px; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0 20px 40px 20px;}
+.col1-layout .col-main { float:none; width:auto; max-width: 1440px; box-sizing: border-box; -webkit-box-sizing: border-box; }
 
 /* 2 Columns Layout */
 .col2-right-layout .col-main {margin-left:0;}
@@ -1382,7 +1382,7 @@ ul#category-list > li > div > div > a {display: block; padding: 15px 0 2px;font-
 #feat-brands-title > span {display: inline-block;position: relative;top: -25px;width: 200px;padding: 3px 0 2px 12px;background: #ccc;font-size: 16px;text-transform: uppercase;left: -25px;}
 #feat-brands-inner {}
 #feat-brands-inner > ul {}
-#feat-brands-inner > ul > li {display: inline-block;width: 205px;height: 60px;text-align: center;list-style: none;margin: 0 15px 15px 0;}
+#feat-brands-inner > ul > li {display: inline-block;width: 15%;min-width: 170px;height: 60px;text-align: center;list-style: none;margin: 0 15px 15px 0;}
 #feat-brands-inner > ul > li img {height: 100%;width: 100%;}
 #brands-list:before {content: "Shop All Our Brands"; font-weight: bold; font-size: 14px; margin-left: 10px;}
 #brands-list {margin-top:30px;}
@@ -3299,7 +3299,13 @@ input[type="checkbox"]:focus {
 /* Styles */
 }
 
-/* Large screens ----------- */
+/* Desktops and laptops ----------- */
+@media only screen and (min-width : 1440px) {
+/* Styles */
+.col1-layout .col-main { padding: 0 20px 40px 20px; }
+}
+
+/* XLarge screens ----------- */
 @media only screen and (min-width : 1824px) {
 /* Styles */
 }

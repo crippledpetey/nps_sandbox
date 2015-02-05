@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <NPS_BetterLayerNavigation>
+            <version>0.1.0</version>
+        </NPS_BetterLayerNavigation>
+    </modules>
+    <frontend>
+        <routers>
+            <!-- This node's name should be the same as our alias -->
+            <betterlayernavigation>
+                <!-- use parameter specifies which of basic routers needs to be used.
+This can be "standard" for frontend or "admin" for backend -->
+                <use>standard</use>
+                <!-- router arguments block -->
+                <args>
+                    <!-- This parameter specifies the full name of out module -->
+                    <module>NPS_BetterLayerNavigation</module>
+                    <!-- This parameter sets module alias -->
+                    <frontName>betterlayernavigation</frontName>
+                </args>
+            </betterlayernavigation>
+        </routers>
+        <layout>
+            <updates>
+                <!-- module alias -->
+                <betterlayernavigation>
+                    <!-- File for loading -->
+                    <file>betterlayernavigation.xml</file>
+                </betterlayernavigation>
+            </updates>
+        </layout>
+    </frontend>
+</config>

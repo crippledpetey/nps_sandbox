@@ -185,10 +185,10 @@ class MageWorx_GeoIP_Helper_Data extends Mage_Core_Helper_Abstract
     public function getFlagPath($name = null)
     {
         $flagName = strtolower($name) . '.png';
-        $filePath = Mage::getSingleton('core/design_package')->getSkinBaseUrl(array('_area' => 'adminhtml')) . DS . 'images' . DS . 'flags' . DS . $flagName;
+        $filePath = Mage::getSingleton('core/design_package')->getSkinBaseUrl(array('_area' => 'adminhtml')) . DS . 'images' . DS . 'mageworx' . DS . 'flags' . DS . $flagName;
 
         if (!file_exists($filePath)) {
-            return Mage::getDesign()->getSkinUrl('images' . DS . 'flags' . DS . $flagName);
+            return Mage::getDesign()->getSkinUrl('images' . DS . 'mageworx' . DS . 'flags' . DS . $flagName);
         } else {
             return $filePath;
         }

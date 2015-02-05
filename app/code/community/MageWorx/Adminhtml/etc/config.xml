@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- 
+<!--
 /**
  * MageWorx
  *
@@ -157,7 +157,7 @@
             </email>
         </template>
 	</global>
-	
+
 	<default>
 		<mageworx>
             <support>

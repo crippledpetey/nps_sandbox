@@ -47,7 +47,7 @@ jQuery(document).ready(function($){
 		var str = $(this).find(":selected").text();
 		var current = $("#prd-page-availability").html();
 		
-		if( str.search("OUT OF STOCK") > 0 ){
+		if( str.search("OUT OF STOCK") > 0 || str.search("Out of stock") > 0 ){
 			//remove the out of stock flash class
 			if( $(".product-image.product-image-zoom").hasClass("scream-in-stock") ){
 				$(".product-image.product-image-zoom").removeClass("scream-in-stock");

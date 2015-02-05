@@ -46,8 +46,19 @@
             <dl id="narrow-by-list">
                 <?php $_filters = $this->getFilters() ?>
                 <?php foreach ($_filters as $_filter): ?>
-               
-                <?php if($_filter->getItemsCount()): ?>
+
+
+                <?php if( $_filter->getName() == 'Price' ): ?>
+                    <?php
+                        //$productModel = Mage::getModel('nps/pricenarrow')->testthis();
+                        //var_dump( $productModel );
+                    ?>
+                    <dt><?php //var_dump( $_filter->getData()) ?></dt>
+                    <dd>{SEARCH FOR THIS VALUE: 8VTU35J895!3#@$ } <?php echo $_filter->getHtml() ?></dd>
+                <?php endif; ?>
+
+
+                <?php if($_filter->getItemsCount() ) : ?>
                     <dt><?php echo $this->__($_filter->getName()) ?></dt>
                     <dd><?php echo $_filter->getHtml() ?></dd>
                 <?php endif; ?>
