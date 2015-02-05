@@ -129,6 +129,9 @@ Category layered navigation layout
         <reference name="left">
 			<remove name="currency" />
 			<remove name="left.newsletter" />
+
+            <!-- <block type="core/template" name="catalog.pricenav" template="page/pricelayer.phtml" before="-"/> -->
+
             <block type="catalog/layer_view" name="catalog.leftnav" before="-" template="catalog/layer/view.phtml"/>
 			<block type="cms/block" name="envora_home_left_ads_1" after="catalog.leftnav">
                 <action method="setBlockId"><block_id>envora_home_left_ads_1</block_id></action>
