@@ -164,10 +164,6 @@
     RewriteCond %{REQUEST_FILENAME} !-l
 
 ############################################
-##SANDBOX IP WHITELIST
-
-
-############################################
 ## rewrite everything else to index.php
 
     RewriteRule .* index.php [L]
@@ -197,7 +193,15 @@
 
     Order deny,allow
     Deny from all
-
+    Allow from 127.*.*.*
+    Allow from 192.*.*.*
+    Allow from 10.1.*.*
+    Allow from 50.255.234.190
+    Allow from 50.255.234.189
+    Allow from 50.255.234.188
+    Allow from 50.255.234.187
+    Allow from 50.255.234.186
+    Allow from 50.255.234.185
 
 ###########################################
 ## Deny access to release notes to prevent disclosure of the installed Magento version
@@ -222,4 +226,5 @@ php_flag  log_errors on
 php_value error_log  /home/sandbox/PHP_errors.log
 
 
-    
+############################################
+##SANDBOX IP WHITELIST
