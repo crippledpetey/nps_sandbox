@@ -192,8 +192,6 @@
 ## By default allow all access
 
     Order allow,deny
-    Allow from 127.0.0.1
-    Allow from 50.255.234.190
     Deny from all
 
 ###########################################
