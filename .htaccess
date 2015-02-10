@@ -221,13 +221,12 @@ php_value error_log  /home/sandbox/PHP_errors.log
 
 ############################################
 ##SANDBOX IP WHITELIST
-# If not remote IP address 1
-RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.190$
-RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.189$
-RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.188$
-RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.187$
-RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.186$
-RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.185$
-# Then redirect requests for anything except URLs in the /forum
-# subdirectory to the home page of the /forum subdirectory
-RewriteRule !^forum/ http://sandbox.needplumbingsupplies.com/coming-soon/ [R=301,L]
+RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.190
+RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.189
+RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.188
+RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.187
+RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.186
+RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.185
+RewriteCond %{REQUEST_URI} !^/coming-soon/?
+RewriteCond %{REQUEST_URI} /(.*)$
+RewriteRule (.*) /coming-soon [R=301,L]
