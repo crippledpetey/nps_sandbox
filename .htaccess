@@ -192,9 +192,9 @@
 ## By default allow all access
 
     Order allow,deny
-    Deny from all
     Allow from 127.0.0.1
     Allow from 50.255.234.190
+    Deny from all
 
 ###########################################
 ## Deny access to release notes to prevent disclosure of the installed Magento version
