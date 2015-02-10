@@ -164,21 +164,13 @@
     RewriteCond %{REQUEST_FILENAME} !-l
 
 ############################################
+##SANDBOX IP WHITELIST
+
+
+############################################
 ## rewrite everything else to index.php
 
     RewriteRule .* index.php [L]
-
-############################################
-##SANDBOX IP WHITELIST
-    RewriteCond %{REMOTE_ADDR} !50.255.234.190 [OR]
-    RewriteCond %{REMOTE_ADDR} !50.255.234.189 [OR]
-    RewriteCond %{REMOTE_ADDR} !50.255.234.188 [OR]
-    RewriteCond %{REMOTE_ADDR} !50.255.234.187 [OR]
-    RewriteCond %{REMOTE_ADDR} !50.255.234.186 [OR]
-    RewriteCond %{REMOTE_ADDR} !50.255.234.185 [OR]
-    RewriteCond %{REQUEST_URI} !^/coming-soon/? [OR]
-    RewriteCond %{REQUEST_URI} /(.*)
-    RewriteRule .* /coming-soon [R=301,L]
 
 </IfModule>
 
