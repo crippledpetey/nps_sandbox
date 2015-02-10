@@ -170,12 +170,12 @@
 
 ############################################
 ##SANDBOX IP WHITELIST
-    RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.190$
-    RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.189$
-    RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.188$
-    RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.187$
-    RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.186$
-    RewriteCond %{REMOTE_ADDR} !^50\.255\.234\.185$
+    RewriteCond %{REMOTE_ADDR} !50.255.234.190
+    RewriteCond %{REMOTE_ADDR} !50.255.234.189
+    RewriteCond %{REMOTE_ADDR} !50.255.234.188
+    RewriteCond %{REMOTE_ADDR} !50.255.234.187
+    RewriteCond %{REMOTE_ADDR} !50.255.234.186
+    RewriteCond %{REMOTE_ADDR} !50.255.234.185
     RewriteCond %{REQUEST_URI} !^/coming-soon/?
     RewriteCond %{REQUEST_URI} /(.*)$
     RewriteRule (.*) /coming-soon [R=301,L]
