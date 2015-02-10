@@ -215,14 +215,3 @@ php_flag display_errors on
 php_flag html_errors on
 php_flag  log_errors on
 php_value error_log  /home/sandbox/PHP_errors.log
-
-
-############################################
-##SANDBOX IP WHITELIST
-RewriteCond %{REMOTE_HOST} !^50\.255\.234\.190 [OR]
-RewriteCond %{REMOTE_HOST} !^50\.255\.234\.189 [OR]
-RewriteCond %{REMOTE_HOST} !^50\.255\.234\.188 [OR]
-RewriteCond %{REMOTE_HOST} !^50\.255\.234\.187 [OR]
-RewriteCond %{REMOTE_HOST} !^50\.255\.234\.186 [OR]
-RewriteCond %{REMOTE_HOST} !^50\.255\.234\.185 
-RewriteRule (.*) /coming-soon [R=301,L]
