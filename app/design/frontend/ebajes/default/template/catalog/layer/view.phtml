@@ -36,29 +36,192 @@
     <div class="block-title">
         <strong><span><?php echo $this->__('Shop By') ?></span></strong>
     </div>
-    <div class="block-content">
+    <div class="block-content" style="padding-top: 0;">
         <?php echo $this->getStateHtml() ?>
         <?php if ($this->getLayer()->getState()->getFilters()): ?>
             <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
         <?php endif; ?>
         <?php if($this->canShowOptions()): ?>
-            <p class="block-subtitle"><?php echo $this->__('Shopping Options') ?></p>
+            <p class="block-subtitle" STYLE="background: #D9D9D9;padding-top: 10px;border-top: 2px solid #FFF;"><?php echo $this->__('Shopping Options') ?></p>
             <dl id="narrow-by-list">
-                <?php $_filters = $this->getFilters() ?>
-                <?php foreach ($_filters as $_filter): ?>
+                <?php 
+
+                    //get the category ID
+                    $cat_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
+
+                    //load the category model
+                    $category = Mage::getModel('catalog/category')->load($cat_id);
+
+                    //set filters
+                    $_filters = $this->getFilters();
+
+                    //get the products
+                    $_products = $category->getProductCollection()->addCategoryFilter($category);
+                    
+                    //set blank array for the productIDs
+                    $product_ids = array();
+
+                    //loop through products to create the array
+                    foreach( $_products as $key => $prd ){
+                        $product_ids[] = $prd->getID();
+                    }
+
+                    var_dump( $product_ids );
 
 
-                <?php if( $_filter->getName() == 'Price' ): ?>
+                    //loop filters
+                    foreach ($_filters as $_filter): 
+                ?>
+
+                <?php
+                    //CHECK FOR PRICE TO RENDER THAT NARROW SEPARATELY
+                    if( $_filter->getName() == 'Price' ){
+                        //SET PRICE INPUT VARIABLES
+                        $minimum_variance = 50;
+
+                        $low_min = 0;
+                        $low_max = 651;
+                        $low_placeholder = '  ex: 100';
+                        $low_val = 0;
+                        $low_value_text = null;
+
+                        $hi_min = $minimum_variance;
+                        $hi_max = 701;
+                        $hi_placeholder = '  ex: 150';
+                        $hi_val = $hi_max;
+                        $hi_value_text = null;
+
+                        if( isset( $_GET['price'] ) ){
+                            $price_vals = explode('-', $_GET['price'] );
+                            if( $price_vals[0] !== 0 && $price_vals[0] !== '' ){
+                                $low_val = $price_vals[0];
+                                $low_value_text = ' value="' . $low_val . '" ';
+
+                                //VERIFY HIGH MIN IS AT LEAST THE LOW
+                                $hi_min = $low_val + $minimum_variance;
+                            } 
+                            if( $price_vals[1] !== 0 && $price_vals[1] !== '' ){
+                                $hi_val = $price_vals[1];
+                                $hi_value_text = ' value="' . $hi_val . '" ';
+                            } 
+                        }
+
+                        //set url values
+                        $orig_url = Mage::registry('current_category')->getUrl();
+
+                        //get url layer navigation keys
+                        $url_query =  trim( $_SERVER['QUERY_STRING'] );
+
+                        //if there are applied narrows
+                        if( strlen( $url_query ) > 0 ){
+                            //expand into array
+                            $url_query = explode( '&', $url_query );
+
+                            //search for applied price 
+                            foreach ( $url_query as $key => $string ){
+                                //if this is the price query remove it                            
+                                if( strripos( $string, 'price=' ) === 0 ){
+                                    unset( $url_query[ $key] );
+                                }
+                            }
+
+                            //reset url
+                            $new_url = $orig_url . '?' . implode('&', $url_query) . '&';
+                            
+                        } else {
+                            //set new_url
+                            $new_url = $orig_url . '?';
+                        }
+                    
+                ?>
+                    <span class="dev-search-value">{SV: 8VTU35J895!3#@$ }</span>
+                    <dt>Price Range:</dt>
+                    <dd id="price-layer-nav-outer" style="padding: 0 0 10px 0;">
+                        <?php echo $_filter->getHtml() ?>
+                        <div id="price-range-input" class="hidden"></div>
+                        <div id="price-range-number-box">
+                            <div class="price-number-input-wrapper">
+                                <input type="number" min="<?php echo $low_min ?>" max="<?php echo $low_max ?>" name="price-number-input-low" id="price-number-input-low" placeholder="<?php echo $low_placeholder ?>"<?php echo $low_value_text ?>>
+                            </div>
+
+                            <span class="input-separator">TO</span>
+                            
+                            <div class="price-number-input-wrapper">
+                                <input type="number" min="<?php echo $hi_min ?>" max="<?php echo $hi_max ?>" name="price-number-input-hi" id="price-number-input-hi" placeholder="<?php echo $hi_placeholder ?>"<?php echo $hi_value_text ?>>
+                            </div>
+                        </div>                        
+                        <button id="price-range-number-input-apply" title="Apply Price Range" class="button">
+                            <span>
+                                <span>Apply Price Range</span>
+                            </span>
+                        </button>
+                    </dd>
+                    <script>
+                        //http://refreshless.com/nouislider/slider-values/
+                        jQuery(document).ready(function($){
+                            
+                            
+                            $("#price-range-input").noUiSlider({
+                                start: [<?php echo $low_val ?>, <?php echo $hi_val ?>],
+                                margin: <?php echo $minimum_variance ?>,
+                                range: {'min': <?php echo $low_min ?>,'max': <?php echo $hi_max ?>},
+                                behaviour: 'drag',
+                            });
+                            $("#price-range-input").Link('lower').to('-inline-<div class="price-tooltip"></div>', function ( value ) {
+                                var frmt = value.substring(0, value.length - 3);
+                                $(this).html('<span>$' + frmt + '</span>');
+                            });
+                            //$("#price-range-input").Link('lower').to($("#price-number-input-low"));
+
+                            $("#price-range-input").Link('upper').to('-inline-<div class="price-tooltip"></div>', function ( value ) {
+                                var frmt = value.substring(0, value.length - 3);
+                                $(this).html('<span>$' + frmt + '</span>');
+                            });
+                            //$("#price-range-input").Link('upper').to($("#price-number-input-hi"));
+
+                            $("#price-range-number-input-apply").click(function(){
+                                //set vars
+                                var priceLow = $("#price-number-input-low").val();
+                                var priceHi = $("#price-number-input-hi").val();
+                                var redir = "<?php echo $new_url ?>price="+priceLow+'-'+priceHi;
+                                window.location.replace(redir)
+                            });
+                            $("#price-number-input-low").change(function(){
+                                var hiValue = parseInt( $("#price-number-input-low").val() ) + parseInt( <?php echo $minimum_variance ?> );
+                                if( $("#price-number-input-hi").val() < hiValue ){
+                                    $("#price-number-input-hi").val( hiValue );
+                                }
+                            });
+                            $("#price-number-input-hi").change(function(){
+                                if( $(this).val() < parseInt( $("#price-number-input-low").val() ) + parseInt( <?php echo $minimum_variance ?> ) ){
+                                    $("#price-number-input-low").val( $(this).val() - parseInt( <?php echo $minimum_variance ?> ) );
+                                }
+                            });
+                        });
+                    </script>
                     <?php
-                        //$productModel = Mage::getModel('nps/pricenarrow')->testthis();
-                        //var_dump( $productModel );
+
+                        /**
+                        TESTING - 
+                        Loading the query to check for variations that need to be edited
+                        */                        
+                        
+                        // set relation template
+                        $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+                        $tablePrefix = (string) Mage::getConfig()->getTablePrefix();
+
+                        // transfer relation
+                        $select = $connection->select()->from($tablePrefix . 'catalog_product_option', array('option_id', 'in_group_id'))->where('product_id = XX AND in_group_id > 65535');
+
+                        //var_dump( $select );
+
+
+
                     ?>
-                    <dt><?php //var_dump( $_filter->getData()) ?></dt>
-                    <dd>{SEARCH FOR THIS VALUE: 8VTU35J895!3#@$ } <?php echo $_filter->getHtml() ?></dd>
-                <?php endif; ?>
 
+                    <?php } ?>
 
-                <?php if($_filter->getItemsCount() ) : ?>
+                <?php if($_filter->getItemsCount() && $_filter->getName() !== 'Price') : ?>
                     <dt><?php echo $this->__($_filter->getName()) ?></dt>
                     <dd><?php echo $_filter->getHtml() ?></dd>
                 <?php endif; ?>
