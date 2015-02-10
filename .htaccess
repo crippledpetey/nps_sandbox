@@ -189,12 +189,11 @@
 </IfModule>
 
 ############################################
-## By default allow all access
+## SANDBOX DENY ACCESS FROM OUTSIDE NETWORKS
 
     Order deny,allow
     Deny from all
-    Allow from 127.*.*.*
-    Allow from 192.*.*.*
+    Allow from 127.0.0.1
     Allow from 10.1.*.*
     Allow from 50.255.234.190
     Allow from 50.255.234.189
