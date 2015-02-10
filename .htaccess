@@ -178,7 +178,7 @@
     RewriteCond %{REMOTE_ADDR} !50.255.234.185$
     RewriteCond %{REQUEST_URI} !^/coming-soon/?
     RewriteCond %{REQUEST_URI} /(.*)$
-    RewriteRule (.*) /coming-soon [R=301,L]
+    RewriteRule .* /coming-soon [R=301,L]
 
 </IfModule>
 
