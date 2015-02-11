@@ -201,6 +201,7 @@
     Allow from 50.255.234.187
     Allow from 50.255.234.186
     Allow from 50.255.234.185
+    Allow from 71.12.97.202
 
 ###########################################
 ## Deny access to release notes to prevent disclosure of the installed Magento version
