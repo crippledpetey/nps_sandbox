@@ -48,7 +48,9 @@
     $option_images = $readConnection->fetchAll($query);
     
 ?>
-<?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
+<?php 
+
+    if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
 <p class="product-image product-image-zoom" style="width:<?php echo $setting->getImageProduct_BaseImageWidth(330) ?>px;height:<?php echo $setting->getImageProduct_BaseImageHeight(330) ?>px">
     <?php
 
@@ -56,23 +58,6 @@
         echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
 </p>
-<!--
-<p class="zoom-notice" id="track_hint"><?php echo $this->__('Click on above image to view full picture') ?></p>
-<div class="zoom">
-    <img id="zoom_out" src="<?php echo $this->getSkinUrl('images/slider_btn_zoom_out.gif') ?>" alt="<?php echo $this->__('Zoom Out') ?>" title="<?php echo $this->__('Zoom Out') ?>" class="btn-zoom-out" />
-    <div id="track">
-        <div id="handle"></div>
-    </div>
-    <img id="zoom_in" src="<?php echo $this->getSkinUrl('images/slider_btn_zoom_in.gif') ?>" alt="<?php echo $this->__('Zoom In') ?>" title="<?php echo $this->__('Zoom In') ?>" class="btn-zoom-in" />
-</div>
-<script type="text/javascript">
-//<![CDATA[
-    Event.observe(window, 'load', function() {
-        product_zoom = new Product.Zoom('image', 'track', 'handle', 'zoom_in', 'zoom_out', 'track_hint');
-    });
-//]]>
-</script>
--->
 <?php else: ?>
 <p class="product-image">
     <?php
@@ -107,7 +92,6 @@
             echo '  <a class="fancybox" rel="group" title="" href="/media/customoptions/' . $url . '"><img src="/media/customoptions/' . $url . '" alt="" /></a>';
             echo '</li>';
         }
-
         echo '</ul>';
     } 
 ?>

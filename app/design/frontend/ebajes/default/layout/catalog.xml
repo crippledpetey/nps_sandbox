@@ -126,6 +126,9 @@ Category layered navigation layout
 
     <catalog_category_layered translate="label">
         <label>Catalog Category (Anchor)</label>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/nps_product_drop.js</name></action> 
+        </reference>
         <reference name="left">
 			<remove name="currency" />
 			<remove name="left.newsletter" />
@@ -221,6 +224,8 @@ Product view
             <action method="addJs"><script>varien/product.js</script></action>
             <action method="addJs"><script>varien/configurable.js</script></action>
 
+            <action method="addItem"><type>skin_js</type><name>js/nps_product_page.js</name></action> 
+
             <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
             <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
             <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
@@ -241,10 +246,18 @@ Product view
 				
 				<block type="catalog/product_list_related" name="catalog.product.related" before="-" template="catalog/product/list/related.phtml"/>
 				
+                <!-- PRODUCT PAGE UP SELL
                 <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml">
                     <action method="setColumnCount"><columns>4</columns></action>
                     <action method="setItemLimit"><type>upsell</type><limit>4</limit></action>
                 </block>
+                -->
+                <!-- PRODUCT PAGE CROSS SELL 
+                <block type="catalog/product_list_crosssell" name="catalog.product.crosssell" as="crosssell_products" template="catalog/product/list/crosssell.phtml">
+                    <action method="setColumnCount"><columns>4</columns></action>
+                    <action method="setItemLimit"><type>crosssell</type><limit>4</limit></action>
+                </block>
+                -->
 
                 <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
                 <block type="catalog/product_view_description" name="product.description" as="description" template="catalog/product/view/description.phtml">

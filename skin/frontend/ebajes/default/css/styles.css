@@ -96,7 +96,6 @@ ul,ol         { list-style:none; }
 
 #page-overlay-dark {display: block;z-index: 9999;background: rgba(0,0,0,.75);position: fixed;top: 0;width: 100%;height:1000px;cursor: pointer;}
 
-
 /* ======================================================================================= */
 
 .home_bestseller{display:block;clear:both; margin-top: 30px; margin-bottom:30px}
@@ -1254,6 +1253,21 @@ transition: background-color 250ms ease-in-out 0s;}
     top: -12px !important;
 }
 .noUi-handle .tooltip {font-size: 11px;}
+.ui-tooltip, .arrow:after {
+    background: rgba(0,0,0,.85);
+    border: 1px solid #fff;
+}
+.ui-tooltip {
+  	display: inline-block;
+  	width: auto;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 7px;
+    font-weight: bold;
+    font-size: 11px;
+    text-transform: uppercase;
+    box-shadow: 0 0 7px black;
+}
 
 /* Block: Cart */
 .block-cart .block-title { /*border-bottom:0;*/ }
@@ -1277,7 +1291,7 @@ transition: background-color 250ms ease-in-out 0s;}
 .block-wishlist .actions a { float:none; }
 
 /* Block: Related */
-.block-related .block-title strong { background-image:url(../images/i_block-related.gif); background-position:0 1px; }
+.block-related .block-title strong { }
 .block-related .block-content { background:none; border:none; }
 .block-related .block-subtitle { padding-top:0; padding-left:0; }
 .block-related input.checkbox { position:absolute; top: 5px; left:5px ; margin:0; z-index:9;}
@@ -2425,6 +2439,43 @@ background: -o-linear-gradient(bottom, #f0f0f0 0%, #ffffff 20%);}
 /* Footer ================================================================================ */
 .footer-container {background: #ffffff; border-top: 1px solid #d0d0d0;}
 .footer-bottom-wrapper {background: #1e1e1e;}
+#back-to-top {
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  position: fixed;
+  bottom: 40px;
+  right: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  /* image replacement properties */
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.65) url(/skin/frontend/ebajes/default/images/back-to-top-arrow.svg) no-repeat center 50%;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: opacity .3s 0s, visibility 0s .3s;
+  -moz-transition: opacity .3s 0s, visibility 0s .3s;
+  transition: opacity .3s 0s, visibility 0s .3s;
+}
+#back-to-top.cd-is-visible, #back-to-top.cd-fade-out, .no-touch #back-to-top:hover {
+  -webkit-transition: opacity .3s 0s, visibility 0s 0s;
+  -moz-transition: opacity .3s 0s, visibility 0s 0s;
+  transition: opacity .3s 0s, visibility 0s 0s;
+}
+#back-to-top.cd-is-visible {
+  /* the button becomes visible */
+  visibility: visible;
+  opacity: 1;
+}
+#back-to-top.cd-fade-out {
+  /* if the user keeps scrolling down, the button is out of focus and becomes less visible */
+  opacity: .5;
+}
+.no-touch #back-to-top:hover {
+  background-color: #333;
+  opacity: 1;
+}
 .footer-1, .footer-2{width: 960px;margin:0 auto; }
 .footer-bottom{width: 960px;margin:0 auto; padding: 20px 0 50px; }
 .footer { width:930px; margin:0 auto; padding:10px 10px 50px; }
@@ -3222,6 +3273,7 @@ input[type="checkbox"]:focus {
 
 @media (min-width: 720px) {
 	#mobile-menu-toggle {display: none;}
+	#back-to-top {right: 20px;bottom: 20px;}
 }
 
 @media (min-width: 720px) and (max-width: 979px) {
@@ -3344,6 +3396,7 @@ input[type="checkbox"]:focus {
 @media only screen and (min-width : 720px) and (max-width : 1024px) {
 /* Styles */
 	.product-shop > .product-options-bottom, #product-options-wrapper {width: 50%;}
+	
 }
 
 /* iPads (landscape) ----------- */
@@ -3359,12 +3412,13 @@ input[type="checkbox"]:focus {
 /* Desktops and laptops ----------- */
 @media only screen and (min-width : 1224px) {
 /* Styles */
+	#back-to-top { height: 40px; width: 40px; right: 30px; bottom: 30px; }
 }
 
 /* Desktops and laptops ----------- */
 @media only screen and (min-width : 1440px) {
 /* Styles */
-.col1-layout .col-main { padding: 0 20px 40px 20px; }
+	.col1-layout .col-main { padding: 0 20px 40px 20px; }
 }
 
 /* XLarge screens ----------- */
@@ -3379,6 +3433,6 @@ input[type="checkbox"]:focus {
 
 
 
+
 /* TESTING PURPOSES ONLY */
 .dev-search-value {display: inline-block;margin: 0 auto;padding: 3px 20px;background: rgba(255,140,0,.7);color: #8B4513;font-weight: bold;text-align: center;width: 100%;box-sizing: border-box;-webkit-box-sizing: border-box;}
-

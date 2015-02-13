@@ -89,12 +89,40 @@ jQuery(document).ready(function($){
         }
     }
 
+    //setup the back to top button
+    var offset = 300,
+        offset_opacity = 1200,
+        scroll_top_duration = 700,
+        $back_to_top = $('#back-to-top');
+
+    //hide or show the "back to top" link
+    $(window).scroll(function(){ 
+        ( $(this).scrollTop() > offset ) ? $back_to_top.addClass('cd-is-visible') : $back_to_top.removeClass('cd-is-visible cd-fade-out');
+        if( $(this).scrollTop() > offset_opacity ) { 
+            $back_to_top.addClass('cd-fade-out');
+        }
+    });
+
+    //smooth scroll to top
+    $back_to_top.on('click', function(event){
+        event.preventDefault();
+        $('body,html').animate({
+            scrollTop: 0 ,
+            }, scroll_top_duration
+        );
+    });
+
+
 
     //set mobile 
     setMobile( $(window).width() );
 
     //instantiate fancybox
     $(".fancybox").fancybox(); 
+
+    //instantiate tooltips
+    $(".tooltips").tooltip();
+    $(".tooltip").tooltip();
 
     //clear search
     $("#clear-search").click(function(){
@@ -118,5 +146,34 @@ jQuery(document).ready(function($){
         if (e.keyCode == 27) { 
             hideMessageOverlay(); 
         }  
+    });
+
+    $("body").bind('copy', function (e) {
+        if (typeof window.getSelection == "undefined") return; //IE8 or earlier...
+
+        var body_element = document.getElementsByTagName('body')[0];
+        var selection = window.getSelection();
+
+        //if the selection is short let's not annoy our users
+        if (("" + selection).length < 30) return;
+
+        //create a div outside of the visible area
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        body_element.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        //we need a <pre> tag workaround
+        //otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName == "PRE") {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        newdiv.innerHTML += "<br />Find all the best home products at &copy; <a href='"
+            + document.location.href + "'>NeedPlumbingSupplies.com</a>";
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { body_element.removeChild(newdiv); }, 200);
     });
 });

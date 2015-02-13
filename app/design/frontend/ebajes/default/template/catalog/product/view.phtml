@@ -229,10 +229,11 @@
             <?php echo $html; ?>
         </div>
 <?php endforeach;?>
-
+        <div class="clearer"></div>
         <?php echo $this->getChildHtml('catalog.product.related') ?>
-        <?php echo $this->getChildHtml('upsell_products') ?>
+        <div class="clearer"></div>
+        <?php echo $this->getChildHtml('crosssell_products') ?>
+        <div class="clearer"></div>
         <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
 </div>
-<script type="text/javascript" src="/skin/frontend/ebajes/default/js/nps_product_page.js"></script>

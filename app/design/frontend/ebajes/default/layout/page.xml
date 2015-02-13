@@ -52,6 +52,18 @@ Default layout, loads most of the pages
 
                 <block type="page/js_cookie" name="js_cookies" template="page/js/cookie.phtml"/>
 
+                <action method="addCss"><stylesheet>css/jquery.nouislider.min.css</stylesheet></action>
+                <action method="addCss"><stylesheet>css/jquery.nouislider.pips.min.css</stylesheet></action>
+                
+                <action method="addItem"><type>css</type><stylesheet>css/jquery.fancybox.css</stylesheet></action>
+                <action method="addItem"><type>css</type><stylesheet>css/jquery.fancybox-thumbs.css</stylesheet></action>
+
+                <action method="addItem"><type>skin_js</type><name>js/jquery.fancybox.pack.js</name></action> 
+                <action method="addItem"><type>skin_js</type><name>js/jquery.fancybox-thumbs.js</name></action> 
+
+                <action method="addItem"><type>skin_js</type><name>js/jquery.smooth-scroll.min.js</name></action> 
+
+
                 <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
                 <action method="addCss"><stylesheet>css/flexslider.css</stylesheet></action>
                 <action method="addItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>lt IE 8</if></action>
@@ -62,9 +74,13 @@ Default layout, loads most of the pages
                 <action method="addItem"><type>skin_js</type><name>js/ie6.js</name><params/><if>lt IE 7</if></action>
 				
 				<action method="addJs"><script>halo/jquery-1.8.3.min.js</script></action> 
-				<action method="addItem"><type>skin_js</type><name>js/jquery-ui-1.8.9.custom.min.js</name></action> 
+				<action method="addItem"><type>skin_js</type><name>js/jquery-ui-1.11.2.custom.min.js</name></action> 
                 <action method="addItem"><type>skin_js</type><name>js/jquery.flexslider.js</name></action>
-				<action method="addItem"><type>skin_js</type><name>js/ebajes.js</name></action> 
+                <action method="addItem"><type>skin_js</type><name>js/modernizr.js</name></action> 
+                <action method="addItem"><type>skin_js</type><name>js/jquery.nouislider.min.js</name></action> 
+                <action method="addItem"><type>skin_js</type><name>js/jquery.nouislider.all.min.js</name></action> 
+
+                <action method="addItem"><type>skin_js</type><name>js/ebajes.js</name></action> 
             </block>
 
             <block type="core/text_list" name="after_body_start" as="after_body_start" translate="label">
@@ -113,7 +129,7 @@ Default layout, loads most of the pages
                     <label>Page Footer</label>
                     <action method="setElementClass"><value>bottom-container</value></action>
                 </block>
-                <block type="page/switch" name="store_switcher" as="store_switcher" template="page/switch/stores.phtml"/>
+                <!--<block type="page/switch" name="store_switcher" as="store_switcher" template="page/switch/stores.phtml"/>-->
                 <block type="page/template_links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
             </block>
 

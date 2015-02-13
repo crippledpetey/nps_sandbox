@@ -51,6 +51,12 @@
 
     //QUERY TO SELECT THE MIN AND MAX PRICING FOR PRODUCTS
     $price_query = "SELECT DISTINCT MIN(d.value) AS 'low_price', MAX(d.value) AS 'hi_price' FROM `catalog_product_option` AS p INNER JOIN `catalog_product_option_type_value` AS o ON o.option_id = p.option_id INNER JOIN `catalog_product_entity` AS e ON e.sku = o.sku INNER JOIN `catalog_product_entity_decimal` AS d ON d.entity_id = e.entity_id WHERE d.attribute_id = 99 AND p.product_id = " . $_id;
+
+    /*
+    QUERY FOR NON LINKED PRODUCTS
+    $price_query = "SELECT DISTINCT MIN(o.cost) AS 'low_price', MAX(o.cost) AS 'hi_price' FROM `catalog_product_option` AS p
+        INNER JOIN `catalog_product_option_type_value` AS o ON o.option_id = p.option_id INNER JOIN `catalog_product_entity_decimal` AS d ON p.product_id = d.entity_id WHERE d.attribute_id = 99 AND p.product_id = " . $_id;
+    */
     //get result set
     $resource = Mage::getSingleton('core/resource');
     $readConnection = $resource->getConnection('core_read');

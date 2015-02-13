@@ -92,5 +92,9 @@ jQuery(document).ready(function($){
 		//RE-NORMALIZE PRODUCT PAGE CONTENT BLOCKS
 		fixPrdContentBoxDimensions(wWidth);
 	});
+
+	$(".product-image-zoom > img").width("278");
+	$(".product-image-zoom > img").height("278");
+
 });
 

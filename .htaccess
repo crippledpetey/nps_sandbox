@@ -32,7 +32,7 @@
 ## adjust memory limit
 
 #    php_value memory_limit 64M
-    php_value memory_limit 256M
+    php_value memory_limit 512M
     php_value max_execution_time 18000
 
 ############################################
@@ -202,6 +202,7 @@
     Allow from 50.255.234.186
     Allow from 50.255.234.185
     Allow from 71.12.97.202
+    Allow from 50.173.94.122
 
 ###########################################
 ## Deny access to release notes to prevent disclosure of the installed Magento version
