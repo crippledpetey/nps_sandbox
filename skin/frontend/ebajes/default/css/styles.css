@@ -800,7 +800,7 @@ background: url("../images/top-cart_blue.png") no-repeat right center transparen
 #search_mini_form .search-button {box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;color: #FFFFFF;cursor: pointer;display: inline-block;font-style: normal;overflow: hidden;text-align: center;text-decoration: none;text-overflow: ellipsis;transition: all 400ms ease-in-out 0s;white-space: nowrap;font-weight: 100;padding: 7px 12px;font-size: 12px;border-color: #57CAED;background-color: #397CAC;border-radius: 0;text-transform: uppercase;margin-bottom: 5px;border: 0;}
 #search_mini_form .search-button:hover, #search_mini_form .search-button:focus, #search_mini_form .search-button:active {background-color: #57CAED;border-color: #397CAC; text-shadow: 1px 1px 2px #397CAC;}
 #search-buttons {display: inline-block;}
-#advanced-search-link {line-height: 10px;float: left;margin-left: 15px;}
+#advanced-search-link {line-height: 10px;float: none;margin-left: 15px;display: block;}
 .header .form-language {padding:17px 0 0 10px; float:right; }
 .header .form-language label {  vertical-align:middle; display:inline; font-weight:normal;}
 .header .form-language select { padding:5px 6px; margin-bottom:0;width: 88px}

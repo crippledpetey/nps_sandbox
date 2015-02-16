@@ -148,6 +148,7 @@ jQuery(document).ready(function($){
         }  
     });
 
+    //adds content to anything that someone copies
     $("body").bind('copy', function (e) {
         if (typeof window.getSelection == "undefined") return; //IE8 or earlier...
 
@@ -176,4 +177,6 @@ jQuery(document).ready(function($){
         selection.selectAllChildren(newdiv);
         window.setTimeout(function () { body_element.removeChild(newdiv); }, 200);
     });
+
+    
 });

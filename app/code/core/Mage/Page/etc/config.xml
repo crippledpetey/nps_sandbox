@@ -70,6 +70,16 @@
                     <template>page/3columns.phtml</template>
                     <layout_handle>page_three_columns</layout_handle>
                 </three_columns>
+                <nps_policy_page translate="label">
+                    <label>Policy Page</label>
+                    <template>page/policy-page.phtml</template>
+                    <layout_handle>NPS Policy Page</layout_handle>
+                    <reference name="right">
+                        <block type="cms/block" name="policy_page_right" before="right.poll">
+                            <action method="setBlockId"><block_id>policy_page_right</block_id></action>
+                        </block>
+                    </reference>
+                </nps_policy_page>
             </layouts>
         </page>
     </global>
