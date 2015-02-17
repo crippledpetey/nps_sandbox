@@ -74,12 +74,12 @@
                     <label>Policy Page</label>
                     <template>page/policy-page.phtml</template>
                     <layout_handle>NPS Policy Page</layout_handle>
-                    <reference name="right">
-                        <block type="cms/block" name="policy_page_right" before="right.poll">
-                            <action method="setBlockId"><block_id>policy_page_right</block_id></action>
-                        </block>
-                    </reference>
                 </nps_policy_page>
+                <nps_all_brand_page translate="label">
+                    <label>All Brands Page</label>
+                    <template>page/brands.phtml</template>
+                    <layout_handle>NPS All Brands Page</layout_handle>
+                </nps_all_brand_page>
             </layouts>
         </page>
     </global>

@@ -168,6 +168,7 @@ transition: none;}
 .col4-set .col-2 { float:left; width:23.5%; margin:0 2%; }
 .col4-set .col-3 { float:left; width:23.5%; }
 .col4-set .col-4 { float:right; width:23.5%; }
+.all-brand-main{width: 100%;max-width:1440px;margin: 0 auto;float:none;}
 /* ======================================================================================= */
 
 
@@ -1455,12 +1456,14 @@ ul#category-list > li > div > div > a {display: block; padding: 15px 0 2px;font-
 #brands-container-primary {padding-top: 20px;}
 #feat-brands-outer {border: 1px solid #d0d0d0;-webkit-box-sizing: border-box;box-sizing: border-box;padding: 10px 30px;background: #fff;}
 #feat-brands-title {}
-#feat-brands-title > span {display: inline-block;position: relative;top: -25px;width: 200px;padding: 3px 0 2px 12px;background: #ccc;font-size: 16px;text-transform: uppercase;left: -25px;}
+#feat-brands-title > span {display: inline-block;position: relative;top: -25px;width: 200px;padding: 3px 0 2px 12px;background: #ccc;left: -25px;}
+#feat-brands-title > span > h2 { font-size: 16px;text-transform: uppercase; margin-bottom: 0;font-weight: 100;}
 #feat-brands-inner {}
 #feat-brands-inner > ul {}
 #feat-brands-inner > ul > li {display: inline-block;width: 15%;min-width: 170px;height: 60px;text-align: center;list-style: none;margin: 0 15px 15px 0;}
-#feat-brands-inner > ul > li img {height: 100%;width: 100%;}
-#brands-list:before {content: "Shop All Our Brands"; font-weight: bold; font-size: 14px; margin-left: 10px;}
+#feat-brands-inner > ul > li img {height: auto;width: 100%;}
+#feat-brands-inner > ul > li img:hover, #feat-brands-inner > ul > li a:hover img {transition: all .5s;-webkit-transition: all .5s;-moz-transition: all .5s;box-shadow: 0 0 7px #999;}
+#brands-list > h2 {font-weight: bold; font-size: 14px; margin-left: 10px;}
 #brands-list {margin-top:30px;}
 #brands-list > div {margin-top: 9px;border: 1px solid #d0d0d0;}
 #brands-list > div > h3 {background: #fff;padding: 3px 0 4px 5px;font-size: 20px;border-bottom: 1px solid #d0d0d0;}

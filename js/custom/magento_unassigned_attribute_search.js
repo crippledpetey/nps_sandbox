@@ -16,7 +16,7 @@ jQuery(document).ready(function(e) {
 	
 	theParent = document.getElementById("tree-div2");
 	theKid = document.createElement("span");
-	theKid.innerHTML = 'Find Attribute: <input type="text" id="unassigned-attr-search" onkeyup="srchUnassignedAttr()"><span style="margin-left: 25px;"><button id="clear-search-undefiined-attributes" title="Clear Search Input" onClick="clrUnassignedAttr()" type="button" class="scalable delete" style=""><span><span><span>Clear Search Input</span></span></span></button>';
+	theKid.innerHTML = 'Find Attribute: <input type="text" id="unassigned-attr-search" onkeyup="srchUnassignedAttr()"><span style="margin-left: 25px;"><button id="clear-search-undefiined-attributes" title="Clear Search Input" onClick="clrUnassignedAttr()" type="button" class="scalable delete" style=""><span><span><span>Clear</span></span></span></button>';
 	
 	// prepend theKid to the beginning of theParent
 	theParent.insertBefore(theKid, theParent.firstChild);

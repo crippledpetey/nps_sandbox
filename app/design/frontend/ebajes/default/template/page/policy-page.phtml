@@ -45,45 +45,28 @@
             <div class="main">
                 <?php echo $this->getChildHtml('breadcrumbs') ?>
                 <div class="col-wrapper">
-                    <div class="col-left sidebar">
-                        <?php 
-                            //get the existing policy page
-                            $resource = Mage::getSingleton('core/resource');
-                            $readConnection = $resource->getConnection('core_read');
-                            $writeConnection = $resource->getConnection('core_write');
-                            $tableName = $resource->getTableName('cms_page');
-                            $query = "SELECT * FROM " . $tableName . " where `root_template` = 'nps_policy_page' ORDER BY `title`";
-                            $results = $readConnection->fetchAll($query);
-
-                            //compile into array
-                            $pages = array();
-                            foreach( $results as $page ){
-                                $pages[] = array( 'title'=>$page['title'], 'url'=>'/' . $page['identifier'] . '/' );
-                            }
-                        ?>
+                    <div class="col-left sidebar">                            
                         <div class="block block-layered-nav">
                             <div class="block-title">
                                 <strong><span>Need Plumbing Services</span></strong>
                             </div>
                             <div class="block-content">
-                                <dl id="narrow-by-list2">
-                                    <dt class="last odd">Sevices</dt> 
-                                    <dd class="last odd">
-                                        <ol>
+                                <dl id="policy-nav">
+                                    <?php
+                                        for( $i=1; $i<=25; $i++){
+                                            echo $this->getLayout()->createBlock('cms/block')->setBlockId('nps_quicklinks_policynav_' . $i)->toHtml(); 
+                                        }
 
-                                            <?php 
-                                                foreach( $pages as $page ){
-                                                    echo '<li><a href="' . $page['url'] . '">' . $page['title'] . '</a></li>';
-                                                }
-                                            ?>
+                                    ?>
+                                    <dt class="last odd">Testing</dt> 
+                                    <dd class="last odd">
+                                        <ol><li><a href="#">Something</a></li>
                                         </ol>
                                     </dd>
                                 </dl>
-                                <script type="text/javascript">decorateDataList('narrow-by-list2')</script>
                             </div>
                         </div>
-
-
+                        <script type="text/javascript">decorateDataList('policy-nav')</script> 
                     </div>
 					<div class="col-main">
 						<?php echo $this->getChildHtml('top.main') ?>
@@ -93,6 +76,7 @@
                 </div>
                 <div class="col-right sidebar">
                     <?php echo $this->getChildHtml('right') ?>
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('policy_page_right')->toHtml(); ?> 
                 </div>
             </div>
         </div>
@@ -114,7 +98,7 @@
             }
         }
         normalizeColMain();
-        $(document).resize(function(){
+        $(window).resize(function(){
             normalizeColMain();
         });
     }); 

@@ -47,21 +47,23 @@ Default layout, loads most of the pages
 			<block type="cms/block" name="ebajes_footer_stay_connected">
                 <action method="setBlockId"><block_id>ebajes_footer_stay_connected</block_id></action>
             </block>
-			<block type="cms/block" name="ebajes_footer_link_1">
-                <action method="setBlockId"><block_id>ebajes_footer_link_1</block_id></action>
+
+			<block type="cms/block" name="nps_quicklinks_footer_1">
+                <action method="setBlockId"><block_id>nps_quicklinks_footer_1</block_id></action>
             </block>
-			<block type="cms/block" name="ebajes_footer_link_2">
-                <action method="setBlockId"><block_id>ebajes_footer_link_2</block_id></action>
+			<block type="cms/block" name="nps_quicklinks_footer_2">
+                <action method="setBlockId"><block_id>nps_quicklinks_footer_2</block_id></action>
             </block>
-			<block type="cms/block" name="ebajes_footer_link_3">
-                <action method="setBlockId"><block_id>ebajes_footer_link_3</block_id></action>
+			<block type="cms/block" name="nps_quicklinks_footer_3">
+                <action method="setBlockId"><block_id>nps_quicklinks_footer_3</block_id></action>
             </block>
-			<block type="cms/block" name="ebajes_footer_link_4">
-                <action method="setBlockId"><block_id>ebajes_footer_link_4</block_id></action>
+			<block type="cms/block" name="nps_quicklinks_footer_4">
+                <action method="setBlockId"><block_id>nps_quicklinks_footer_4</block_id></action>
             </block>
-			<block type="cms/block" name="ebajes_footer_link_5">
-                <action method="setBlockId"><block_id>ebajes_footer_link_5</block_id></action>
+			<block type="cms/block" name="nps_quicklinks_footer_5">
+                <action method="setBlockId"><block_id>nps_quicklinks_footer_5</block_id></action>
             </block>
+                           
 			<block type="directory/currency" name="currency" template="directory/currency.phtml"/>
         </reference>
 		 <reference name="header">
