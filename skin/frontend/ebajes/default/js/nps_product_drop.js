@@ -2,10 +2,12 @@ jQuery(document).ready(function($){
 
 	function clearDisplayGrid(elem){
 		//clear existing clearer elements
-		remvClearer();
+		remvClearer(elem);
 
 		//get number of items to show
 		var availTiles = Math.floor(  $(elem).width() / 180 );
+
+		console.log( availTiles );
 		
 		//set start for counting iterations
 		var i = 1;
@@ -27,16 +29,15 @@ jQuery(document).ready(function($){
 	function addClearer(elem){
 		$(elem).after("<div class='clearer'></div>");
 	}
-	function remvClearer(){
+	function remvClearer(elem){
 		//test if next element is clearer
-		$("ul.products-grid").children("div.clearer").remove();
+		$(elem).children("div.clearer").remove();
 	}
 
 	function normalizeDropContainers(){
 		if( $(window).width() > 740 ){
 			var mainWidth = $(window).width() - 430;
 			$(".col-wrapper > .col-main").css("width",mainWidth);
-			clearDisplayGrid("ul.products-grid");
 		} else {
 			$(".col-wrapper > .col-main").css("width","");
 		}
