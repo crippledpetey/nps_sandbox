@@ -134,9 +134,18 @@
                                 $new_url = $orig_url . '?';
                             }
                         } else {
+
                             $new_url = $_SERVER['REQUEST_URI'];
-                        }
-                    
+
+                            //check for existing variables
+                            $var_check = strrpos( $_SERVER['REQUEST_URI'], '?', -1);
+                            
+                            if( $var_check ){
+                                $new_url .= '&';
+                            } else {
+                                $new_url .= '?';
+                            }                            
+                        }                    
                 ?>
                     <span class="dev-search-value">{SV: 8VTU35J895!3#@$ }</span>
                     <dt>Price Range:</dt>

@@ -8,8 +8,23 @@ jQuery(document).ready(function(e) {
     }), e("#clear-search-undefiined-attributes").click(function() {
         e("#unassigned-attr-search").val(""), e("#tree-div2 > ul > div > li").each(function() {
             e(this).removeClass("hidden")
-        })
-    })
+        });
+    });
+    e("#product_info_tabs_categories").click(function(){
+    	e("#product_info_tabs_categories_content > entry-edit-head > h4").after('<button id="clear-search-undefiined-attributes" title="Clear Search Input" onClick="clrUnassignedAttr()" type="button" class="scalable delete" style=""><span><span><span>Clear</span></span></span></button>');
+    });
+    e("#product_info_tabs_categories").addClass("TESTING");
+    
+
+
+    e(".x-tree-node-collapsed").each(function(){
+    	e(this).removeClass("x-tree-node-collapsed");
+    	e(this).addClass("x-tree-node-expanded");
+    });
+
+    e( document ).ajaxComplete(function() {
+	  console.log( "Triggered ajaxComplete handler." );
+	});
 });
 
 (function() {
@@ -31,3 +46,4 @@ function srchUnassignedAttr(){
 function clrUnassignedAttr(){
 
 }
+

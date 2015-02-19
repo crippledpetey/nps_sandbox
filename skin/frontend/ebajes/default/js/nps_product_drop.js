@@ -43,7 +43,6 @@ jQuery(document).ready(function($){
 		}
 	}
 
-
 	//normalize the grid container
 	normalizeDropContainers();
 
