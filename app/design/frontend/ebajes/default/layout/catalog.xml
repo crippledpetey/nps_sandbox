@@ -121,6 +121,21 @@ Category default layout
 	</catalog_category_default>
 
 <!--
+Catalog search
+-->
+<catalogsearch_result_index>
+    <reference name="head">
+        <action method="addItem"><type>skin_js</type><name>js/nps_product_drop.js</name></action> 
+    </reference>
+</catalogsearch_result_index>
+
+<catalogsearch_advanced_result>
+    <reference name="head">
+        <action method="addItem"><type>skin_js</type><name>js/nps_product_drop.js</name></action> 
+    </reference>
+</catalogsearch_advanced_result>
+
+<!--
 Category layered navigation layout
 -->
 

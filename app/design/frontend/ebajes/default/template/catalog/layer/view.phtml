@@ -66,7 +66,7 @@
                         $product_ids[] = $prd->getID();
                     }
 
-                    var_dump( $product_ids );
+                    //var_dump( $product_ids );
 
                     //loop filters
                     foreach ($_filters as $_filter): 
@@ -107,30 +107,34 @@
                         }
 
                         //set url values
-                        $orig_url = Mage::registry('current_category')->getUrl();
+                        if( !isset($_GET['q'] ) ){
+                            $orig_url = Mage::registry('current_category')->getUrl();
 
-                        //get url layer navigation keys
-                        $url_query =  trim( $_SERVER['QUERY_STRING'] );
+                            //get url layer navigation keys
+                            $url_query =  trim( $_SERVER['QUERY_STRING'] );
 
-                        //if there are applied narrows
-                        if( strlen( $url_query ) > 0 ){
-                            //expand into array
-                            $url_query = explode( '&', $url_query );
+                            //if there are applied narrows
+                            if( strlen( $url_query ) > 0 ){
+                                //expand into array
+                                $url_query = explode( '&', $url_query );
 
-                            //search for applied price 
-                            foreach ( $url_query as $key => $string ){
-                                //if this is the price query remove it                            
-                                if( strripos( $string, 'price=' ) === 0 ){
-                                    unset( $url_query[ $key] );
+                                //search for applied price 
+                                foreach ( $url_query as $key => $string ){
+                                    //if this is the price query remove it                            
+                                    if( strripos( $string, 'price=' ) === 0 ){
+                                        unset( $url_query[ $key] );
+                                    }
                                 }
-                            }
 
-                            //reset url
-                            $new_url = $orig_url . '?' . implode('&', $url_query) . '&';
-                            
+                                //reset url
+                                $new_url = $orig_url . '?' . implode('&', $url_query) . '&';
+                                
+                            } else {
+                                //set new_url
+                                $new_url = $orig_url . '?';
+                            }
                         } else {
-                            //set new_url
-                            $new_url = $orig_url . '?';
+                            $new_url = $_SERVER['REQUEST_URI'];
                         }
                     
                 ?>

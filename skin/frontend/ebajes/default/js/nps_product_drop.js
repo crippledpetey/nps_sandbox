@@ -44,11 +44,12 @@ jQuery(document).ready(function($){
 	}
 
 
+	//normalize the grid container
+	normalizeDropContainers();
+
 	//clear the grid on page load
 	clearDisplayGrid("ul.products-grid");
 
-	//normalize the grid container
-	normalizeDropContainers();
 
 	///re-run normalize on widow rezise
 	$( window ).resize(function() {
