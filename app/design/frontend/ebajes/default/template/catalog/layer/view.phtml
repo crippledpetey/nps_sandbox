@@ -34,7 +34,8 @@
 /**
 INCLUDING CUSTOM NPS PRODUCT PAGE CLASS AND INSTANTIATE
 */
-require_once('/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php');
+$ds = DIRECTORY_SEPARATOR;
+require_once($ds . 'app' . $ds . 'code' . $ds . 'local' . $ds . 'NPS' . $ds . 'BetterLayerNavigation' . $ds . 'Helper' . $ds . 'product.drop.class.php');
 $nps_filter = new productDrop;
 ?>
 <?php if($this->canShowBlock()): ?>
