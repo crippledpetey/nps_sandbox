@@ -118,7 +118,7 @@ jQuery(document).ready(function($){
     setMobile( $(window).width() );
 
     //instantiate fancybox
-    $(".fancybox").fancybox({
+    $(".fancybox, .prd-fancybox").fancybox({
         topRatio        : .1,
         cyclic          : true,
         autoScale       : true,
@@ -134,24 +134,9 @@ jQuery(document).ready(function($){
         },
     }); 
 
-    //product description fancybox
-    $(".prd-fancybox").fancybox({
-        topRatio        : .1,
-        cyclic          : true,
-        autoScale       : true,
-        showCloseButton : true,
-        showNavArrows   : true,
-        helpers         : {
-            overlay : {
-                css : {
-                    "height" : $(document).height(),
-                    'background' : 'rgba(87, 202, 237, 0.3)'
-                }
-            }
-        },
-    }); 
+   
     $(".prd-fancybox > img").addClass("tooltip");
-    $(".prd-fancybox > img").attr("title","Click here to view larger!");
+    $(".prd-fancybox > img").attr("title","Click for larger view");
 
     //instantiate tooltips
     $(".tooltips").tooltip();

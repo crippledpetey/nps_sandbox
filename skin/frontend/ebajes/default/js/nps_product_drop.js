@@ -5,7 +5,7 @@ jQuery(document).ready(function($){
 		remvClearer(elem);
 
 		//get number of items to show
-		var availTiles = Math.floor(  $(elem).width() / 180 );
+		var availTiles = Math.floor(  $(elem).width() / $("ul.products-grid > li:first-child").outerWidth() );
 		
 		//set start for counting iterations
 		var i = 1;
