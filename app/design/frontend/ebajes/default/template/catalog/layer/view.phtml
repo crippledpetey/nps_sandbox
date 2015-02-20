@@ -34,7 +34,7 @@
 /**
 INCLUDING CUSTOM NPS PRODUCT PAGE CLASS AND INSTANTIATE
 */
-require_once('/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php');
+//require_once('/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php');
 $nps_filter = new productDrop;
 ?>
 <?php if($this->canShowBlock()): ?>
@@ -200,7 +200,7 @@ $nps_filter = new productDrop;
                         <span class="layer-helper-toggle">?</span>
                         <div class="layer-helper-content escapable">
                             <span class="close-content-helper">X</span>
-                            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('attr_help_' . $nps_filter->getLayerID( $_filter ) )->toHtml(); ?>
+                            <?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('attr_help_' . $nps_filter->getLayerID( $_filter ) )->toHtml(); ?>
                         </div>
                         <?php } ?>
                     </dt>
