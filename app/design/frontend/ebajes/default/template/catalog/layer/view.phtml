@@ -34,8 +34,8 @@
 /**
 INCLUDING CUSTOM NPS PRODUCT PAGE CLASS AND INSTANTIATE
 */
-//require_once('/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php');
-//$nps_filter = new productDrop;
+require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php');
+$nps_filter = new productDrop;
 ?>
 <?php if($this->canShowBlock()): ?>
 <div class="block block-layered-nav">
@@ -196,13 +196,13 @@ INCLUDING CUSTOM NPS PRODUCT PAGE CLASS AND INSTANTIATE
                     <dt>
                         <?php $clean_attr_title = $this->__($_filter->getName()); //clean up attribute title for processing?>
                         <?php echo $clean_attr_title; ?>
-                        <?php //if( Mage::getModel('cms/block')->load('attr_help_' . $nps_filter->getLayerID( $_filter ) )->getIsActive() ){ //check for a static help block ?>
+                        <?php if( Mage::getModel('cms/block')->load('attr_help_' . $nps_filter->getLayerID( $_filter ) )->getIsActive() ){ //check for a static help block ?>
                         <span class="layer-helper-toggle">?</span>
                         <div class="layer-helper-content escapable">
                             <span class="close-content-helper">X</span>
-                            <?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('attr_help_' . $nps_filter->getLayerID( $_filter ) )->toHtml(); ?>
+                            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('attr_help_' . $nps_filter->getLayerID( $_filter ) )->toHtml(); ?>
                         </div>
-                        <?php //} ?>
+                        <?php } ?>
                     </dt>
                     <dd>
                         <?php 
