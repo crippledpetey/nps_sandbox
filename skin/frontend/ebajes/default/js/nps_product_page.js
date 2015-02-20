@@ -1,8 +1,17 @@
 jQuery(document).ready(function($){
 
 	//OUTPUT THE PAGE AND DOCUMENT INFORMATION TO THE CONSOLE
-	console.log( $( window ) );
-	console.log( $(document) );
+	//console.log( $( window ) );
+	//console.log( $(document) );
+
+	//check for preselected finish
+	$(".preselected-finish .inventory-controller select option").each(function(){
+		if ($(this).attr('value') == $(".preselected-finish").data('finishId') ) {
+	        $(this).attr("selected",true);
+	    } else {
+	        $(this).removeAttr("selected");
+	    }
+	});
 
 	/* ================== FIX PRODUCT PAGE CONTENT BOXES TO NORMALIZE HEIGHT AND / OR WIDTH ================== */
 	function fixPrdContentBoxDimensions(windowWidth) {
@@ -95,17 +104,6 @@ jQuery(document).ready(function($){
 
 	$(".product-image-zoom > img").width("278");
 	$(".product-image-zoom > img").height("278");
-
-	//check for preselected finish
-	$(".preselected-finish .inventory-controller select option").each(function(){
-		console.log( 'found '+$(this).val() );
-		if ($(this).attr('value') == $(".preselected-finish").data('finishId') ) {
-	        $(this).attr("selected",true);
-	    } else {
-	        $(this).removeAttr("selected");
-	    }
-	});
-	console.log("madeit");
 
 });
 
