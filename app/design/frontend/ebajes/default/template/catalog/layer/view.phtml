@@ -30,6 +30,12 @@
  *
  * @see Mage_Catalog_Block_Layer_View
  */
+
+/**
+INCLUDING CUSTOM NPS PRODUCT PAGE CLASS AND INSTANTIATE
+*/
+require_once('/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php');
+$nps_filter = new productDrop;
 ?>
 <?php if($this->canShowBlock()): ?>
 <div class="block block-layered-nav">
@@ -77,18 +83,13 @@
                     //CHECK FOR PRICE TO RENDER THAT NARROW SEPARATELY
                     if( $_filter->getName() == 'Price' ){
                         //SET PRICE INPUT VARIABLES
-                        $minimum_variance = 50;
-
-                        $low_min = 0;
-                        $low_max = 651;
+                        $minimum_variance = 25;
                         $low_placeholder = '  ex: 100';
                         $low_val = 0;
                         $low_value_text = null;
 
-                        $hi_min = $minimum_variance;
-                        $hi_max = 701;
                         $hi_placeholder = '  ex: 150';
-                        $hi_val = $hi_max;
+                        $hi_val = null;
                         $hi_value_text = null;
 
                         if( isset( $_GET['price'] ) ){
@@ -147,73 +148,30 @@
                             }                            
                         }                    
                 ?>
-                    <span class="dev-search-value">{SV: 8VTU35J895!3#@$ }</span>
                     <dt>Price Range:</dt>
                     <dd id="price-layer-nav-outer" style="padding: 0 0 10px 0;">
                         <?php echo $_filter->getHtml() ?>
                         <div id="price-range-input" class="hidden"></div>
                         <div id="price-range-number-box">
                             <div class="price-number-input-wrapper">
-                                <input type="number" min="<?php echo $low_min ?>" max="<?php echo $low_max ?>" name="price-number-input-low" id="price-number-input-low" placeholder="<?php echo $low_placeholder ?>"<?php echo $low_value_text ?>>
+                                <input type="number" min="0" max="<?php //echo $low_max ?>" name="price-number-input-low" id="price-number-input-low" placeholder="<?php echo $low_placeholder ?>"<?php echo $low_value_text ?>>
                             </div>
 
                             <span class="input-separator">TO</span>
                             
                             <div class="price-number-input-wrapper">
-                                <input type="number" min="<?php echo $hi_min ?>" max="<?php echo $hi_max ?>" name="price-number-input-hi" id="price-number-input-hi" placeholder="<?php echo $hi_placeholder ?>"<?php echo $hi_value_text ?>>
+                                <input type="number" min="<?php echo $minimum_variance; ?>" max="<?php //echo $hi_max ?>" name="price-number-input-hi" id="price-number-input-hi" placeholder="<?php echo $hi_placeholder ?>"<?php echo $hi_value_text ?>>
                             </div>
                         </div>                        
-                        <button id="price-range-number-input-apply" title="Apply Price Range" class="button">
+                        <button id="price-range-number-input-apply" title="Apply Price Range" class="button" data-url="<?php echo $new_url; ?>">
                             <span>
                                 <span>Apply Price Range</span>
                             </span>
                         </button>
                     </dd>
-                    <script>
-                        //http://refreshless.com/nouislider/slider-values/
-                        jQuery(document).ready(function($){
-                            
-                            
-                            $("#price-range-input").noUiSlider({
-                                start: [<?php echo $low_val ?>, <?php echo $hi_val ?>],
-                                margin: <?php echo $minimum_variance ?>,
-                                range: {'min': <?php echo $low_min ?>,'max': <?php echo $hi_max ?>},
-                                behaviour: 'drag',
-                            });
-                            $("#price-range-input").Link('lower').to('-inline-<div class="price-tooltip"></div>', function ( value ) {
-                                var frmt = value.substring(0, value.length - 3);
-                                $(this).html('<span>$' + frmt + '</span>');
-                            });
-                            //$("#price-range-input").Link('lower').to($("#price-number-input-low"));
-
-                            $("#price-range-input").Link('upper').to('-inline-<div class="price-tooltip"></div>', function ( value ) {
-                                var frmt = value.substring(0, value.length - 3);
-                                $(this).html('<span>$' + frmt + '</span>');
-                            });
-                            //$("#price-range-input").Link('upper').to($("#price-number-input-hi"));
-
-                            $("#price-range-number-input-apply").click(function(){
-                                //set vars
-                                var priceLow = $("#price-number-input-low").val();
-                                var priceHi = $("#price-number-input-hi").val();
-                                var redir = "<?php echo $new_url ?>price="+priceLow+'-'+priceHi;
-                                window.location.replace(redir)
-                            });
-                            $("#price-number-input-low").change(function(){
-                                var hiValue = parseInt( $("#price-number-input-low").val() ) + parseInt( <?php echo $minimum_variance ?> );
-                                if( $("#price-number-input-hi").val() < hiValue ){
-                                    $("#price-number-input-hi").val( hiValue );
-                                }
-                            });
-                            $("#price-number-input-hi").change(function(){
-                                if( $(this).val() < parseInt( $("#price-number-input-low").val() ) + parseInt( <?php echo $minimum_variance ?> ) ){
-                                    $("#price-number-input-low").val( $(this).val() - parseInt( <?php echo $minimum_variance ?> ) );
-                                }
-                            });
-                        });
-                    </script>
+                   
                     <?php
-
+                        /* <script type="text/javascript" src="/skin/frontend/ebajes/default/js/price.slider.js"> */
                         /**
                         TESTING - 
                         Loading the query to check for variations that need to be edited
@@ -236,21 +194,22 @@
 
                 <?php if($_filter->getItemsCount() && $_filter->getName() !== 'Price') : ?>
                     <dt>
-                        <?php
-                            $clean_attr_title = $this->__($_filter->getName()); 
-                            echo $clean_attr_title;
-                        ?>
+                        <?php $clean_attr_title = $this->__($_filter->getName()); //clean up attribute title for processing?>
+                        <?php echo $clean_attr_title; ?>
+                        <?php if( Mage::getModel('cms/block')->load('attr_help_' . $nps_filter->getLayerID( $_filter ) )->getIsActive() ){ //check for a static help block ?>
                         <span class="layer-helper-toggle">?</span>
-                        <div class="layer-helper-content">
-                            <p>This is some test content with exmaple information.</p>
-                            <img src="/media/catalog/product/cache/1/small_image/180x180/9df78eab33525d08d6e5fb8d27136e95/k/-/k-596matte_black.jpg">
+                        <div class="layer-helper-content escapable">
+                            <span class="close-content-helper">X</span>
+                            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('attr_help_' . $nps_filter->getLayerID( $_filter ) )->toHtml(); ?>
                         </div>
+                        <?php } ?>
                     </dt>
                     <dd>
                         <?php 
+                            //set the html
                             $clean_attr_val = $_filter->getHtml();
 
-                            //check for editing
+                            //force remove characters from layer values
                             if( in_array( strtolower( $clean_attr_title ), array('weight') ) ){
                                 $currency_code = Mage::app()->getLocale()->currency('[CURRENCY_CODE]')->getSymbol();
                                 echo str_replace($currency_code, '', $clean_attr_val);

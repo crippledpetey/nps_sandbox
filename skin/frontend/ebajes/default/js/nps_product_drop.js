@@ -56,12 +56,50 @@ jQuery(document).ready(function($){
 	  normalizeDropContainers();
 	});
 
-	$(".layer-helper-toggle").hover(function(){
+	//make sure all help links open in a new window
+	$('.layer-helper-content a').attr('target', '_blank');
+
+	//display layer nav help content on hover
+	$(".layer-helper-toggle").click(function(){
+
+		var offset = $(this).offset();
 		$(this).siblings(".layer-helper-content").addClass("active");
-		$(this).siblings(".layer-helper-content").offset();
-		$(this).siblings(".layer-helper-content").css({"top":$(this).siblings(".layer-helper-content").offset(), });
-	}, function(){
-		$(this).siblings(".layer-helper-content").removeClass("active");
+		$(this).siblings(".layer-helper-content").css({"top": offset.top - 10, 'left': offset.left + 30});
 	});
+
+	//close dialogue on click of close button
+	$(".layer-helper-content > .close-content-helper").click(function(){
+		$(this).parent().removeClass("active");
+	});
+
+	//hide all escapable overlays on escape key press
+    $(document).keyup(function(e) {
+        //if escape key is pressed
+        if (e.keyCode == 27) { 
+            $(".active.escapable").removeClass("active");
+        }  
+    });
+
+
+    $("#price-number-input-low").change(function(){
+	    var hiValue = parseInt( $("#price-number-input-low").val() ) + 25;
+	    if( $("#price-number-input-hi").val() < hiValue ){
+	        $("#price-number-input-hi").val( hiValue );
+	    }
+	});
+	$("#price-number-input-hi").change(function(){
+	    if( $(this).val() < parseInt( $("#price-number-input-low").val() ) + 25 ){
+	        $("#price-number-input-low").val( $(this).val() - 25 );
+	    }
+	});
+
+	$("#price-range-number-input-apply").click(function(){
+		//set vars
+        var priceLow = $("#price-number-input-low").val();
+        var priceHi = $("#price-number-input-hi").val();
+        var redir = $(this).data('url')+"price="+priceLow+'-'+priceHi;
+        window.location.replace(redir)
+	});
+	    
 	
 });
