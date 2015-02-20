@@ -6,11 +6,10 @@ jQuery(document).ready(function($){
 
 		//get number of items to show
 		var availTiles = Math.floor(  $(elem).width() / 180 );
-
-		console.log( availTiles );
 		
 		//set start for counting iterations
 		var i = 1;
+
 
 		//cycle through each product item
 		$("ul.products-grid").children("li").each(function(){

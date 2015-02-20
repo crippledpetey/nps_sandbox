@@ -118,7 +118,30 @@ jQuery(document).ready(function($){
     setMobile( $(window).width() );
 
     //instantiate fancybox
-    $(".fancybox").fancybox(); 
+    $(".fancybox").fancybox({
+        topRatio        : .1,
+        cyclic          : true,
+        autoScale       : true,
+        showCloseButton : true,
+        showNavArrows   : true,
+        helpers         : {
+            overlay : {
+                css : {
+                    "height" : $(document).height(),
+                    'background' : 'rgba(87, 202, 237, 0.3)'
+                }
+            }
+        },
+        onStart: function(){
+          
+        },
+        onComplete: function(){
+            
+        },
+    }); 
+
+    //product description fancybox
+    $(".prd-fancybox").fancybox(); 
 
     //instantiate tooltips
     $(".tooltips").tooltip();
@@ -145,6 +168,7 @@ jQuery(document).ready(function($){
         //if escape key is pressed
         if (e.keyCode == 27) { 
             hideMessageOverlay(); 
+            $("#mageworxOverlay").css({"display":"none"});
         }  
     });
 
@@ -178,5 +202,5 @@ jQuery(document).ready(function($){
         window.setTimeout(function () { body_element.removeChild(newdiv); }, 200);
     });
 
-    
+ 
 });

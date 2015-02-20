@@ -43,6 +43,9 @@ Default layout, loads most of the pages
 -->
 
     <default>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/jquery.fancybox.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+        </reference>
 
         <!-- Mage_Catalog -->
         <reference name="left">

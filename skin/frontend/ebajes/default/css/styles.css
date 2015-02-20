@@ -1418,7 +1418,7 @@ background: url("../images/bkg-bottom-img.png") 10px bottom no-repeat transparen
 .col2-left-layout .products-grid,
 .col2-right-layout .products-grid { /*width:632px; margin:0 auto;*/ }
 .col1-layout .products-grid { /*width:790px; margin:0 auto;*/ }
-.category-products .products-grid li.item{ min-height: 284px; margin-right:25px;}
+.category-products .products-grid li.item{ min-height: 284px; margin-right:25px; border-right: 1px dotted #ccc;border-bottom: 1px dotted #ccc;padding-right: 17px; padding-bottom: 18px; }
 .col1-layout .category-products .products-grid li.item{margin-right:29px;}
 .col3-layout .products-grid li.item{margin-right:18px;}
 
