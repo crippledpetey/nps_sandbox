@@ -55,5 +55,13 @@ jQuery(document).ready(function($){
 	  clearDisplayGrid("ul.products-grid");
 	  normalizeDropContainers();
 	});
+
+	$(".layer-helper-toggle").hover(function(){
+		$(this).siblings(".layer-helper-content").addClass("active");
+		$(this).siblings(".layer-helper-content").offset();
+		$(this).siblings(".layer-helper-content").css({"top":$(this).siblings(".layer-helper-content").offset(), });
+	}, function(){
+		$(this).siblings(".layer-helper-content").removeClass("active");
+	});
 	
 });
