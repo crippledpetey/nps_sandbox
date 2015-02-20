@@ -3511,3 +3511,10 @@ input[type="checkbox"]:focus {
 	-webkit-box-sizing: border-box;
 	background: #fff;
 }
+.prd-fancybox > img {
+	max-width: 150px;
+	border: 2px solid rgba(87, 202, 237,.8);
+	padding: 5px;
+	background: #fff;
+	box-shadow: 1px 1px 5px #999;
+}

@@ -132,16 +132,26 @@ jQuery(document).ready(function($){
                 }
             }
         },
-        onStart: function(){
-          
-        },
-        onComplete: function(){
-            
-        },
     }); 
 
     //product description fancybox
-    $(".prd-fancybox").fancybox(); 
+    $(".prd-fancybox").fancybox({
+        topRatio        : .1,
+        cyclic          : true,
+        autoScale       : true,
+        showCloseButton : true,
+        showNavArrows   : true,
+        helpers         : {
+            overlay : {
+                css : {
+                    "height" : $(document).height(),
+                    'background' : 'rgba(87, 202, 237, 0.3)'
+                }
+            }
+        },
+    }); 
+    $(".prd-fancybox > img").addClass("tooltip");
+    $(".prd-fancybox > img").attr("title","Click here to view larger!");
 
     //instantiate tooltips
     $(".tooltips").tooltip();
