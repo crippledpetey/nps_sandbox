@@ -235,8 +235,25 @@
                     <?php } ?>
 
                 <?php if($_filter->getItemsCount() && $_filter->getName() !== 'Price') : ?>
-                    <dt><?php echo $this->__($_filter->getName()) ?></dt>
-                    <dd><?php echo $_filter->getHtml() ?></dd>
+                    <dt>
+                        <?php
+                            $clean_attr_title = $this->__($_filter->getName()); 
+                            echo $clean_attr_title;
+                        ?>
+                    </dt>
+                    <dd>
+                        <?php 
+                            $clean_attr_val = $_filter->getHtml();
+
+                            //check for editing
+                            if( in_array( strtolower( $clean_attr_title ), array('weight') ) ){
+                                $currency_code = Mage::app()->getLocale()->currency('[CURRENCY_CODE]')->getSymbol();
+                                echo str_replace($currency_code, '', $clean_attr_val);
+                            } else {
+                                echo $clean_attr_val;
+                            }
+                        ?>
+                    </dd>
                 <?php endif; ?>
                 <?php endforeach; ?>
             </dl>
@@ -245,4 +262,3 @@
     </div>
 </div>
 <?php endif; ?>
-<!--<script type="text/javascript" src="/skin/frontend/ebajes/default/js/nps_product_drop.js"></script>-->
