@@ -728,10 +728,13 @@ tr.summary-details-excluded { font-style:italic; }
 .link-compare { }
 .link-print { /*background:url(../images/i_print.gif) 0 2px no-repeat; padding:2px 0 2px 25px;*/ font-weight:bold; color:#dc6809; }
 .link-rss { background:url(../images/i_rss.gif) 0 2px no-repeat; padding-left:18px; line-height:14px; white-space:nowrap; }
-.btn-remove  { display:block; width:20px; height:20px; font-size:0; line-height:0; background:url(../images/btn_remove.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
+.btn-remove  { transition: all .4s; -webkit-transition: all .4s; -moz-transition: all .4s; display:block; width:20px; height:20px; font-size:0; line-height:0; background:url(../images/btn_remove.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
 .btn-previous  { display:block; width:11px; height:11px; font-size:0; line-height:0; background:url(../images/btn_previous.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
 .btn-remove2 { display:block; width:20px; height:20px; font-size:0; line-height:0; background:url(../images/btn_remove.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
 .btn-edit    { display:block; width:11px; height:11px; font-size:0; line-height:0; background:url(../images/btn_edit.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
+.btn-remove:hover, .btn-remove2:hover {
+	background:url(../images/btn_remove_hover.gif);
+}
 
 .cards-list dt { margin:5px 0 0; }
 .cards-list .offset { padding:2px 0 2px 20px; }
@@ -1188,10 +1191,13 @@ transition: background-color 250ms ease-in-out 0s;}
 .block-layered-nav .currently .label { font-weight:bold; padding-left:15px; background:url(../images/bkg_block-layered-label.gif) 0 4px no-repeat; text-transform:uppercase; display:inline-block; vertical-align:top; }
 .block-layered-nav .currently .value { display:inline-block; vertical-align:top; }
 .block-layered-nav .currently .btn-previous,
-.block-layered-nav .currently .btn-remove { position:absolute; right:4px; top:9px; margin:0; }
+.block-layered-nav .currently .btn-remove { position:absolute; right:4px; top:5px; margin:0; }
+.block-layered-nav .currently .btn-remove:hover {background-color: rgba(223,12,18,.9);}
 .block-layered-nav .currently .btn-previous { right:17px; }
 .block-layered-nav .actions { font-size:11px; padding:4px 5px 4px 9px; background:#cad6e4; border:1px solid #dee5e8; border-width:1px 0; text-align:right; }
 .block-layered-nav .actions a { float:none; }
+
+.block-layered-nav .currently .block-subtitle {height: 15px;line-height: 28px;color: #999;font-style: italic;font-size: 11px;}
 
 #price-layer-nav-outer > ol { margin-left: 10px;border-bottom: 1px dotted #d9d9d9; padding-bottom: 5px; margin-right: 10px; }
 #price-range-input {margin: 5px 20px 50px 20px;}

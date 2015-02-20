@@ -13,7 +13,9 @@ class productDrop {
 	}
 
 	public function getLayerID($_filter){
-		return $_filter->getAttributeModel()->getAttributeCode();
+		if( $_filter->getType() == 'catalog/layer_filter_attribute' ){
+			return $_filter->getAttributeModel()->getAttributeCode();
+		}
 	}
 }
 

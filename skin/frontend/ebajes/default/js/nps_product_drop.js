@@ -64,7 +64,12 @@ jQuery(document).ready(function($){
 
 		var offset = $(this).offset();
 		$(this).siblings(".layer-helper-content").addClass("active");
-		$(this).siblings(".layer-helper-content").css({"top": offset.top - 10, 'left': offset.left + 30});
+		if( $(window).width() > 740 ){
+			var leftVal = offset.left + 30;
+		} else {
+			var leftVal = offset.left - 75;
+		}
+		$(this).siblings(".layer-helper-content").css({"top": offset.top - 10, 'left': leftVal });
 	});
 
 	//close dialogue on click of close button

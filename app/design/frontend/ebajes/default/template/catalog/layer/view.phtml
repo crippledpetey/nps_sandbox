@@ -40,7 +40,7 @@ $nps_filter = new productDrop;
 <?php if($this->canShowBlock()): ?>
 <div class="block block-layered-nav">
     <div class="block-title">
-        <strong><span><?php echo $this->__('Shop By') ?></span></strong>
+        <strong><span><?php echo $this->__('Narrow Your Results') ?></span></strong>
     </div>
     <div class="block-content" style="padding-top: 0;">
         <?php echo $this->getStateHtml() ?>
@@ -48,7 +48,7 @@ $nps_filter = new productDrop;
             <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
         <?php endif; ?>
         <?php if($this->canShowOptions()): ?>
-            <p class="block-subtitle" STYLE="background: #D9D9D9;padding-top: 10px;border-top: 2px solid #FFF;"><?php echo $this->__('Shopping Options') ?></p>
+            <!-- <p class="block-subtitle" STYLE="background: #D9D9D9;padding-top: 10px;border-top: 2px solid #FFF;"><?php echo $this->__('Shopping Options') ?></p> -->
             <dl id="narrow-by-list">
                 <?php 
 
@@ -150,7 +150,7 @@ $nps_filter = new productDrop;
                 ?>
                     <dt>Price Range:</dt>
                     <dd id="price-layer-nav-outer" style="padding: 0 0 10px 0;">
-                        <?php echo $_filter->getHtml() ?>
+                        <?php echo str_replace('<span class="price">$0.00</span> - ', 'below ', $_filter->getHtml() ) ?>
                         <div id="price-range-input" class="hidden"></div>
                         <div id="price-range-number-box">
                             <div class="price-number-input-wrapper">
@@ -195,8 +195,10 @@ $nps_filter = new productDrop;
                 <?php if($_filter->getItemsCount() && $_filter->getName() !== 'Price') : ?>
                     <dt>
                         <?php $clean_attr_title = $this->__($_filter->getName()); //clean up attribute title for processing?>
-                        <?php echo $clean_attr_title; ?>
-                        <?php if( Mage::getModel('cms/block')->load('attr_help_' . $nps_filter->getLayerID( $_filter ) )->getIsActive() ){ //check for a static help block ?>
+                        <?php echo $clean_attr_title; ?>                     
+
+                        <?php 
+                            if( Mage::getModel('cms/block')->load('attr_help_' . $nps_filter->getLayerID( $_filter ) )->getIsActive() ){ //check for a static help block ?>
                         <span class="layer-helper-toggle">?</span>
                         <div class="layer-helper-content escapable">
                             <span class="close-content-helper">X</span>
