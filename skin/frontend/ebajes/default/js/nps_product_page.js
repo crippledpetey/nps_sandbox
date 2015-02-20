@@ -96,5 +96,16 @@ jQuery(document).ready(function($){
 	$(".product-image-zoom > img").width("278");
 	$(".product-image-zoom > img").height("278");
 
+	//check for preselected finish
+	$(".preselected-finish .inventory-controller select option").each(function(){
+		console.log( 'found '+$(this).val() );
+		if ($(this).attr('value') == $(".preselected-finish").data('finishId') ) {
+	        $(this).attr("selected",true);
+	    } else {
+	        $(this).removeAttr("selected");
+	    }
+	});
+	console.log("madeit");
+
 });
 

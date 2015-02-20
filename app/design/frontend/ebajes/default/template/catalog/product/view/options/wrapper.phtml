@@ -23,8 +23,27 @@
  * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+
+	//check for preselected finish
+	$prd_options_class = null;
+	$prd_options_data = null;
+	if( !empty( $_GET ) ){
+		$check_vals = array('npsf'=>array('class'=>' preselected-finish ', 'data'=>'finish-id') );
+		foreach ($check_vals as $key => $value) {
+			if(isset( $_GET[ $key ] ) ){
+				//check for class information
+				if( !empty( $value['class'] ) ){
+					$prd_options_class .= $value['class'];
+				}
+				//check for data information
+				if( !empty( $value['data'] ) ){
+					$prd_options_data = ' data-' . $value['data'] . '="' . $_GET[$key] . '" ';
+				}
+			}
+		}
+	}
 ?>
-<div class="product-options" id="product-options-wrapper">
+<div class="product-options <?php echo $prd_options_class; ?>" id="product-options-wrapper" <?php echo $prd_options_data; ?>>
     <?php echo $this->getChildHtml('', true, true);?>
     <?php if ($this->hasRequiredOptions()):?>
         <p class="required"><?php echo $this->__('* Required Fields') ?></p>

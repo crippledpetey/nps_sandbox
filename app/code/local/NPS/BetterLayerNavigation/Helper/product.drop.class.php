@@ -5,7 +5,10 @@ CUSTOM DROP PHP FUNCTIONS
 class productDrop {
 
 	public function __construct(){
-		$this->connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+		//database read adapter 
+		$this->sqlread = Mage::getSingleton('core/resource')->getConnection('core_read');
+		$this->sqlwrite = Mage::getSingleton('core/resource')->getConnection('core_write');
+		//database table prefix
         $this->tablePrefix = (string) Mage::getConfig()->getTablePrefix();
 
         // transfer relation
@@ -16,6 +19,38 @@ class productDrop {
 		if( $_filter->getType() == 'catalog/layer_filter_attribute' ){
 			return $_filter->getAttributeModel()->getAttributeCode();
 		}
+	}
+
+	public function getContainerProductID( $entity_id ){
+		$query = "SELECT p.product_id FROM catalog_product_option AS p INNER JOIN nps_dev.catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN nps_dev.catalog_product_entity AS e ON e.sku = o.sku WHERE e.entity_id = " . $entity_id;
+		return $this->sqlread->fetchAll( $query );
+	}
+	public function getChildOptionTypeID( $entity_id ){
+		$query = "SELECT o.option_type_id FROM nps_dev.catalog_product_option AS p INNER JOIN nps_dev.catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN nps_dev.catalog_product_entity AS e ON e.sku = o.sku WHERE e.entity_id = " . $entity_id;
+		return $this->sqlread->fetchAll( $query );
+	}
+	public function getContainerProductURL( $entity_id, $manual_get=null ){
+		//get parents entity
+		$entity_id = $this->getContainerProductID( $entity_id )[0]['product_id'];
+
+		//compile url base
+		$url = Mage::getBaseUrl() . Mage::getResourceModel('catalog/product')->getAttributeRawValue($entity_id, 'url_key', Mage::app()->getStore()->getStoreId() );
+
+		//compile get
+		if( !empty( $manual_get ) ){
+			$url .='.html?';
+			//compile get
+			if(is_array( $manual_get ) ){
+				foreach ($manual_get as $key => $value) {
+					$url .= $key . '=' . $value .'&';
+				}
+				$url = substr($url, 0, -1);
+			} else {
+				$url .= $manual_get;
+			}
+		}
+
+		return $url;
 	}
 }
 
