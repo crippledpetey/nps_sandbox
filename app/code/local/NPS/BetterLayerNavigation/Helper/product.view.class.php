@@ -86,14 +86,16 @@ class productView {
 
 			$data_array = json_decode('{' . $root_elem['json'] . '}', TRUE);
 			$replace_value = null;
-			foreach ($data_array as $key => $info) {
-				if (!empty($this->shortcode_functions[$key])) {
-					$function = $this->shortcode_functions[$key];
-					$replace_value = $this->$function($info);
+			if (count($data_array) > 0) {
+				foreach ($data_array as $key => $info) {
+					if (!empty($this->shortcode_functions[$key])) {
+						$function = $this->shortcode_functions[$key];
+						$replace_value = $this->$function($info);
+					}
 				}
-			}
 
-			$content = str_replace($root_elem['code_string'], $replace_value, $content);
+				$content = str_replace($root_elem['code_string'], $replace_value, $content);
+			}
 		}
 
 		return $content;
