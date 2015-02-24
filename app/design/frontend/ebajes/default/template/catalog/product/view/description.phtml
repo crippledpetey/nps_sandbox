@@ -35,7 +35,7 @@
     <h2><?php echo $this->__('Product Description') ?></h2>
     <div class="std">
         <?php
-	        require_once('/app/code/local/NPS/BetterLayerNavigation/Helper/product.view.class.php');
+	        require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.view.class.php');
 	        $nps_product_description = new productView;
 
         	$shortcodes = array(
