@@ -60,7 +60,7 @@ $nps_prdctrl = new productDrop;
         GET THE URL FOR LINKING TO THE CORRECT PAGE
         */
         //set the url for products to compensate for those with parents
-        if( $nps_prdctrl->getChildOptionTypeID( $_product->getId() )[0]['option_type_id'] ){
+        if( $nps_prdctrl->getChildOptionTypeID( $_product->getId() ) ){
             $nps_args = array(
                 'npsf'=> $nps_prdctrl->getChildOptionTypeID( $_product->getId() )[0]['option_type_id'],
                 );
@@ -120,7 +120,7 @@ $nps_prdctrl = new productDrop;
         GET THE URL FOR LINKING TO THE CORRECT PAGE
         */
         //set the url for products to compensate for those with parents
-        if( $nps_prdctrl->getChildOptionTypeID( $_product->getId() )[0]['option_type_id'] ){
+        if( $nps_prdctrl->getChildOptionTypeID( $_product->getId() ) ){
             $nps_args = array(
                 'npsf'=> $nps_prdctrl->getChildOptionTypeID( $_product->getId() )[0]['option_type_id'],
                 );
