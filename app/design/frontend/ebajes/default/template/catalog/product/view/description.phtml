@@ -35,34 +35,24 @@
     <h2><?php echo $this->__('Product Description') ?></h2>
     <div class="std">
         <?php
-	        require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.view.class.php');
-	        $nps_product_description = new productView;
+	        require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/nps.shortcodes.class.php');
+	        $npsSC = new needPlumbingShortcodes;
 
-        	$shortcodes = array(
-        			'<a class="prd-fancybox" rel="desc-group" href="http://images.needplumbingsupplies.com/prd_body/%#%"rc="http://i.imgur.com/edXmMPo.png" alt="" class="tooltip" title="Click for larger view"></a>',
-        		); 
-
-        	//check for custom shortcodes
+        	//get the description
         	$prd_desc = $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description');
 
         	//get array of description shortcode locations
-        	$shortcodes = $nps_product_description->getShotcodeLocations( $prd_desc );
+        	$shortcodes = $npsSC->getShotcodeLocations( $prd_desc );
         	
+        	//if there are shortcodes process them
         	if( $shortcodes ){
-        		$shortcodes = $nps_product_description->getShortcodeData( $shortcodes, $prd_desc );
-        		$prd_desc = $nps_product_description->processShortcodeData( $shortcodes, $prd_desc );
+        		//get the data
+        		$shortcodes = $npsSC->getShortcodeData( $shortcodes, $prd_desc );
+        		//reset the description with the new shortcodes
+        		$prd_desc = $npsSC->processShortcodeData( $shortcodes, $prd_desc );
         	}
 
-        	/*
-
-        	//check for shortcode
-        	if( stripos($prd_desc, '{[{') ){
-        		//get value
-        		$code = substr($prd_desc, stripos( $prd_desc, '{[{'), ( stripos( $prd_desc, '}]}') -stripos( $prd_desc, '{[{') + 3 ) );
-
-        		$shortcode = str_replace(array('{[',']}'), null, $code);
-        		foreach()
-        	}*/
+        	//ouput description
         	echo $prd_desc;
         ?>
     </div>

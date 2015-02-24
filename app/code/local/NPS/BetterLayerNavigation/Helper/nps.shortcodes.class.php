@@ -2,7 +2,7 @@
 /**
 CUSTOM DROP PHP FUNCTIONS
  */
-class productView {
+class needPlumbingShortcodes {
 
 	public function __construct() {
 		//database read adapter

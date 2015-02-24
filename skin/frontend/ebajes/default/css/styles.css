@@ -1230,11 +1230,10 @@ transition: background-color 250ms ease-in-out 0s;}
 }
 #price-range-number-input-apply{margin: 2px auto 0 auto;display: block;}
 
-.price-tooltip {
+.price-tooltip,.ui-tooltip {
     display: block;
     border: 1px solid #D9D9D9;
     font: 400 12px/12px Arial;
-    border-radius: 3px;
     background: #fff;
     padding: 5px;
     text-align: center;
@@ -1265,11 +1264,11 @@ transition: background-color 250ms ease-in-out 0s;}
     border: 1px solid #fff;
 }
 .ui-tooltip {
-  	display: inline-block;
+	display: inline-block;
   	width: auto;
-    padding: 10px 20px;
-    color: white;
-    border-radius: 7px;
+  	max-width: 380px;
+    padding: 7px 20px;
+    color: white !important;
     font-weight: bold;
     font-size: 11px;
     text-transform: uppercase;
@@ -1402,7 +1401,7 @@ transition: background-color 250ms ease-in-out 0s;}
 /* View Type: Grid */
 .products-grid { position:relative;}
 .products-grid.last { border-bottom:0; }
-.products-grid li.item { float:left; width:162px; padding:0; margin-right: 25px;margin-bottom: 20px;
+.products-grid li.item { float:left; width:162px; padding:0; margin-right: 25px;margin-bottom: 20px;height: 395px;overflow: hidden;
 -moz-transition: all 200ms ease;
 -webkit-transition: all 200ms ease;
 -o-transition: all 200ms ease;
@@ -1410,7 +1409,7 @@ transition: all 200ms ease;}
 .products-grid .product-image { display:block; margin:0 0 10px;
 background: url("../images/bkg-bottom-img.png") 10px bottom no-repeat transparent; padding-bottom:3px;}
 .products-grid .product-image img { max-width:100%;border:1px solid #e3e1e3;border-bottom: 1px solid #bcbcbc;}
-.products-grid .product-name { /*min-height:2.7em;*/ margin:0 0 5px; }
+.products-grid .product-name { /*min-height:2.7em;*/ margin:0 0 5px; height: 105px; }
 .products-grid .product-name a {}
 .products-grid .price-box { margin:5px 0 10px; }
 .products-grid .availability { line-height:21px; }
@@ -3513,8 +3512,17 @@ input[type="checkbox"]:focus {
 }
 .prd-fancybox > img {
 	max-width: 150px;
-	border: 2px solid rgba(87, 202, 237,.8);
 	padding: 5px;
+	margin: 10px 15px 20px 15px;
 	background: #fff;
-	box-shadow: 1px 1px 5px #999;
+	border: solid 1px #CCC;
+	-moz-box-shadow: 1px 1px 5px  #999; 
+	-webkit-box-shadow: 1px 1px 5px  #999; 
+	box-shadow: 1px 1px 5px  #999;  
+}
+a.prd-fancybox:hover > img { 
+	border: solid 1px #CCC; 
+	-moz-box-shadow: 5px 5px 15px #999; 
+	-webkit-box-shadow: 5px 5px 15px #999; 
+	box-shadow: 5px 5px 15px #999;
 }

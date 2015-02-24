@@ -5,11 +5,12 @@ jQuery(document).ready(function($){
 		remvClearer(elem);
 
 		//get number of items to show
-		var availTiles = Math.floor(  $(elem).width() / $("ul.products-grid > li:first-child").outerWidth() );
+		var tileMargin = $("ul.products-grid > li:first-child").css("margin-right");
+		tileMargin = parseInt(tileMargin);
+		var availTiles = Math.floor(  $(elem).width() / ( $("ul.products-grid > li:first-child").outerWidth() + tileMargin ) );
 		
 		//set start for counting iterations
 		var i = 1;
-
 
 		//cycle through each product item
 		$("ul.products-grid").children("li").each(function(){
