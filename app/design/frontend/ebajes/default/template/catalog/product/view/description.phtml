@@ -34,6 +34,36 @@
 <?php if ($_description): ?>
     <h2><?php echo $this->__('Product Description') ?></h2>
     <div class="std">
-        <?php echo $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description') ?>
+        <?php
+	        require_once('/app/code/local/NPS/BetterLayerNavigation/Helper/product.view.class.php');
+	        $nps_product_description = new productView;
+
+        	$shortcodes = array(
+        			'<a class="prd-fancybox" rel="desc-group" href="http://images.needplumbingsupplies.com/prd_body/%#%"rc="http://i.imgur.com/edXmMPo.png" alt="" class="tooltip" title="Click for larger view"></a>',
+        		); 
+
+        	//check for custom shortcodes
+        	$prd_desc = $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description');
+
+        	//get array of description shortcode locations
+        	$shortcodes = $nps_product_description->getShotcodeLocations( $prd_desc );
+        	
+        	if( $shortcodes ){
+        		$shortcodes = $nps_product_description->getShortcodeData( $shortcodes, $prd_desc );
+        		$prd_desc = $nps_product_description->processShortcodeData( $shortcodes, $prd_desc );
+        	}
+
+        	/*
+
+        	//check for shortcode
+        	if( stripos($prd_desc, '{[{') ){
+        		//get value
+        		$code = substr($prd_desc, stripos( $prd_desc, '{[{'), ( stripos( $prd_desc, '}]}') -stripos( $prd_desc, '{[{') + 3 ) );
+
+        		$shortcode = str_replace(array('{[',']}'), null, $code);
+        		foreach()
+        	}*/
+        	echo $prd_desc;
+        ?>
     </div>
 <?php endif; ?>
