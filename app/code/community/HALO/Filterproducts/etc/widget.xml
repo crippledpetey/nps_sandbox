@@ -49,6 +49,10 @@
                         <value>sale_off</value>
                         <label>Sale Off</label>
                     </sale_off>
+                    <homepage_feat translate="label">
+                        <value>homepage_feat</value>
+                        <label>Featured on Homepage</label>
+                    </homepage_feat>
                 </values>
             </type_filter>
             <category translate="label">
