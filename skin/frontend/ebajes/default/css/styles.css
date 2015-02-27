@@ -1426,10 +1426,11 @@ background: url("../images/bkg-bottom-img.png") 10px bottom no-repeat transparen
 
 
 /* View Type: List */
-.products-list li.item { padding:0; margin-bottom:15px;-moz-transition: all 200ms ease;
+.products-list li.item { padding:15px 10px 5px 12px; margin-bottom:15px;-moz-transition: all 200ms ease;
 -webkit-transition: all 200ms ease;
 -o-transition: all 200ms ease;
 transition: all 200ms ease;}
+.products-list li.item.even {background-color: #fff;}
 .products-list li.item.last { border-bottom:0; }
 .products-list .product-image { float:left; margin:0 15px 10px 0; 
 background: url("../images/bkg-bottom-img.png") 10px bottom no-repeat transparent; padding-bottom:3px;}
