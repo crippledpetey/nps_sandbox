@@ -105,6 +105,22 @@ jQuery(document).ready(function($){
         var redir = $(this).data('url')+"price="+priceLow+'-'+priceHi;
         window.location.replace(redir)
 	});
-	    
+
+
+	/* SHORT DESCRIPTION HOVER FUNCTION */
+	$(".grid-short-desc-toggle").hover(function(){
+
+		$(this).siblings(".grid-short-description").slideDown(600, function(){
+			$(this).siblings(".grid-short-desc-toggle").empty();
+			$(this).siblings(".grid-short-desc-toggle").html("&#x25B2;");
+		});
+		
+	});
 	
+	$(".grid-short-description").mouseleave( function(){
+		$(this).slideUp(400,function(){
+			$(this).siblings(".grid-short-desc-toggle").empty();
+			$(this).siblings(".grid-short-desc-toggle").html("&#x25BC;");
+		});		
+	});
 });

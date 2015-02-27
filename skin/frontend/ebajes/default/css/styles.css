@@ -1401,7 +1401,7 @@ transition: background-color 250ms ease-in-out 0s;}
 /* View Type: Grid */
 .products-grid { position:relative;}
 .products-grid.last { border-bottom:0; }
-.products-grid li.item { float:left; width:162px; padding:0; margin-right: 25px;margin-bottom: 20px;height: 395px;overflow: hidden;
+.products-grid li.item { float:left; width:162px; padding:0; margin-right: 25px;margin-bottom: 20px;height: 420px;overflow: hidden;
 -moz-transition: all 200ms ease;
 -webkit-transition: all 200ms ease;
 -o-transition: all 200ms ease;
@@ -3525,4 +3525,24 @@ a.prd-fancybox:hover > img {
 	-moz-box-shadow: 5px 5px 15px #999; 
 	-webkit-box-shadow: 5px 5px 15px #999; 
 	box-shadow: 5px 5px 15px #999;
+}
+.grid-short-description.inactive {
+	
+}
+.grid-short-description {
+	display: none;
+	position: absolute;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 170px;
+	background: rgba(255, 255, 255, .88);
+	padding: 25px 10px 30px 10px;
+	border: 1px solid #d9d9d9;
+	box-shadow: 2px 3px 9px rgba(0,0,0,.1);
+}
+.grid-short-desc-toggle {
+	text-align: center;
+	border-top: 1px dotted #d9d9d9;
+	cursor: pointer;
 }
