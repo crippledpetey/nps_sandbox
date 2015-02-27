@@ -81,39 +81,38 @@ $nps_prdctrl = new productDrop;
                     <?php echo $this->getReviewsSummaryHtml($_product) ?>
                     <?php endif; ?>
                     <?php echo $this->getPriceHtml($_product, true) ?>
-                    <?php $_description = $_product->getShortDescription(); ?>
-                    <?php if ($_description): ?>
-                        <div class="short-description">
-                            <?php
-                                require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/nps.shortcodes.class.php');
-                                $npsSC = new needPlumbingShortcodes;
-
-                                //get the description
-                                $prd_desc = $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description');
-
-                                //get array of description shortcode locations
-                                $shortcodes = $npsSC->getShotcodeLocations( $prd_desc );
-                                
-                                //if there are shortcodes process them
-                                if( $shortcodes ){
-                                    //get the data
-                                    $shortcodes = $npsSC->getShortcodeData( $shortcodes, $prd_desc );
-                                    //reset the description with the new shortcodes
-                                    $prd_desc = $npsSC->processShortcodeData( $shortcodes, $prd_desc );
-                                }
-
-                                //ouput description
-                                echo $prd_desc;
-                            ?>
-                        </div>
-                    <?php endif; ?>
                     <?php if($_product->isSaleable()): ?>
                         <p><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
                     <?php else: ?>
                         <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                     <?php endif; ?>
                     <div class="desc std">
-                        <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                        <?php $_description = $_product->getShortDescription(); ?>
+                        <?php if ($_description): ?>
+                            <div class="short-description">
+                                <?php
+                                    require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/nps.shortcodes.class.php');
+                                    $npsSC = new needPlumbingShortcodes;
+
+                                    //get the description
+                                    $prd_desc = $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description');
+
+                                    //get array of description shortcode locations
+                                    $shortcodes = $npsSC->getShotcodeLocations( $prd_desc );
+                                    
+                                    //if there are shortcodes process them
+                                    if( $shortcodes ){
+                                        //get the data
+                                        $shortcodes = $npsSC->getShortcodeData( $shortcodes, $prd_desc );
+                                        //reset the description with the new shortcodes
+                                        $prd_desc = $npsSC->processShortcodeData( $shortcodes, $prd_desc );
+                                    }
+
+                                    //ouput description
+                                    echo $prd_desc;
+                                ?>
+                            </div>
+                        <?php endif; ?>
                         <a href="<?php echo $_parentprdURL ?>" title="<?php echo $_productNameStripped ?>" class="link-learn"><?php echo $this->__('Learn More') ?></a>
                     </div>
                     <ul class="add-to-links">
