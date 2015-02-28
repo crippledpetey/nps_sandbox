@@ -233,8 +233,8 @@ $nps_prdctrl = new productDrop;
                 </div>
                 <?php $_description = $_product->getShortDescription(); ?>
                 <?php if ($_description): ?>
-                    <div class="grid-short-desc-toggle inactive">&#x25BC;</div>
-                    <div class="grid-short-description inactive">
+                    <div class="grid-short-desc-toggle">&#x25BC;</div>
+                    <div class="grid-short-description"><span class="close-shortdesc">X</span>
                         <?php
                             require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/nps.shortcodes.class.php');
                             $npsSC = new needPlumbingShortcodes;

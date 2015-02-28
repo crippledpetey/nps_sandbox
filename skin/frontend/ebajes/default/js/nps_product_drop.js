@@ -82,6 +82,12 @@ jQuery(document).ready(function($){
         //if escape key is pressed
         if (e.keyCode == 27) { 
             $(".active.escapable").removeClass("active");
+            $(".grid-short-description").each(function(){
+            	$(this).slideUp(400,function(){
+					$(this).siblings(".grid-short-desc-toggle").empty();
+					$(this).siblings(".grid-short-desc-toggle").html("&#x25BC;");
+				});		
+            });
         }  
     });
 
@@ -113,12 +119,11 @@ jQuery(document).ready(function($){
 		$(this).siblings(".grid-short-description").slideDown(600, function(){
 			$(this).siblings(".grid-short-desc-toggle").empty();
 			$(this).siblings(".grid-short-desc-toggle").html("&#x25B2;");
-		});
-		
+		});	
 	});
 	
-	$(".grid-short-description").mouseleave( function(){
-		$(this).slideUp(400,function(){
+	$(".grid-short-description > .close-shortdesc").click( function(){
+		$(this).parent(".grid-short-description").slideUp(400,function(){
 			$(this).siblings(".grid-short-desc-toggle").empty();
 			$(this).siblings(".grid-short-desc-toggle").html("&#x25BC;");
 		});		

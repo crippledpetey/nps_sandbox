@@ -3547,3 +3547,21 @@ a.prd-fancybox:hover > img {
 	border-top: 1px dotted #d9d9d9;
 	cursor: pointer;
 }
+
+.grid-short-description > .close-shortdesc {
+	float: right;
+	position: relative;
+	top: -20px;
+	right: -5px;
+	display: inline-block;
+	border: 1px solid red;
+	border-radius: 10px;
+	width: 10px;
+	height: 10px;
+	font-size: 9px;
+	line-height: 10px;
+	text-align: center;
+	color: #fff;
+	background: rgba(255, 12, 18, .5);
+	cursor: pointer;
+}
