@@ -16,6 +16,7 @@ class needPlumbingShortcodes {
 
 		$this->shortcode_functions = array(
 			'prd_body_img' => 'productDescriptionLightboxImage',
+			'prd_link' => 'productLink',
 		);
 	}
 
@@ -113,6 +114,30 @@ class needPlumbingShortcodes {
 			$title = $data['t'];
 			$image_title = 'title="' . $title . '" class="tooltip" ';}
 		return '<a class="prd-fancybox" rel="desc-group" href="' . $src . '" title="' . $title . '"><img src="' . $src . '" alt="' . $alt . '" ' . $image_title . '></a>';
+	}
+
+	public function productLink($data) {
+		if (!empty($data['id'])) {
+
+			//set the entity ID
+			$entity = $data['id'];
+
+			//check for blank
+			$blank = null;
+			if (isset($data['blank'])) {
+				$blank = ' target="_blank" ';
+			}
+			//start product model
+			$productModel = Mage::getModel('catalog/product');
+			$product = $productModel->load($entity);
+			//set values
+			$manufacturer = $product->getResource()->getAttribute('manufacturer')->getFrontend()->getValue($product);
+			$prd_title = $product->getName();
+			$link_text = $manufacturer . ' ' . $product->getData('sku') . ' ' . $prd_title;
+			$url_key = $product->getData('url_key');
+			//output the value
+			return '<a class="inhouse-product-link" title="Click here to view the ' . $link_text . '" href="/' . $url_key . '.html"' . $blank . '>' . $manufacturer . ' ' . $product->getData('sku') . '</a>';
+		}
 	}
 }
 
