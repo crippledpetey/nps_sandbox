@@ -103,7 +103,7 @@
 									echo '<div id="feat-brands-inner"><ul>';
 									
 									foreach( $manu_logos as $logo ){
-										echo '<li><a title="Shop by brand - ' . $logo['name'] . '" href="#"><img id="brand-logo-' . strtolower( $logo['name'] ) . '" src="' . $logo['src'] . '" alt="' . $logo['name'] . ' Logo" /> </a></li>';
+										echo '<li><a title="Shop by brand - ' . $logo['name'] . '" href="/brands/' . strtolower( $logo['name'] ) . '.html"><img id="brand-logo-' . strtolower( $logo['name'] ) . '" src="' . $logo['src'] . '" alt="' . $logo['name'] . ' Logo" /> </a></li>';
 									}
 									
 									echo '</ul></div>';
@@ -111,7 +111,6 @@
 							</div>
 							<div id="brands-list">
 								<h2>Shop All Our Brands</h2>
-								<p class="note">This and all subsequent lists will populate based on DB values once products have been inserted and can be used for testing</p>
 								<div id="brand-toc">
 									<?php 
 										echo '<ul>';
@@ -134,7 +133,7 @@
 									<h3><?php echo strtoupper( $key ); ?></h3>
 									<ul>
 										<?php foreach( $all_manus[ $key ] as $let=>$manu ){ ?>
-											<li><a title="<?php echo $manu['name'] ?>" href="/<?php echo str_replace(' ','-',strtolower( $manu['name'] ) ) ?>"><?php echo $manu['name'] ?></a></li>
+											<li><a title="<?php echo $manu['name'] ?>" href="/brands/<?php echo strtolower( $manu['name'] ) ?>.html"><?php echo $manu['name'] ?></a></li>
 										<?php } ?>
 									</ul>
 								</div>
