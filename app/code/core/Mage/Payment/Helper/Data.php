@@ -96,7 +96,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract {
 	public function getMethodFormBlock(Mage_Payment_Model_Method_Abstract $method) {
 		$block = false;
 		$blockType = $method->getFormBlockType();
-		echo get_class($method) . '--' . $blockType . '<br />';
+		//echo get_class($method) . '--' . $blockType . '<br />';
 		if ($this->getLayout()) {
 			$block = $this->getLayout()->createBlock($blockType);
 			$block->setMethod($method);
