@@ -47,7 +47,7 @@
         </blocks>
         <helpers>
             <ebizcharge>
-                <class>Mage_Ebizcharge_Helper</class>
+                <class>Mage_Ebizcharge_Helper_Data</class>
             </ebizcharge>
         </helpers>
         <models>

@@ -27,7 +27,6 @@ class Mage_Ebizcharge_Model_CCPaymentAction extends Mage_Payment_Model_Method_Cc
 
 	protected $_code = 'ebizcharge';
 	protected $_formBlockType = 'ebizcharge/form';
-	protected $BlockType = 'ebizcharge/form';
 	protected $_isGateway = true;
 	protected $_canAuthorize = true;
 	protected $_canCapture = true;
