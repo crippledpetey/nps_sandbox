@@ -70,6 +70,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
 		                                               ->addAttributeToSelect('name')
 		                                               ->addAttributeToSelect('sku')
 		                                               ->addAttributeToSelect('price')
+		                                               ->addAttributeToSelect('npsconfig_product_type')
 		                                               ->addStoreFilter($this->getRequest()->getParam('store'))
 		                                               ->joinField('position',
 			                                               'catalog/category_product',
@@ -92,6 +93,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
 
 	protected function _prepareColumns() {
 		$attr_set_options = Mage::getResourceModel('eav/entity_attribute_set_collection')
+			->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
+			->load()
+			->toOptionHash();
+
+		$nps_prd_type_options = Mage::getResourceModel('eav/entity_attribute_set_collection')
 			->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
 			->load()
 			->toOptionHash();
@@ -128,14 +134,29 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
 			'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
 			'index' => 'price',
 		));
+
+		/**
+		CUSTOM FIELD  -  ATTRIBTUE SET NAME
+		 **/
 		$this->addColumn('set_name', array(
 			'header' => Mage::helper('catalog')->__('Attrib. Set Name'),
 			'width' => '1',
 			'type' => 'options',
 			'index' => 'attribute_set_id',
 			'options' => $attr_set_options,
-			//'renderer'  => 'adminhtml/widget_grid_column_renderer_input'
 		));
+
+		/**
+		CUSTOM FIELD  -  PRODUCT TYPE
+		 **/
+		$this->addColumn('npsconfig_product_type', array(
+			'header' => Mage::helper('catalog')->__('Product Type'),
+			'width' => '1',
+			'type' => 'options',
+			'index' => 'npsconfig_product_type',
+			'options' => Mage::getModel('catalog/product_type')->getOptionArray(),
+		));
+
 		$this->addColumn('position', array(
 			'header' => Mage::helper('catalog')->__('Position'),
 			'width' => '1',
