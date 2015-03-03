@@ -20,8 +20,8 @@ class NPS_CustomAdminFunctions_Model_Observer {
 		$connection_write->query($sql, array($product->getTypeId(), $product->getId(), 1598));
 
 		// Write a new line to var/log/product-updates.log
-		$name = $product->getName();
-		$sku = $product->getSku();
+		/*$name = $product->getName();*/
+		/*$sku = $product->getSku();*/
 
 		/*$base_path = Mage::getBaseDir('base');*/
 		/*$test_file = fopen($base_path . DIRECTORY_SEPARATOR . 'test_file.txt', 'w+');*/
