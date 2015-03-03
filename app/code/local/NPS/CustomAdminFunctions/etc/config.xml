@@ -24,7 +24,7 @@
             <customadminfunctions>
                 <!-- use parameter specifies which of basic routers needs to be used.
 This can be "standard" for frontend or "admin" for backend -->
-                <use>standard</use>
+                <use>admin</use>
                 <!-- router arguments block -->
                 <args>
                     <!-- This parameter specifies the full name of out module -->
