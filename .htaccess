@@ -190,7 +190,6 @@
 
 ############################################
 ## SANDBOX DENY ACCESS FROM OUTSIDE NETWORKS
-
     Order deny,allow
     Deny from all
     Allow from 127.0.0.1
@@ -201,8 +200,23 @@
     Allow from 50.255.234.187
     Allow from 50.255.234.186
     Allow from 50.255.234.185
-    Allow from 71.12.97.202
+
+##JASON
     Allow from 50.173.94.122
+    Allow from 70.211.77.163
+
+##AARON
+    Allow from 73.48.207.61
+
+##BOB
+    Allow from 73.12.253.47
+
+##BRANDON
+    Allow from 73.41.95.153
+    Allow from 166.170.40.59
+
+##BRINKLEY
+   Allow from 204.93.104.58
 
 ###########################################
 ## Deny access to release notes to prevent disclosure of the installed Magento version

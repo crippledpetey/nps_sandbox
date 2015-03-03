@@ -38,7 +38,7 @@
     $name_table = $resource->getTableName('eav_attribute_option_value');
 
     $all_query = "SELECT * FROM " . $logo_table . " AS m INNER JOIN " . $name_table . " as v on m.menufecturer_name = v.option_id where `status` = 1 ORDER BY `value`";
-    $feat_query = "SELECT * FROM " . $logo_table . " AS m INNER JOIN " . $name_table . " as v on m.menufecturer_name = v.option_id where `status` = 1 AND `legend` like '%is_featured%' ";
+    $feat_query = "SELECT * FROM " . $logo_table . " AS m INNER JOIN " . $name_table . " as v on m.menufecturer_name = v.option_id where `status` = 1 AND `legend` like '%is_featured%' ORDER BY `value`";
     $feat_results = $readConnection->fetchAll($feat_query);
     $all_results = $readConnection->fetchAll($all_query);
 
@@ -120,10 +120,8 @@
 											if( $l['count'] ){
 												$linking = '<a class="smooth-scroller" title="Quick view brands starting with ' . $key . '" href="' . $l['link'] . '">' . strtoupper( $key ) . '</a>';
 											} 
-
 											echo '<li>' . $linking . '</li>';
-										}
-										
+										}										
 										echo '</ul>';
 									?>
 								</div>
@@ -137,18 +135,7 @@
 										<?php } ?>
 									</ul>
 								</div>
-								<?php  } }?>
-								<!--
-								<div id="blead-z" class="brand-name-listing">
-									<h3>Z</h3>
-									<ul>
-										<li><a title="{BRAND NAME}" href="#">{BRAND NAME}</a></li>
-										<li><a title="{BRAND NAME}" href="#">{BRAND NAME}</a></li>
-										<li><a title="{BRAND NAME}" href="#">{BRAND NAME}</a></li>
-										<li><a title="{BRAND NAME}" href="#">{BRAND NAME}</a></li>
-									</ul>
-								</div>
-								-->
+								<?php  } } ?>
 							</div>
 						</div>
                     </div>
