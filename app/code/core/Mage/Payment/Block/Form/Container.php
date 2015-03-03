@@ -42,6 +42,7 @@ class Mage_Payment_Block_Form_Container extends Mage_Core_Block_Template {
 		 * Create child blocks for payment methods forms
 		 */
 		foreach ($this->getMethods() as $method) {
+			error_log(print_r($method, true));
 			$this->setChild(
 				'payment.method.' . $method->getCode(),
 				$this->helper('payment')->getMethodFormBlock($method)
