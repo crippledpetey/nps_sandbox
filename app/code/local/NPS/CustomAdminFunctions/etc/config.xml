@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
 <config>
     <modules>
-        <NPS_CustomAdminFunctions>
+        <nps_customadminfunctions>
             <version>0.1.0</version>
-        </NPS_CustomAdminFunctions>
+        </nps_customadminfunctions>
     </modules>
     <global>        
         <events>     
@@ -28,7 +28,7 @@ This can be "standard" for frontend or "admin" for backend -->
                 <!-- router arguments block -->
                 <args>
                     <!-- This parameter specifies the full name of out module -->
-                    <module>NPS_CustomAdminFunctions</module>
+                    <module>nps_customadminfunctions</module>
                     <!-- This parameter sets module alias -->
                     <frontName>customadminfunctions</frontName>
                 </args>
