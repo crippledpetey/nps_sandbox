@@ -43,6 +43,7 @@
 		}
 	}
 ?>
+<?php if( !empty( $prd_options_data ) ){ ?> 
 <div class="product-options <?php echo $prd_options_class; ?>" id="product-options-wrapper" <?php echo $prd_options_data; ?>>
     <?php echo $this->getChildHtml('', true, true);?>
     <?php if ($this->hasRequiredOptions()):?>
@@ -50,3 +51,4 @@
     <?php endif;?>
 </div>
 <script type="text/javascript">decorateGeneric($$('#product-options-wrapper dl'), ['last']);</script>
+<?php } ?>

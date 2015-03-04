@@ -41,12 +41,15 @@
     
     //get product images for all product options
     $product_id = $_product->getId();
-    $query = "SELECT DISTINCT i.image_file FROM `catalog_product_option` AS p INNER JOIN `catalog_product_option_type_value` AS o ON o.option_id = p.option_id INNER JOIN `custom_options_option_type_image` AS i ON i.option_type_id = o.option_type_id WHERE p.product_id = " . $product_id . " ORDER BY o.sort_order";
+    echo '<h1>' . $product_id . '</h1>';
+    $option_image_query = "SELECT DISTINCT i.image_file FROM `catalog_product_option` AS p INNER JOIN `catalog_product_option_type_value` AS o ON o.option_id = p.option_id INNER JOIN `custom_options_option_type_image` AS i ON i.option_type_id = o.option_type_id WHERE p.product_id = " . $product_id . " ORDER BY o.sort_order";
+
+    $gallery_image_query = "SELECT DISTINCT i.value FROM `catalog_product_entity_media_gallery` as i INNER JOIN `catalog_product_entity_media_gallery_value` AS o ON o.value_id = i.value_id WHERE i.entity_id = " . $product_id . " ORDER BY o.position";
 
     $resource = Mage::getSingleton('core/resource');
     $readConnection = $resource->getConnection('core_read');
-    $option_images = $readConnection->fetchAll($query);
-    
+    $option_images = $readConnection->fetchAll($option_image_query);
+    $gallery_images = $readConnection->fetchAll($gallery_image_query);
 ?>
 <?php 
 
@@ -77,24 +80,37 @@
 
 <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
 
-<?php if (count($this->getGalleryImages()) > 0): ?>
+
+
+<?php 
+    $imgs = array();
+    $_images = Mage::getModel('catalog/product')->load($_product->getId())->getMediaGalleryImages();  
+    
+    if($_images){   
+        foreach($_images as $_image){ 
+            $val = '<li><a class="fancybox" rel="group" title="' . $this->htmlEscape($_image->getLabel()) . '" href="' . $this->helper('catalog/image')->init($_product, 'image', $_image->getFile()) . '"><img src="' . $this->helper('catalog/image')->init($_product, 'image', $_image->getFile()) . '" alt="' . $this->htmlEscape($_image->getLabel()) . '" /></a></li>';
+            $imgs[] = $val;
+        } 
+    }
+    
+?>
+<?php if ( count($imgs) > 0 || count($option_images) > 0 ): ?>
 <div id="product-more-views" class="more-views">
     <h2><?php echo $this->__('More Views') ?><span class="help-text"><?php echo $this->__('CLICK TO ENLARGE') ?></span></h2>
-    <?php 
-    if(!empty( $this->getGalleryImages() ) ){
-        echo '<ul>';
+    <ul>
+        <?php 
         
-        foreach ($option_images as $key=>$_image) {
-            $url = $_image['image_file'];
-
-            //output the elements
-            echo '<li>';
-            echo '  <a class="fancybox" rel="group" title="" href="/media/customoptions/' . $url . '"><img src="/media/customoptions/' . $url . '" alt="" /></a>';
-            echo '</li>';
+        if ( count($option_images) > 0) {
+            foreach ($option_images as $key=>$_image) {
+                $url = $_image['image_file'];
+                //output the elements
+                echo '<li>';
+                echo '  <a class="fancybox" rel="group" title="" href="/media/customoptions/' . $url . '"><img src="/media/customoptions/' . $url . '" alt="" /></a>';
+                echo '</li>';
+            }
         }
-        echo '</ul>';
-    } 
-?>
-
+        ?>
+        <?php echo implode( null, $imgs); ?>
+    </ul>
 </div>
 <?php endif; ?>

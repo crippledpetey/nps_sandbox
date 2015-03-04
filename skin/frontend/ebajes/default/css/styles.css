@@ -1754,10 +1754,11 @@ color: #6e6e6e; }
 .product-shop > .product-options-bottom {width: 25%;display: block;background: #fff; box-sizing: border-box; -webkit-box-sizing: border-box;}
 #product-options-wrapper {width: 65%; box-sizing: border-box; -webkit-box-sizing: border-box;}
 .product-shop > .price-box {display: none !important;}
+.add-to-box.no-options {width: 290px;border-top: 1px solid #d0d0d0;margin-top: 0;}
 
 
 /* Grouped Product */
-.product-view .grouped-items-table .price-box { margin:0; padding:0; }
+.product-view .grouped-items-table .price-box{ margin:0; padding:0; }
 .data-table.grouped-items-table td{vertical-align:middle; padding: 3px 10px;}
 .data-table.grouped-items-table td:first-child{color: #2465c6;}
 
