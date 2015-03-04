@@ -1734,7 +1734,7 @@ color: #6e6e6e; }
 .product-options p.note { margin:0; font-size:11px; }
 .product-options p.required { /*position:absolute; right:20px; top:20px; */}
 
-.product-options-bottom { padding:15px 20px; border:1px solid #d0d0d0; border-top:0; margin-bottom: 25px;}
+.product-options-bottom { padding:15px 20px;border-right: 0;}
 .product-options-bottom .product-pricing,
 .product-options-bottom .tier-prices { margin:0; padding:0 0 10px; border:0; background:0; color:#e26703; }
 .product-options-bottom .tier-prices li { background:0; padding:2px 0; }
@@ -3363,6 +3363,7 @@ input[type="checkbox"]:focus {
 	.product-collateral .box-collateral.box-additional { margin-left: 0%; }
 	/*---------- PRODUCTS VIEW ----------*/
 	.product-shop > .product-options-bottom, #product-options-wrapper { width: 100%;}
+	.product-shop > .product-options-bottom {border-right: 1px solid #d0d0d0;}
 }
 @media (min-width: 980px) and (max-width: 1439px){
 	.col-main {padding: 0px 15px 25px 15px;}
@@ -3386,6 +3387,7 @@ input[type="checkbox"]:focus {
 
 	/*---------- PRODUCTS VIEW ----------*/
 	.product-shop > .product-options-bottom, #product-options-wrapper { width: 100%;}
+	.product-shop > .product-options-bottom {border-right: 1px solid #d0d0d0;}
 }
 
 /* Smartphones (landscape) ----------- */
