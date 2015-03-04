@@ -1568,7 +1568,7 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#1a82f7), to(#2F2727))
 .col3-layout .product-view .product-img-box { float:none; margin:0 auto; }
 .product-view .product-img-box .product-image { margin:0 0 5px; background: #ffffff;}
 .product-view .product-img-box .product-image > span {display: block;width: 100%;border: 1px solid #d0d0d0;text-align: center;}
-.product-view .product-img-box .product-image img {min-height: 280px;width: auto;top:1px !important;left: 9px !important; }
+.product-view .product-img-box .product-image img {min-height: 280px;width: auto;top:1px !important;left: 1px !important; }
 .product-view .product-img-box .product-image-zoom { position:relative; width:265px; height:265px; overflow:hidden; z-index:9; }
 .product-view .product-img-box .product-image-zoom img { left:0; top:0; display: block;margin: 0 auto; width: initial !important;}
 .product-view .product-img-box .zoom-notice { font-size:11px; margin:0 0 5px; text-align:center; color: #6e6e6e;}
@@ -3514,4 +3514,7 @@ a.prd-fancybox:hover > img {
 	background-repeat: no-repeat !important;
 	background-size: initial !important;
 	background-position: center center !important; 
+}
+.include-loader-bkg.overridden {
+	background: transparent !important;
 }

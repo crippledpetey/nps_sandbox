@@ -57,7 +57,7 @@ jQuery(document).ready(function($){
 	$(".inventory-controller select").change(function(){
 		var str = $(this).find(":selected").text();
 		var current = $("#prd-page-availability").html();
-		
+		$(".include-loader-bkg").addClass("overridden");
 		if( str.search("OUT OF STOCK") > 0 || str.search("Out of stock") > 0 ){
 			//remove the out of stock flash class
 			$(".product-img-box .product-image span").removeClass("scream-out-in-stock");
