@@ -659,7 +659,7 @@ font-weight:bold; color: #000000;}
 .data-table tbody td .option-value { padding-left:15px; }
 
 .data-table .product-image{display:block; border: 1px solid #dfdfdf; background:#ffffff;min-width: 60px;}
-.product-image{background:#ffffff;}
+.product-image{background:#ffffff; width: 280px; height: 280px;}
 .data-table .price{font-weight:bold}
 
 
@@ -1669,10 +1669,10 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#1a82f7), to(#2F2727))
 .product-collateral .box-collateral.box-tags { width: 100%; }
 
 /* Product Images */
-.product-view .product-img-box { float:left; width:280px; margin-right:15px; }
+.product-view .product-img-box { float:left; width:280px; margin-right:15px; padding: 0 2px 10px 8px;margin-bottom: 20px;}
 .col3-layout .product-view .product-img-box { float:none; margin:0 auto; }
-.product-view .product-img-box .product-image { margin:0 0 5px; border: 1px solid #d0d0d0; border-bottom: 1px solid #bcbcbc; background: #ffffff;}
-.product-view .product-img-box .product-image img {}
+.product-view .product-img-box .product-image { margin:0 0 5px; border: 1px solid #d0d0d0; background: #ffffff;}
+.product-view .product-img-box .product-image img {min-height: 280px;width: auto;top:1px !important;left: 9px !important;}
 .product-view .product-img-box .product-image-zoom { position:relative; width:265px; height:265px; overflow:hidden; z-index:9; }
 .product-view .product-img-box .product-image-zoom img { left:0; top:0; display: block;margin: 0 auto; width: initial !important;}
 .product-view .product-img-box .zoom-notice { font-size:11px; margin:0 0 5px; text-align:center; color: #6e6e6e;}
@@ -3075,20 +3075,20 @@ input[type="checkbox"]:focus {
 
 /* CSS3 KEYFRAMES ======================================================================== */
 @-webkit-keyframes prdImageAvailInStock {
-    from {box-shadow: 0 0 20px green;}
+    from {box-shadow: 0 0 10px green;}
     to {box-shadow: none;}
 }
 @keyframes prdImageAvailInStock {
-    from {box-shadow: 0 0 20px green;}
+    from {box-shadow: 0 0 10px green;}
     to {box-shadow: none;}
 }
 
 @-webkit-keyframes prdImageAvailOutStock {
-    from {box-shadow: 0 0 20px red;}
+    from {box-shadow: 0 0 10px red;}
     to {box-shadow: none;}
 }
 @keyframes prdImageAvailOutStock {
-    from {box-shadow: 0 0 20px red;}
+    from {box-shadow: 0 0 10px red;}
     to {box-shadow: none;}
 }
 
@@ -3099,6 +3099,24 @@ input[type="checkbox"]:focus {
 @keyframes fadeOverlayOut {
 	from {opacity: 1;}
     to {opacity: 0;}
+}
+
+@-webkit-keyframes rotate { 100% { -webkit-transform: rotate(360deg) }}
+@keyframes rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+@-webkit-keyframes bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
 }
 
 /* Clears ================================================================================ */
@@ -3559,4 +3577,42 @@ a.prd-fancybox:hover > img {
 }
 .ui-helper-hidden-accessible {
 	display: none;
+}
+
+#prd-loading-spinner {
+  margin: 100px auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  text-align: center;
+  
+  -webkit-animation: rotate 2.0s infinite linear;
+  animation: rotate 2.0s infinite linear;
+}
+
+#prd-loading-spinner > .dot1, #prd-loading-spinner > .dot2 {
+  width: 60%;
+  height: 60%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background-color: #333;
+  border-radius: 100%;
+  
+  -webkit-animation: bounce 2.0s infinite ease-in-out;
+  animation: bounce 2.0s infinite ease-in-out;
+}
+
+#prd-loading-spinner > .dot2 {
+  top: auto;
+  bottom: 0px;
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.include-loader-bkg {
+	background: url('/media/css/liquid-loader.gif') !important;
+	background-repeat: no-repeat !important;
+	background-size: initial !important;
+	background-position: center center !important; 
 }

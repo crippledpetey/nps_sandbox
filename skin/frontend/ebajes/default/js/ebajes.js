@@ -128,14 +128,15 @@ jQuery(document).ready(function($){
         helpers         : {
             overlay : {
                 css : {
-                    "height" : $(document).height(),
+                    "height" : $(window).height(),
                     'background' : 'rgba(87, 202, 237, 0.3)'
                 }
             }
         },
+        autoDimensions  : true,
+        height          : $(window).height()-30, 
     }); 
-
-   
+      
     $(".prd-fancybox > img").addClass("tooltip");
     $(".prd-fancybox > img").attr("title","Click for larger view");
 

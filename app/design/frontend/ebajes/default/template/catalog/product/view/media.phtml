@@ -41,7 +41,6 @@
     
     //get product images for all product options
     $product_id = $_product->getId();
-    echo '<h1>' . $product_id . '</h1>';
     $option_image_query = "SELECT DISTINCT i.image_file FROM `catalog_product_option` AS p INNER JOIN `catalog_product_option_type_value` AS o ON o.option_id = p.option_id INNER JOIN `custom_options_option_type_image` AS i ON i.option_type_id = o.option_type_id WHERE p.product_id = " . $product_id . " ORDER BY o.sort_order";
 
     $gallery_image_query = "SELECT DISTINCT i.value FROM `catalog_product_entity_media_gallery` as i INNER JOIN `catalog_product_entity_media_gallery_value` AS o ON o.value_id = i.value_id WHERE i.entity_id = " . $product_id . " ORDER BY o.position";
@@ -51,24 +50,18 @@
     $option_images = $readConnection->fetchAll($option_image_query);
     $gallery_images = $readConnection->fetchAll($gallery_image_query);
 ?>
-<?php 
-
-    if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
-<p class="product-image product-image-zoom" style="width:<?php echo $setting->getImageProduct_BaseImageWidth(330) ?>px;height:<?php echo $setting->getImageProduct_BaseImageHeight(330) ?>px">
-    <?php
-
-        $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
-        echo $_helper->productAttribute($_product, $_img, 'image');
-    ?>
+ <?php
+    if ($_product->getImage() != 'no_selection' && $_product->getImage()){
+        $_img = '<img id="image" class="hidden" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';   
+    } else {
+        $_img = '<img class="hidden" src="'.$this->helper('catalog/image')->init($_product, 'image')->resize($w, $h).'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
+    }
+    
+?>
+<p class="product-image include-loader-bkg">
+    <?php echo $_helper->productAttribute($_product, $_img, 'image'); ?>
+    <!--<div id="prd-loading-spinner"><div class="dot1"></div><div class="dot2"></div></div>-->
 </p>
-<?php else: ?>
-<p class="product-image">
-    <?php
-        $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize($w, $h).'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
-        echo $_helper->productAttribute($_product, $_img, 'image');
-    ?>
-</p>
-<?php endif; ?>
 
 <?php if ($this->displayProductStockStatus()): ?>
     <?php if ($_product->isAvailable()): ?>
