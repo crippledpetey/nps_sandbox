@@ -49,7 +49,7 @@ $setting = Mage::helper('ebajessettings');
         } else {
             $_parentprdURL = $this->getProductUrl();
         }
-    ?>
+?>
 <tr>
     <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $_parentprdURL ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-image"><?php endif;?><img 
 		src="<?php echo $this->getProductThumbnail()->resize($setting->getImageShoppingCart_Width(85), $setting->getImageShoppingCart_Height()); ?>" 

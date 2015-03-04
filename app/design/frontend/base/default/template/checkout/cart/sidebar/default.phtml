@@ -29,9 +29,29 @@
     $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
     $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
 ?>
+<?php
+    
+        /**
+        GET THE URL FOR LINKING TO THE CORRECT PAGE
+        */
+        require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php');
+        $nps_prdctrl = new productDrop;
+        $_parentprdURL = null;
+        //echo $nps_prdctrl->getChildOptionTypeID( (int) $_item->getProductId() );
+        
+        //set the url for products to compensate for those with parents
+        if( $nps_prdctrl->getChildOptionTypeID( $_item->getProductId()  ) ){
+            $nps_args = array(
+                'npsf'=> $nps_prdctrl->getChildOptionTypeID( $_item->getProductId() )[0]['option_type_id'],
+                );
+            $_parentprdURL = $nps_prdctrl->getContainerProductURL( $_item->getProductId(), $nps_args );
+        } else {
+            $_parentprdURL = $this->getProductUrl();
+        }
+?>
 <li class="item">
     <?php if ($this->hasProductUrl()): ?>
-        <a href="<?php echo $this->getProductUrl()?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(50, 50)->setWatermarkSize('30x10'); ?>" width="50" height="50" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /></a>
+        <a href="<?php echo $_parentprdURL?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(50, 50)->setWatermarkSize('30x10'); ?>" width="50" height="50" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /></a>
     <?php else: ?>
         <span class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(50, 50)->setWatermarkSize('30x10'); ?>" width="50" height="50" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /></span>
     <?php endif; ?>
@@ -40,7 +60,7 @@
         <?php if ($isVisibleProduct): ?>
         <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item') ?>" class="btn-edit"><?php echo $this->__('Edit item')?></a>
         <?php endif ?>
-        <p class="product-name"><?php if ($this->hasProductUrl()): ?><a href="<?php echo $this->getProductUrl() ?>"><?php endif; ?><?php echo $this->escapeHtml($this->getProductName()) ?><?php if ($this->hasProductUrl()): ?></a><?php endif; ?></p>
+        <p class="product-name"><?php if ($this->hasProductUrl()): ?><a href="<?php echo $_parentprdURL ?>"><?php endif; ?><?php echo $this->escapeHtml($this->getProductName()) ?><?php if ($this->hasProductUrl()): ?></a><?php endif; ?></p>
         <strong><?php echo $this->getQty() ?></strong> x
 
     <?php if ($canApplyMsrp): ?>
