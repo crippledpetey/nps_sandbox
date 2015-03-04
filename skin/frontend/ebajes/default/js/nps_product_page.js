@@ -60,12 +60,11 @@ jQuery(document).ready(function($){
 		
 		if( str.search("OUT OF STOCK") > 0 || str.search("Out of stock") > 0 ){
 			//remove the out of stock flash class
-			if( $(".product-img-box .product-image img").hasClass("scream-in-stock") ){
-				$(".product-img-box .product-image img").removeClass("scream-in-stock");
-			}
+			$(".product-img-box .product-image span").removeClass("scream-out-in-stock");
+			$(".product-img-box .product-image span").removeClass("scream-out-of-stock");
 			
 			//add the out of stock flash class
-			$(".product-img-box .product-image img").addClass("scream-out-of-stock");
+			$(".product-img-box .product-image span").addClass("scream-out-of-stock");
 			
 			//change the text value to out of stock if it reads in stock
 			if( current.toLowerCase() == "in stock"){
@@ -76,12 +75,11 @@ jQuery(document).ready(function($){
 			}
 		} else {
 			//remove out of stock flash class
-			if( $(".product-img-box .product-image img").hasClass("scream-out-of-stock") ){
-				$(".product-img-box .product-image img").removeClass("scream-out-of-stock");
-			}
+			$(".product-img-box .product-image span").removeClass("scream-out-in-stock");
+			$(".product-img-box .product-image span").removeClass("scream-out-of-stock");
 
 			//add in stock flash class
-			$(".product-img-box .product-image img").addClass("scream-in-stock");
+			$(".product-img-box .product-image span").addClass("scream-in-stock");
 
 			//change the text value to in stock if it reads out of stock
 			if( current.toLowerCase() == "out of stock"){
