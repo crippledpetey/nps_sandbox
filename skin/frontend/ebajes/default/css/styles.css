@@ -3315,7 +3315,7 @@ input[type="checkbox"]:focus {
 
 /* FIX ODD RESOLUTIONS ----------- */
 @media only screen and (min-width : 720px) and (max-width : 1024px) {
-	.product-shop > .product-options-bottom, #product-options-wrapper {width: 50%;}
+	.product-shop > .product-options-bottom, #product-options-wrapper {width: 100%;}
 	
 }
 
