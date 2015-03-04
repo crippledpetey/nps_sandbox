@@ -11,6 +11,11 @@ class NPS_CustomAdminFunctions_Model_Observer {
 	 * Magento passes a Varien_Event_Observer object as
 	 * the first parameter of dispatched events.
 	 */
+
+	public function __construct() {
+
+	}
+
 	public function updateProductTypeConfig(Varien_Event_Observer $observer) {
 
 		$product = $observer->getEvent()->getProduct();
@@ -20,9 +25,8 @@ class NPS_CustomAdminFunctions_Model_Observer {
 		$connection_write->query($sql, array($product->getTypeId(), $product->getId(), 1598));
 
 		// Write a new line to var/log/product-updates.log
-		/*$name = $product->getName();*/
-		/*$sku = $product->getSku();*/
-
+		$name = $product->getName();
+		$sku = $product->getSku();
 		/*$base_path = Mage::getBaseDir('base');*/
 		/*$test_file = fopen($base_path . DIRECTORY_SEPARATOR . 'test_file.txt', 'w+');*/
 		/*fwrite($test_file, "{$name} ({$sku}) updated");*/

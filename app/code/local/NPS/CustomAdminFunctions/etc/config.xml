@@ -1,21 +1,21 @@
 <?xml version="1.0" ?>
 <config>
     <modules>
-        <nps_customadminfunctions>
+        <NPS_CustomAdminFunctions>
             <version>0.1.0</version>
-        </nps_customadminfunctions>
+        </NPS_CustomAdminFunctions>
     </modules>
     <global>        
         <events>     
-            <catalog_product_save_before>      
+            <catalog_product_save_after>      
                 <observers>     
-                    <NPS_CustomAdminFunctions_Product_Save>     
+                    <product_Save>     
                         <type>singleton</type>  
                         <class>NPS_CustomAdminFunctions_Model_Observer</class>
                         <method>updateProductTypeConfig</method>  
-                    </NPS_CustomAdminFunctions_Product_Save>
+                    </product_Save>
                 </observers>  
-            </catalog_product_save_before> 
+            </catalog_product_save_after> 
         </events>  
     </global>  
     <frontend>
@@ -24,11 +24,11 @@
             <customadminfunctions>
                 <!-- use parameter specifies which of basic routers needs to be used.
 This can be "standard" for frontend or "admin" for backend -->
-                <use>admin</use>
+                <use>standard</use>
                 <!-- router arguments block -->
                 <args>
                     <!-- This parameter specifies the full name of out module -->
-                    <module>nps_customadminfunctions</module>
+                    <module>NPS_CustomAdminFunctions</module>
                     <!-- This parameter sets module alias -->
                     <frontName>customadminfunctions</frontName>
                 </args>
