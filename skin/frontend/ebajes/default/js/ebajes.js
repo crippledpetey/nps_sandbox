@@ -89,6 +89,17 @@ jQuery(document).ready(function($){
         }
     }
 
+    function fixTwoColLayout(windowWidth) {
+        var mainWidth = $(window).width() - 200;
+        console.log("Window Width: "+windowWidth);
+        console.log("Main Width: "+mainWidth);
+        console.log("Current Width: "+$(".col2-right-layout .col-main").width());
+        if( (windowWidth > 479)  && ( $(".col2-right-layout .col-main").width() < mainWidth ) ){
+            console.log("meets requirements");
+            $(".col-main").css("width",mainWidth-70);
+        }
+    }
+
     //setup the back to top button
     var offset = 300,
         offset_opacity = 1200,
@@ -196,6 +207,15 @@ jQuery(document).ready(function($){
         selection.selectAllChildren(newdiv);
         window.setTimeout(function () { body_element.removeChild(newdiv); }, 200);
     });
+    
+    //GET PAGE WIDTH AND HEIGHT FOR USE
+    var wWidth = $( window ).width();
+    var wHeight = $( window ).height();
+
+    //CONTENT BOX DIMENSION FIX AND NORMALIZE HEIGHT
+    fixTwoColLayout(wWidth);
+
+    
 
  
 });
