@@ -214,6 +214,7 @@ jQuery(document).ready(function($){
 
     //CONTENT BOX DIMENSION FIX AND NORMALIZE HEIGHT
     fixTwoColLayout(wWidth);
+    $(window).resize(function(){fixTwoColLayout(wWidth);});
 
     
 
