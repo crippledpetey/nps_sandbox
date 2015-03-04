@@ -133,8 +133,6 @@ jQuery(document).ready(function($){
                 }
             }
         },
-        autoDimensions  : true,
-        height          : $(window).height()-30, 
     }); 
       
     $(".prd-fancybox > img").addClass("tooltip");
