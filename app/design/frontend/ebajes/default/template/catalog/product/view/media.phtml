@@ -54,7 +54,7 @@
     if ($_product->getImage() != 'no_selection' && $_product->getImage()){
         $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';   
     } else {
-        $_img = '<img class="hidden" src="'.$this->helper('catalog/image')->init($_product, 'image')->resize($w, $h).'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
+        $_img = '<img class="hidden" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
     }
     
 ?>

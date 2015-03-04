@@ -25,7 +25,7 @@ jQuery(document).ready(function($){
 			//MAKE SURE THAT IT IS LARGER THAN THE CURRENT SIZE OF THE OPTIONS WRAPPER
 			if( boxHeight > $("#product-options-wrapper").outerHeight() ){
 				$("#product-options-wrapper").css({
-					"height":boxHeight+"px",
+					"height":(boxHeight-1)+"px",
 				});	
 			}else{ //IF THE ADD TO CART CONTAINER IS NOT LARGER THAN TGE PRODUCT OPTIONS
 				$("#product-options-wrapper").css({
