@@ -1406,8 +1406,7 @@ transition: background-color 250ms ease-in-out 0s;}
 -webkit-transition: all 200ms ease;
 -o-transition: all 200ms ease;
 transition: all 200ms ease;}
-.products-grid .product-image { display:block; margin:0 0 10px;
-background: url("../images/bkg-bottom-img.png") 10px bottom no-repeat transparent; padding-bottom:3px;}
+.products-grid .product-image { display:block; margin:0 0 10px;background: url("../images/bkg-bottom-img.png") 10px bottom no-repeat transparent; padding-bottom:3px;height: auto !important;width: 165px !important;}
 .products-grid .product-image img { max-width:100%;border:1px solid #e3e1e3;border-bottom: 1px solid #bcbcbc;}
 .products-grid .product-name { /*min-height:2.7em;*/ margin:0 0 5px; height: 105px; }
 .products-grid .product-name a {}
