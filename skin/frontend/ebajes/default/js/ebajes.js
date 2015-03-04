@@ -124,6 +124,7 @@ jQuery(document).ready(function($){
         autoScale       : true,
         showCloseButton : true,
         showNavArrows   : true,
+        scrolling       : 'yes',
         helpers         : {
             overlay : {
                 css : {

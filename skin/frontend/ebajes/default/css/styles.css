@@ -3161,13 +3161,13 @@ input[type="checkbox"]:focus {
 
 
 /* ======================================================================================= */
-/*--------START CUSTOM RESPONSIVE--------*/
+/* ================================START CUSTOM RESPONSIVE================================ */
+/* ======================================================================================= */
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
 	.nivo-caption p{display:none;}
 	.nivo-caption p.price{display:block !important;}
 }
-
 @media (max-width: 720px) {
 	body {
 	padding-right: 15px;
@@ -3280,12 +3280,11 @@ input[type="checkbox"]:focus {
 	.multiple-checkout .col2-set .col-wide,
 	.multiple-checkout .col2-set .col-narrow{width:100%;}
 }
-
 @media (min-width: 720px) {
 	#mobile-menu-toggle {display: none;}
 	#back-to-top {right: 20px;bottom: 20px;}
+	.product-view {}
 }
-
 @media (min-width: 720px) and (max-width: 979px) {
 	/* Header ================================================================================ */
 	.header-container .quick-access .header-container-left {float: right;}
@@ -3342,20 +3341,18 @@ input[type="checkbox"]:focus {
 	
 	.product-view .box-tags .form-add input.input-text{width:95%;}
 }
-
-/* Medium Screens ----------- */
 @media only screen and (max-width : 720px) {
-/* Styles */
 	.product-collateral .box-collateral, .product-collateral .box-collateral.box-additional { float: none; width: 100%; margin-left: 0%; }
 	.product-collateral .box-collateral.box-additional { margin-left: 0%; }
 	/*---------- PRODUCTS VIEW ----------*/
 	.product-shop > .product-options-bottom, #product-options-wrapper { width: 100%;}
 }
-
+@media (min-width: 980px) and (max-width: 1439px){
+	.col-main {padding: 0px 15px 25px 15px;}
+}
 
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-device-width : 300px) and (max-device-width : 480px) {
-/* Styles */
 
 	/*---------- MOBILE HEADER ----------*/
 	#header-phone {padding-left: 0;}
@@ -3376,7 +3373,6 @@ input[type="checkbox"]:focus {
 
 /* Smartphones (landscape) ----------- */
 @media only screen and (min-width : 320px) and (max-width : 580px) {
-/* Styles */
 	.product-img-box {
 		text-align: center;
 		width: 100% !important;
@@ -3394,51 +3390,42 @@ input[type="checkbox"]:focus {
 
 /* Smartphones (landscape) ----------- */
 @media only screen and (min-width : 321px) {
-/* Styles */
 }
 
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 320px) {
-/* Styles */
 }
 
 /* FIX ODD RESOLUTIONS ----------- */
 @media only screen and (min-width : 720px) and (max-width : 1024px) {
-/* Styles */
 	.product-shop > .product-options-bottom, #product-options-wrapper {width: 50%;}
 	
 }
 
 /* iPads (landscape) ----------- */
 @media only screen and (min-device-width : 720px) and (max-device-width : 1024px) and (orientation : landscape) {
-/* Styles */
 }
 
 /* iPads (portrait) ----------- */
 @media only screen and (min-device-width : 720px) and (max-device-width : 1024px) and (orientation : portrait) {
-/* Styles */
 }
 
 /* Desktops and laptops ----------- */
 @media only screen and (min-width : 1224px) {
-/* Styles */
 	#back-to-top { height: 40px; width: 40px; right: 30px; bottom: 30px; }
 }
 
 /* Desktops and laptops ----------- */
 @media only screen and (min-width : 1440px) {
-/* Styles */
 	.col1-layout .col-main { padding: 0 20px 40px 20px; }
 }
 
 /* XLarge screens ----------- */
 @media only screen and (min-width : 1824px) {
-/* Styles */
 }
 
 /* iPhone 4 ----------- */
 @mediaonly screen and (-webkit-min-device-pixel-ratio : 1.5),only screen and (min-device-pixel-ratio : 1.5) {
-/* Styles */
 }
 
 
@@ -3565,4 +3552,11 @@ a.prd-fancybox:hover > img {
 	color: #fff;
 	background: rgba(255, 12, 18, .5);
 	cursor: pointer;
+}
+.fancybox-image {
+	width: auto;
+	margin: 0 auto;
+}
+.ui-helper-hidden-accessible {
+	display: none;
 }
