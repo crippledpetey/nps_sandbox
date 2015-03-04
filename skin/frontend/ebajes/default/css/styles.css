@@ -511,7 +511,7 @@ box-shadow: 3px 1px 3px rgba(0, 0, 0, 0.075);}
 
 .toolbar-bottom {}
 .toolbar-bottom  .toolbar .sorter{ display:block;}
-.toolbar-bottom  .toolbar .pager { display:none;;}
+.toolbar-bottom  .toolbar .pager { display:block;}
 
 /* Data Table */
 .data-table { width:100%; }
