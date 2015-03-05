@@ -35,9 +35,11 @@ $manu_name = ltrim( strtolower( $_product->getAttributeText('manufacturer') ) );
 //SET THE MANUFACTURER LOGO LOCATION
 $allowed = array('.gif','.jpeg','.jpg','.png');
 $logo_src = null;
+$manu_logo_element = null;
 //CHECK IS MANUFACTURER LOGO IS PRESENT
 foreach( $allowed as $filetype ){
 	$logo_src = Mage::getBaseDir() . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR .'Manufacturer' . DIRECTORY_SEPARATOR . $manu_name . $filetype;
+
 	if( file_exists( $logo_src ) ){
 		$manu_logo_element = '<h2 id="product-page-manu-logo"><a href="/brands/' . str_replace(' ', '-', $manu_name) . '.html" title="Shop ' . ucwords( $manu_name ) . ' on Need Plumbing Supplies"><img src="/media/Manufacturer/' . $manu_name . '.png" alt="Find the best ' . ucwords( $manu_name ) . ' on NeedPlumbingSupplies.com"></a></h2>';
 	}
