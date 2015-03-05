@@ -46,7 +46,7 @@ jQuery(document).ready(function($){
 	var wHeight = $( window ).height();
 
 	//CONTENT BOX DIMENSION FIX AND NORMALIZE HEIGHT
-	fixPrdContentBoxDimensions(wWidth);
+	//fixPrdContentBoxDimensions(wWidth);
 
 	//CHANGE PRODUCT QUANTITY TO 1 IF CURRENT QUANTITY IS 0
 	if( $("#qty").val() == 0 ){
@@ -99,7 +99,7 @@ jQuery(document).ready(function($){
 		var wHeight = $( window ).height();
 		
 		//RE-NORMALIZE PRODUCT PAGE CONTENT BLOCKS
-		fixPrdContentBoxDimensions(wWidth);
+		//fixPrdContentBoxDimensions(wWidth);
 	});
 
 	$(".product-image-zoom > img").width("278");
