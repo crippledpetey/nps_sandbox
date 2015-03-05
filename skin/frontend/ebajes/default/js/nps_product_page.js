@@ -107,10 +107,8 @@ jQuery(document).ready(function($){
 
 	$(".attachment-icon a").each(function(){
 		$(this).mouseover(function() { 
-            $(this).children("img").animate(100,function(){
-            	var src = $(this).attr("src").match(/[^\.]+/) + "_hover.png";
-            	$(this).attr("src", src);
-            });
+			var src = $(this).children("img").attr("src").match(/[^\.]+/) + "_hover.png";
+            $(this).children("img").attr("src", src);
         })
         $(this).mouseout(function() {
             $(this).children("img").animate(100,function(){

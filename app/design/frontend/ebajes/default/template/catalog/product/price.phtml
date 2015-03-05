@@ -438,6 +438,8 @@
 <?php else: /* if (!$_product->isGrouped()): */ ?>
     <?php
         $showMinPrice = $this->getDisplayMinimalPrice();
+        $showStarting = $_product->getResource()->getAttribute('show_starting_at_price')->getFrontend()->getValue($_product);
+
         if ($showMinPrice && $_minimalPriceValue) {
             $_exclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue);
             $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, true);
@@ -452,7 +454,7 @@
         <div class="price-box">
             <p<?php if ($showMinPrice): ?> class="minimal-price"<?php endif ?>>
                 <?php if ($showMinPrice): ?>
-                <span class="price-label"><?php echo $this->__('Starting at:') ?></span>
+                <?php if( $showStarting == 'yes' ) :?><span class="price-label"><?php echo $this->__('Starting at:') ?></span><?php endif ?>
                 <?php endif ?>
                 <?php if ($_taxHelper->displayBothPrices()): ?>
                     <span class="price-excluding-tax">

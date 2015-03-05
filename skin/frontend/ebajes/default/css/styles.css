@@ -3311,8 +3311,8 @@ input[type="checkbox"]:focus {
 }
 
 @media only screen and (min-width : 1220px) {
-.product-shop > .product-options-bottom, #product-options-wrapper { width: 48%; }
-
+	.product-shop > .product-options-bottom, #product-options-wrapper { width: 48%; }
+}
 
 /* Smartphones (landscape) ----------- */
 @media only screen and (min-width : 321px) {
