@@ -439,7 +439,7 @@
     <?php
         $showMinPrice = $this->getDisplayMinimalPrice();
         $showStarting = "no";
-        if( $_product->getResource()->getAttribute('show_starting_at_price')->getFrontend()->getValue($_product) ){
+        if( $_product->getResource()->getAttribute('show_starting_at_price') ){
             $showStarting = $_product->getResource()->getAttribute('show_starting_at_price')->getFrontend()->getValue($_product);    
         }
         
