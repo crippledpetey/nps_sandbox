@@ -9,11 +9,21 @@
         <events>     
             <catalog_product_save_after>      
                 <observers>     
-                    <product_Save>     
+                    <product_Save_Type_Config>     
                         <type>singleton</type>  
                         <class>NPS_CustomAdminFunctions_Model_Observer</class>
                         <method>updateProductTypeConfig</method>  
-                    </product_Save>
+                    </product_Save_Type_Config>
+                    <product_Save_Price_Config>     
+                        <type>singleton</type>  
+                        <class>NPS_CustomAdminFunctions_Model_Observer</class>
+                        <method>updateGroupedProductPricing</method>  
+                    </product_Save_Price_Config>
+                    <product_Save_Inv_Config>     
+                        <type>singleton</type>  
+                        <class>NPS_CustomAdminFunctions_Model_Observer</class>
+                        <method>updateGroupedProductInventory</method>  
+                    </product_Save_Inv_Config>
                 </observers>  
             </catalog_product_save_after> 
         </events>  

@@ -32,4 +32,57 @@ class NPS_CustomAdminFunctions_Model_Observer {
 		/*fwrite($test_file, "{$name} ({$sku}) updated");*/
 
 	}
+
+	public function updateGroupedProductPricing(Varien_Event_Observer $observer) {
+		$product = $observer->getEvent()->getProduct();
+		$productType = $product->getTypeID();
+
+		//check if type is grouped
+		if ($productType == 'grouped') {
+			$price = 0;
+
+			//get associated products
+			$associatedProducts = $product->getTypeInstance(true)->getAssociatedProducts($product);
+
+			//add price
+			foreach ($associatedProducts as $ass_prd) {
+				$price += number_format($ass_prd->getPrice(), 2);
+			}
+
+			$sql = 'UPDATE `catalog_product_entity_decimal` SET `value` = ? WHERE `entity_id` = ? AND `attribute_id` = ?';
+			$connection_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+			$connection_write->query($sql, array($price, $product->getId(), 99));
+
+		}
+	}
+
+	public function updateGroupedProductInventory(Varien_Event_Observer $observer) {
+		$product = $observer->getEvent()->getProduct();
+		$productType = $product->getTypeID();
+
+		//check if type is grouped
+		if ($productType == 'grouped') {
+			$inv_total = 0;
+
+			//get associated products
+			$associatedProducts = $product->getTypeInstance(true)->getAssociatedProducts($product);
+
+			//add price
+			foreach ($associatedProducts as $ass_prd) {
+				$stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($ass_prd);
+				if ($stock->getQty() < $inv_total) {
+					$inv_total = $stock->getQty();
+				}
+			}
+
+			//check if over 0
+			$in_stock = 0;
+			if ($inv_total > 0) {$in_stock = 1;}
+
+			$sql = 'UPDATE `cataloginventory_stock_item` SET `qty` = ?, is_in_stock = ? WHERE `product_id` = ?';
+			$connection_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+			$connection_write->query($sql, array($inv_total, $inv_total, $product->getId()));
+
+		}
+	}
 }

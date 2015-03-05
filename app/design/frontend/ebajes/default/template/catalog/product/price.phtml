@@ -441,8 +441,7 @@
         $showStarting = "no";
         if( $_product->getResource()->getAttribute('show_starting_at_price') ){
             $showStarting = $_product->getResource()->getAttribute('show_starting_at_price')->getFrontend()->getValue($_product);    
-        }
-        
+        }        
 
         if ($showMinPrice && $_minimalPriceValue) {
             $_exclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue);
