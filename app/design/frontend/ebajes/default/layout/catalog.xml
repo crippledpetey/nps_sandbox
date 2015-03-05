@@ -281,6 +281,9 @@ Product view
                 <block type="catalog/product_view_description" name="product.description" as="description" template="catalog/product/view/description.phtml">
                     <action method="addToParentGroup"><group>detailed_info</group></action>
                 </block>
+                <block type="catalog/product_view_attachments" name="product.atatchments" as="attachments" template="catalog/product/view/attachments.phtml">
+                    <action method="addToParentGroup"><group>detailed_info</group></action>
+                </block>
                 <block type="catalog/product_view_attributes" name="product.attributes" as="additional" template="catalog/product/view/attributes.phtml">
                     <action method="addToParentGroup"><group>detailed_info</group></action>
                 </block>
