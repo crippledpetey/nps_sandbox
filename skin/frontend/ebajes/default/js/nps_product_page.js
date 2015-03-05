@@ -105,5 +105,19 @@ jQuery(document).ready(function($){
 	$(".product-image-zoom > img").width("278");
 	$(".product-image-zoom > img").height("278");
 
+	$(".attachment-icon a").each(function(){
+		$(this).mouseover(function() { 
+            $(this).children("img").animate(100,function(){
+            	var src = $(this).attr("src").match(/[^\.]+/) + "_hover.png";
+            	$(this).attr("src", src);
+            });
+        })
+        $(this).mouseout(function() {
+            $(this).children("img").animate(100,function(){
+            	var src = $(this).attr("src").replace("_hover.png", ".png");
+            	$(this).attr("src", src);
+            });
+        });
+	});
 });
 
