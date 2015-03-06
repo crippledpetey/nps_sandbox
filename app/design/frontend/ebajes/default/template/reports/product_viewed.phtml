@@ -24,17 +24,36 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 /* @var $this Mage_Reports_Block_Product_Viewed */
+
+require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php');
+$nps_prdctrl = new productDrop;
 ?>
 <?php if ($_products = $this->getRecentlyViewedProducts()): ?>
 <div class="block block-list block-viewed">
     <div class="block-title">
-        <strong><span><?php echo $this->__('Recently Viewed Productss') ?></span></strong>
+        <strong><span><?php echo $this->__('Recently Viewed Products') ?></span></strong>
     </div>
     <div class="block-content">
         <ol id="recently-viewed-items">
         <?php foreach ($_products as $_item): ?>
             <li class="item">
-                <p class="product-name"><a href="<?php echo $this->getProductUrl($_item) ?>"><?php echo $this->helper('catalog/output')->productAttribute($_item, $_item->getName() , 'name') ?></a></p>
+                <?php
+                if( $nps_prdctrl->getChildOptionTypeID( $_item->getId() ) ){
+                    $nps_args = array(
+                        'npsf'=> $nps_prdctrl->getChildOptionTypeID( $_item->getId() )[0]['option_type_id'],
+                        );
+                    $_parentprdURL = $nps_prdctrl->getContainerProductURL( $_item->getId(), $nps_args );
+                } else {
+                    $_parentprdURL = $_item->getProductUrl();
+                }
+
+                ?>
+                <span class="recently-viewed-link">
+                    <p class="product-name"><a class="tooltip" title="<?php echo $_item->getName() ?>" href="<?php echo $_parentprdURL ?>"><?php echo $_item->getAttributeText('manufacturer') ?> <?php echo $_item->getSKU() ?></a></p>
+                </span>
+                <span class="recently-viewiwed-thumb">
+                    <a class="tooltip" title="<?php echo $_item->getName() ?>" href="<?php echo $_parentprdURL ?>"><img src="<?php echo $_item->getImageUrl() ?>"></a>
+                </span>
             </li>
         <?php endforeach; ?>
         </ol>
