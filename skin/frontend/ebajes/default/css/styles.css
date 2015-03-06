@@ -3581,7 +3581,7 @@ a.prd-fancybox:hover > img {
 	text-align: center;
 }
 #recently-viewed-items .recently-viewiwed-thumb img {
-	max-height: 100%;
+	max-height: 65px;
 }
 .prev-view-small-sku {
 	font-size: 12px;
