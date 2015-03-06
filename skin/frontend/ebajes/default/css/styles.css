@@ -1133,8 +1133,8 @@ transition: background-color 250ms ease-in-out 0s;}
     padding: 5px;
     text-align: center;
     width: 50px;
-    
-    position:relative; 
+
+    position: static; 
     top: -35px;
     border: 2px solid #fff;
     background: rgba(0,0,0,.4);
@@ -3579,4 +3579,7 @@ a.prd-fancybox:hover > img {
 }
 .prev-view-small-sku {
 	font-size: 12px;
+}
+#recently-viewed-items li.item.even {
+	background: rgba(208, 208, 208,.55);
 }
