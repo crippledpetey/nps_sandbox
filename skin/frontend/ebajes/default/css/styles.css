@@ -3577,3 +3577,6 @@ a.prd-fancybox:hover > img {
 #recently-viewed-items .recently-viewiwed-thumb img {
 	border: 1px solid #d0d0d0;
 }
+.prev-view-small-sku {
+	font-size: 12px;
+}
