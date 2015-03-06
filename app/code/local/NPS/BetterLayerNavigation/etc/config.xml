@@ -5,6 +5,19 @@
             <version>0.1.0</version>
         </NPS_BetterLayerNavigation>
     </modules>
+    <global>        
+        <events>     
+            <catalog_controller_product_view>      
+                <observers>     
+                    <update_product_cookies_for_npsf>     
+                        <type>singleton</type>  
+                        <class>NPS_BetterLayerNavigation_Model_Observer</class>
+                        <method>updateProductCookiesForNPSF</method>  
+                    </update_product_cookies_for_npsf>
+                </observers>  
+            </catalog_controller_product_view> 
+        </events>  
+    </global>  
     <frontend>
         <routers>
             <!-- This node's name should be the same as our alias -->

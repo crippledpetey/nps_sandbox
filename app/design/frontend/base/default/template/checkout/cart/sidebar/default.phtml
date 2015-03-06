@@ -43,6 +43,7 @@
         if( $nps_prdctrl->getChildOptionTypeID( $_item->getProductId()  ) ){
             $nps_args = array(
                 'npsf'=> $nps_prdctrl->getChildOptionTypeID( $_item->getProductId() )[0]['option_type_id'],
+                'chid'=> $_item->getId(),
                 );
             $_parentprdURL = $nps_prdctrl->getContainerProductURL( $_item->getProductId(), $nps_args );
         } else {
