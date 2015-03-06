@@ -22,32 +22,39 @@ class productDrop {
 	}
 
 	public function getContainerProductID($entity_id) {
-		$query = "SELECT p.product_id FROM catalog_product_option AS p INNER JOIN catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN catalog_product_entity AS e ON e.sku = o.sku WHERE e.entity_id = " . (int) $entity_id;
+		$query = "SELECT p.product_id FROM catalog_product_option AS p INNER JOIN catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN catalog_product_entity AS e ON e.sku = o.sku WHERE e.entity_id = " . $entity_id;
 		return $this->sqlread->fetchAll($query);
 	}
 	public function getChildOptionTypeID($entity_id) {
-		$query = "SELECT o.option_type_id FROM catalog_product_option AS p INNER JOIN catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN catalog_product_entity AS e ON e.sku = o.sku WHERE e.entity_id = " . (int) $entity_id;
+		$query = "SELECT o.option_type_id FROM catalog_product_option AS p INNER JOIN catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN catalog_product_entity AS e ON e.sku = o.sku WHERE e.entity_id = " . $entity_id;
 		return $this->sqlread->fetchAll($query);
 	}
 	public function getContainerProductURL($entity_id, $manual_get = null) {
 		//get parents entity
-		$entity_id = $this->getContainerProductID($entity_id)[0]['product_id'];
+		$parent_id = $this->getContainerProductID($entity_id);
+		if (!empty($parent_id)) {
 
-		//compile url base
-		$url = Mage::getBaseUrl() . Mage::getResourceModel('catalog/product')->getAttributeRawValue($entity_id, 'url_key', Mage::app()->getStore()->getStoreId());
+			$parent_id = $parent_id[0]['product_id'];
 
-		//compile get
-		if (!empty($manual_get)) {
-			$url .= '.html?';
+			//compile url base
+			$url = Mage::getBaseUrl() . Mage::getResourceModel('catalog/product')->getAttributeRawValue($parent_id, 'url_key', Mage::app()->getStore()->getStoreId());
+
 			//compile get
-			if (is_array($manual_get)) {
-				foreach ($manual_get as $key => $value) {
-					$url .= $key . '=' . $value . '&';
+			if (!empty($manual_get)) {
+				//allows for appending values to the end of the url
+				$url .= '.html?';
+				//compile get
+				if (is_array($manual_get)) {
+					foreach ($manual_get as $key => $value) {
+						$url .= $key . '=' . $value . '&';
+					}
+					$url = substr($url, 0, -1);
+				} else {
+					$url .= $manual_get;
 				}
-				$url = substr($url, 0, -1);
-			} else {
-				$url .= $manual_get;
 			}
+		} else {
+			$url = Mage::getBaseUrl() . Mage::getResourceModel('catalog/product')->getAttributeRawValue($entity_id, 'url_key', Mage::app()->getStore()->getStoreId());
 		}
 
 		return $url;

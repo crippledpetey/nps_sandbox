@@ -457,7 +457,9 @@
         <div class="price-box">
             <p<?php if ($showMinPrice): ?> class="minimal-price"<?php endif ?>>
                 <?php if ($showMinPrice): ?>
-                <?php if( $showStarting == 'yes' ) :?><span class="price-label"><?php echo $this->__('Starting at:') ?></span><?php endif ?>
+                    <?php if( $showStarting == 'yes' ):?>
+                        <span class="price-label"><?php echo $this->__('Starting at:') ?></span>
+                    <?php endif ?>
                 <?php endif ?>
                 <?php if ($_taxHelper->displayBothPrices()): ?>
                     <span class="price-excluding-tax">

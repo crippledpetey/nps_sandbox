@@ -3559,3 +3559,21 @@ a.prd-fancybox:hover > img {
 	display: block;
 	font-size: 15px;
 }
+#recently-viewed-items .recently-viewed-link {
+	width: 85px;
+	display: block;
+	float: left;
+	margin-right: 5px;
+	padding-right: 5px;
+	margin-top: 14px;
+	font-size: 16px;
+	text-align: right;
+}
+#recently-viewed-items .recently-viewiwed-thumb {
+	float: left;
+	width: 72px;
+	padding: 0 4px 5px 2px;
+}
+#recently-viewed-items .recently-viewiwed-thumb img {
+	border: 1px solid #d0d0d0;
+}
