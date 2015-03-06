@@ -3573,9 +3573,15 @@ a.prd-fancybox:hover > img {
 	float: left;
 	width: 72px;
 	padding: 0 4px 5px 2px;
+	border: 1px solid #d0d0d0;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	max-height: 68px;
+	overflow: hidden;
+	text-align: center;
 }
 #recently-viewed-items .recently-viewiwed-thumb img {
-	border: 1px solid #d0d0d0;
+	max-height: 100%;
 }
 .prev-view-small-sku {
 	font-size: 12px;
