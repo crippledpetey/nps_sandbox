@@ -50,7 +50,7 @@ $nps_prdctrl = new productDrop;
                 ?>
                 <a class="tooltip" title="Return to the <?php echo $_item->getAttributeText('manufacturer') ?> <?php echo $_item->getSKU() ?> - <?php echo $_item->getName() ?>" href="<?php echo $_parentprdURL ?>">
                     <span class="recently-viewed-link">
-                        <p class="product-name"><?php echo $_item->getAttributeText('manufacturer') ?><br><span class="prev-view-small-sku"><?php echo $_item->getSKU() ?></a></p>
+                        <p class="product-name"><?php echo $_item->getAttributeText('manufacturer') ?><br><span class="prev-view-small-sku"><?php echo $_item->getSKU() ?></span></p>
                     </span>
                     <span class="recently-viewiwed-thumb">
                         <img alt="<?php echo $_item->getAttributeText('manufacturer') ?> - <?php echo $_item->getSKU() ?>" src="<?php echo Mage::helper('catalog/image')->init($_item, 'small_image')->resize(100, 100); ?>">
