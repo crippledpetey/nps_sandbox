@@ -31,6 +31,8 @@ class NPS_BetterLayerNavigation_Model_Observer {
 	}
 
 	public function updateProductCookiesForNPSF(Varien_Event_Observer $observer, $npsf = null) {
+		//set the product that was clicked
+		$product = $observer->getEvent()->getProduct();
 
 		//check for existing cookie and decode if necessary
 		$cookie_id = base64_encode('nps_previous_products');
@@ -40,37 +42,48 @@ class NPS_BetterLayerNavigation_Model_Observer {
 			$value_array = array();
 		}
 
-		//check for npsf
-		$npsf_url = null;
-		$npsf_cookie_append = null;
-		if (isset($_GET['npsf'])) {
-			$npsf = $_GET['npsf'];
-			$npsf_url = 'npsf=' . $npsf;
-			$npsf_cookie_append = '-' . $npsf;
-		}
-
-		$chid_url = null;
-		$chid_cookie_append = null;
-		if (isset($_GET['chid'])) {
-			$chid = $_GET['chid'];
-			$chid_url = 'chid=' . $chid;
-			$chid_cookie_append = '-' . $chid;
-		}
-
-		//set the product that was clicked
-		$product = $observer->getEvent()->getProduct();
-
-		//set the title
+		//set the flat values
 		$manufacturer = $product->getAttributeText('manufacturer');
 		$sku = $product->getSKU();
 		$title = $product->getAttributeText('manufacturer') . ' ' . $product->getSKU() . ' - ' . $product->getName();
 
-		//get image
-		if (empty($chid)) {
-			$image_id = $product->getID();
-		} else {
+		//check product type
+		$attributeSetModel = Mage::getModel("eav/entity_attribute_set");
+		$attributeSetModel->load($product->getAttributeSetId());
+		$attributeSetName = $attributeSetModel->getAttributeSetName();
+
+		//check to make sure it's a container product
+		if ($attributeSetName == 'Container Product') {
+
+			//set npsf
+			$npsf = $_GET['npsf'];
+			$npsf_url = 'npsf=' . $npsf;
+			$npsf_cookie_append = '-' . $npsf;
+
+			//set chid
+			$chid = $_GET['chid'];
+			$chid_url = 'chid=' . $chid;
+			$chid_cookie_append = '-' . $chid;
+
+			//set image
 			$image_id = $chid;
+
+		} else {
+
+			//set npsf
+			$npsf = null;
+			$npsf_url = null;
+			$npsf_cookie_append = null;
+
+			//set chid
+			$chid = null;
+			$chid_url = null;
+			$chid_cookie_append = null;
+
+			//set image
+			$image_id = $product->getID();
 		}
+
 		$img_prd = Mage::getModel('catalog/product')->load($image_id);
 		$img_path_url = $img_prd->getImage();
 
