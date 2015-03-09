@@ -74,6 +74,10 @@ class NPS_BetterLayerNavigation_Model_Observer {
 			//set image
 			$image_id = $chid;
 
+			$child_product = Mage::getModel('catalog/product')->load($chid);
+
+			$price = number_format($child_product->getPrice(), 2);
+
 		} else {
 
 			//set npsf
@@ -88,6 +92,8 @@ class NPS_BetterLayerNavigation_Model_Observer {
 
 			//set image
 			$image_id = $product->getID();
+
+			$price = number_format($product->getPrice(), 2);
 		}
 
 		//set the cookie array key PRODUCT ID+CHILD ID (if exists)
@@ -110,6 +116,7 @@ class NPS_BetterLayerNavigation_Model_Observer {
 			'title' => $title,
 			'manufacturer' => $manufacturer,
 			'sku' => $sku,
+			'price' => $price,
 		);
 
 		//set cookie values

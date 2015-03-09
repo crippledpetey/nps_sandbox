@@ -131,16 +131,19 @@ jQuery(document).ready(function($){
 
 	/* SHORT DESCRIPTION HOVER FUNCTION */
 	$(".recent-desc-toggle").click(function(){
-
 		if( $(this).parent(".recent-prd-desc").hasClass("active") ){
+
 			$(this).parent(".recent-prd-desc").removeClass("active");
 			$(this).siblings(".rcnt-prd-desc-bdy").slideUp(300, function(){
+				$(this).siblings(".recent-desc-toggle").removeClass("show-helper");
 				$(this).siblings(".recent-desc-toggle").empty();
 				$(this).siblings(".recent-desc-toggle").html("READ MORE");
 			});	
 		} else {
+
 			$(this).parent(".recent-prd-desc").addClass("active");
 			$(this).siblings(".rcnt-prd-desc-bdy").slideDown(450, function(){
+				$(this).siblings(".recent-desc-toggle").addClass("show-helper");
 				$(this).siblings(".recent-desc-toggle").empty();
 				$(this).siblings(".recent-desc-toggle").html("&#x25B2;");
 			});	

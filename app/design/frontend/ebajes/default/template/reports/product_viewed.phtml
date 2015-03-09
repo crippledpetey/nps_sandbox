@@ -43,12 +43,19 @@ $nps_prdctrl = new productDrop;
     </div>
     <div class="block-content no-bottom-padd">
         <ol id="recently-viewed-items">
+
         <?php $i=1; foreach (array_reverse( $value_array ) as $_item): ?>
+
             <?php if( $i <= $max_recent_display) :?>
+                <?php $_product = Mage::getModel('catalog/product')->load($_item['parent_id']); ?>
+                <?php if( !empty( $_item['title'] ) && !empty( $_item['url'] ) && !empty( $_item['manufacturer'] ) && !empty( $_item['sku'] ) && !empty( $_item['img'] ) && !empty( $_item['price'] ) ): ?>
+
             <li class="item">
                 <a title="Return to the <?php echo $_item['title'] ?>" href="<?php echo $_item['url'] ?>">
                     <span class="recently-viewed-link">
-                        <p class="product-name"><?php echo $_item['manufacturer'] ?><br><span class="prev-view-small-sku"><?php echo $_item['sku'] ?></span></p>
+                        <p class="product-name"><?php echo $_item['manufacturer'] ?></p>
+                        <p style="line-height: 9px;"><span class="prev-view-small-sku"><?php echo $_item['sku'] ?></span></p>
+                        <p class="small-price" style="line-height: 14px;padding-top: 9px;"><?php echo '$ ' . $_item['price'] ?></p>
                     </span>
                     <span class="recently-viewiwed-thumb">
                         <img alt="<?php echo $_item['title'] ?>" src="/media/catalog/product<?php echo $_item['img'] ?>">
@@ -56,12 +63,23 @@ $nps_prdctrl = new productDrop;
                 </a>
                 <div class="clearer"></div>
                 <span class="recent-prd-desc">
-                    <p class="rcnt-prd-desc-bdy"><a title="Return to the <?php echo $_item['title'] ?>" href="<?php echo $_item['url'] ?>"> <?php echo $_item['title'] ?></a></p>
-                    <div class="recent-desc-toggle">READ MORE</div>
+                    <div class="rcnt-prd-desc-bdy">
+                        <a title="Return to the <?php echo $_item['title'] ?>" href="<?php echo $_item['url'] ?>"><p><?php echo $_item['title'] ?></p></a>                        
+
+                        <?php if($_product->getRatingSummary()): ?>
+                            <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="recent-desc-toggle hover-helper" onMouseOver="showHoverHelperClassHover(this,'HIDE ME')" onmouseout="showHoverHelperClassHoverOff(this,'&#x25B2;')">READ MORE</div>
                 </span>
             </li>
-            <?php $i++; endif; ?>
+
+                <?php endif; //end the check for values ?>
+
+            <?php $i++; endif; //end the check for max number of elements ?>
+
         <?php endforeach; ?>
+
         </ol>
         <script type="text/javascript">decorateList('recently-viewed-items');</script>
     </div>
