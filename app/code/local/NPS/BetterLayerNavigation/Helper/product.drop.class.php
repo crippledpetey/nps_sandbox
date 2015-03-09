@@ -32,31 +32,67 @@ class productDrop {
 	public function getContainerProductURL($entity_id, $manual_get = null) {
 		//get parents entity
 		$parent_id = $this->getContainerProductID($entity_id);
+
+		//if parent exists
 		if (!empty($parent_id)) {
 
+			//reset parentid
 			$parent_id = $parent_id[0]['product_id'];
 
-			//compile url base
-			$url = Mage::getBaseUrl() . Mage::getResourceModel('catalog/product')->getAttributeRawValue($parent_id, 'url_key', Mage::app()->getStore()->getStoreId());
+			//write the url
+			$url = $this->writeProductURL($parent_id, $manual_get);
 
-			//compile get
-			if (!empty($manual_get)) {
-				//allows for appending values to the end of the url
-				$url .= '.html?';
-				//compile get
-				if (is_array($manual_get)) {
-					foreach ($manual_get as $key => $value) {
-						$url .= $key . '=' . $value . '&';
-					}
-					$url = substr($url, 0, -1);
-				} else {
-					$url .= $manual_get;
-				}
-			}
 		} else {
 			$url = Mage::getBaseUrl() . Mage::getResourceModel('catalog/product')->getAttributeRawValue($entity_id, 'url_key', Mage::app()->getStore()->getStoreId());
 		}
 
+		return $url;
+	}
+	public function writeProductURL($product_id, $manual_get = null) {
+
+		//compile url base
+		$url = Mage::getBaseUrl() . Mage::getResourceModel('catalog/product')->getAttributeRawValue($product_id, 'url_key', Mage::app()->getStore()->getStoreId());
+
+		//compile get
+		if (!empty($manual_get)) {
+			//allows for appending values to the end of the url
+			$url .= '.html?';
+			//compile get
+			if (is_array($manual_get)) {
+				foreach ($manual_get as $key => $value) {
+					$url .= $key . '=' . $value . '&';
+				}
+				$url = substr($url, 0, -1);
+			} else {
+				$url .= $manual_get;
+			}
+		}
+
+		return $url;
+	}
+
+	public function getChildEntityIDFromCart($option_type_id) {
+		$query = "SELECT DISTINCT e.entity_id FROM catalog_product_option AS p INNER JOIN catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN catalog_product_entity AS e ON e.sku = o.sku WHERE option_type_id = " . $option_type_id;
+		return $this->sqlread->fetchAll($query);
+	}
+	public function getContainerProductURLFromCart($product_id, $manual_get = null) {
+		//compile url base
+		$url = Mage::getBaseUrl() . Mage::getResourceModel('catalog/product')->getAttributeRawValue($product_id, 'url_key', Mage::app()->getStore()->getStoreId());
+
+		//compile get
+		if (!empty($manual_get)) {
+			//allows for appending values to the end of the url
+			$url .= '.html?';
+			//compile get
+			if (is_array($manual_get)) {
+				foreach ($manual_get as $key => $value) {
+					$url .= $key . '=' . $value . '&';
+				}
+				$url = substr($url, 0, -1);
+			} else {
+				$url .= $manual_get;
+			}
+		}
 		return $url;
 	}
 }

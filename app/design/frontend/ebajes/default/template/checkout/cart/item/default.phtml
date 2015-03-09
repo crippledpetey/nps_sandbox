@@ -38,22 +38,36 @@ $setting = Mage::helper('ebajessettings');
         require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php');
         $nps_prdctrl = new productDrop;
         $_parentprdURL = null;
-        //echo $nps_prdctrl->getChildOptionTypeID( (int) $_item->getProductId() );
-        
-        //set the url for products to compensate for those with parents
-        if( $nps_prdctrl->getChildOptionTypeID( $_item->getProductId()  ) ){
+        if( !empty( $_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct())['options'] ) ){
+
+            //var_dump( $_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct()) );
+
+            //set parent ID
+            $parent_product_id = $_item->getProductId();
+
+            //get option_type_id
+            $option_type_id = $_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct())['options'][0]['option_value'];
+
+            //set the URL args
             $nps_args = array(
-                'npsf'=> $nps_prdctrl->getChildOptionTypeID( $_item->getProductId() )[0]['option_type_id'],
-                'chid'=> $_item->getId(),
+                'npsf'=> $option_type_id,
+                'chid'=> $nps_prdctrl->getChildEntityIDFromCart($option_type_id)[0]['entity_id'],
                 );
-            $_parentprdURL = $nps_prdctrl->getContainerProductURL( $_item->getProductId(), $nps_args );
+
+            //set the URL
+            $_parentprdURL = $nps_prdctrl->writeProductURL( $_item->getProductId(), $nps_args );
+
+            //set use_id
+            $use_id = $nps_prdctrl->getChildEntityIDFromCart($option_type_id)[0]['entity_id'];
+
         } else {
             $_parentprdURL = $this->getProductUrl();
+            $use_id = $_item->getProductId();
         }
 ?>
 <tr>
-    <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $_parentprdURL ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-image"><?php endif;?><img 
-		src="<?php echo $this->getProductThumbnail()->resize($setting->getImageShoppingCart_Width(85), $setting->getImageShoppingCart_Height()); ?>" 
+    <td><?php if ($_parentprdURL):?><a href="<?php echo $_parentprdURL ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-image"><?php endif;?><img 
+		src="/media/catalog/product<?php echo Mage::getModel('catalog/product')->load($use_id)->getImage() ?>" 
 		alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
     <td class = "product-name-td">
         <h2 class="product-name">

@@ -560,7 +560,8 @@ font-weight:bold; color: #000000;}
 .data-table tbody td .option-label { font-weight:bold; font-style:italic; }
 .data-table tbody td .option-value { padding-left:15px; }
 
-.data-table .product-image{display:block; border: 1px solid #dfdfdf; background:#ffffff;min-width: 60px;}
+.data-table .product-image{display:block; border: 1px solid #dfdfdf; background:#ffffff;min-width: 60px;overflow: hidden;width: 70px;height: 70px;}
+.data-table .product-image img { max-height: 100%;width: auto; display: block; margin: 0 auto;}
 .data-table .price{font-weight:bold}
 
 

@@ -23,8 +23,9 @@
  * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+
 ?>
-<?php if($crumbs && is_array($crumbs)): ?>
+<?php if(!empty( $crumbs ) && is_array($crumbs)): ?>
 <?php 
     //check if on a category page
     if(!Mage::registry('current_product')) {
@@ -32,40 +33,61 @@
         //encode the cookie value
         $cookie_value = base64_encode( json_encode( $crumbs ) );
 
-        //set the cookie value
+        //set the cookie value to be the current category
         setcookie('last_category', $cookie_value, 0, '/' );
 
     } else {
 
-        $_product = Mage::registry('current_product');
-        
-        //if cookie is set use it for the breadcrumbs
-        if( isset( $_COOKIE['last_category'] ) ){
-            //add product to the 
-            $crumbs = json_decode( base64_decode( $_COOKIE['last_category'] ), true );
+        //verify previous page is on site
+        if( strrpos( $_SERVER['HTTP_REFERER'], Mage::getBaseUrl() ) === 0 ){
+            $_brdcmb_prd = Mage::registry('current_product');
+            
+            //if cookie is set use it for the breadcrumbs
+            if( isset( $_COOKIE['last_category'] ) ){
 
-            //change the last value to make sure an arrow populates
-            $last_cat_key = count( $crumbs )-1;
-            foreach ($crumbs as $key => $value) {
-                if( $crumbs[ $key ]['last'] ){
-                    $cat_id = str_replace(array('Category','category'), null, $key );
-                    //$_helper= Mage::helper('catalog/category');
-                    $last_category = Mage::getModel('catalog/category')->load( $cat_id );
-                    $crumbs[ $key ]['last'] = null;
-                    $crumbs[ $key ]['link'] = $last_category->getUrl();
+                //add product to the 
+                $crumbs = json_decode( base64_decode( $_COOKIE['last_category'] ), true );
+
+                //change the last value to make sure an arrow populates
+                foreach ($crumbs as $key => $value) {
+
+                    //if this is the last one
+                    if( !empty( $crumbs[ $key ]['last'] ) ){
+
+                        //unset last
+                        $crumbs[ $key ]['last'] = null;
+
+                        //check for search results
+                        if( strrpos( $crumbs[ $key ]['label'], 'Search results' ) === 0 ){
+
+                            //set search results link
+                            $crumbs[ $key ]['link'] = $_SERVER['HTTP_REFERER'];
+                        } else {
+
+                            //set category id
+                            $cat_id = str_replace(array('Category','category'), null, $key );
+                            //$_helper= Mage::helper('catalog/category');
+
+                            //get category information
+                            $last_category = Mage::getModel('catalog/category')->load( $cat_id );
+                            
+                            //set the url for the category
+                            $crumbs[ $key ]['link'] = $last_category->getUrl();    
+                        }                        
+                    }
                 }
-            }
 
-            //append the product
-            $prd_cookie = array(
-              'label' => $_product->getName(),
-              'link' => '',
-              'title' => 'Go to ' . $_product->getName(),
-              'first' => null,
-              'last' => true,
-              'readonly' => null,
-            );
-            $crumbs[] = $prd_cookie;
+                //append the product
+                $prd_cookie = array(
+                  'label' => $_brdcmb_prd->getName(),
+                  'link' => '',
+                  'title' => 'Go to ' . $_brdcmb_prd->getName(),
+                  'first' => null,
+                  'last' => true,
+                  'readonly' => null,
+                );
+                $crumbs[] = $prd_cookie;
+            }
         }
     }       
 
