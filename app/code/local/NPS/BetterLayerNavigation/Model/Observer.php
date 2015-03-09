@@ -31,11 +31,17 @@ class NPS_BetterLayerNavigation_Model_Observer {
 	}
 
 	public function updateProductCookiesForNPSF(Varien_Event_Observer $observer, $npsf = null) {
-		//set the product that was clicked
-		$product = $observer->getEvent()->getProduct();
 
 		//check for existing cookie and decode if necessary
 		$cookie_id = base64_encode('nps_previous_products');
+
+		//check for clear all
+		if (isset($_GET['clearRecentProducts'])) {
+			setcookie($cookie_id, 'REMOVE', -1000, '/');
+		}
+		//set the product that was clicked
+		$product = $observer->getEvent()->getProduct();
+
 		if (isset($_COOKIE[$cookie_id])) {
 			$value_array = json_decode(base64_decode($_COOKIE[$cookie_id]), true);
 		} else {
@@ -84,11 +90,18 @@ class NPS_BetterLayerNavigation_Model_Observer {
 			$image_id = $product->getID();
 		}
 
+		//set the cookie array key PRODUCT ID+CHILD ID (if exists)
+		$cookie_key = $product->getID() . $npsf_cookie_append;
+
+		//check if existing value is present and remove if so
+		if (!empty($value_array[$cookie_key])) {unset($value_array[$cookie_key]);}
+
+		//set the child id to enable gathering of the image and link information
 		$img_prd = Mage::getModel('catalog/product')->load($image_id);
 		$img_path_url = $img_prd->getImage();
 
-		//check of product in array
-		$value_array[$product->getID() . $npsf_cookie_append] = array(
+		//create value array
+		$value_array[$cookie_key] = array(
 			'parent_id' => $product->getID(),
 			'npsf' => $npsf,
 			'chid' => $chid,

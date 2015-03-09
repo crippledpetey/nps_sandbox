@@ -35,6 +35,7 @@ $nps_prdctrl = new productDrop;
 <?php
     //compile cookie information
     $value_array = json_decode(base64_decode($_COOKIE[ base64_encode('nps_previous_products') ] ), true);
+    $max_recent_display = 5;
 ?>
 <div class="block block-list block-viewed">
     <div class="block-title">
@@ -42,7 +43,8 @@ $nps_prdctrl = new productDrop;
     </div>
     <div class="block-content no-bottom-padd">
         <ol id="recently-viewed-items">
-        <?php foreach ($value_array as $_item): ?>
+        <?php $i=1; foreach (array_reverse( $value_array ) as $_item): ?>
+            <?php if( $i <= $max_recent_display) :?>
             <li class="item">
                 <a title="Return to the <?php echo $_item['title'] ?>" href="<?php echo $_item['url'] ?>">
                     <span class="recently-viewed-link">
@@ -58,6 +60,7 @@ $nps_prdctrl = new productDrop;
                     <div class="recent-desc-toggle">READ MORE</div>
                 </span>
             </li>
+            <?php $i++; endif; ?>
         <?php endforeach; ?>
         </ol>
         <script type="text/javascript">decorateList('recently-viewed-items');</script>
