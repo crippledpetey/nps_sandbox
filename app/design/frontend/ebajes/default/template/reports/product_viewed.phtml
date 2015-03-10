@@ -34,7 +34,7 @@ $nps_prdctrl = new productDrop;
 
 <?php
     //compile cookie information
-    $value_array = json_decode(base64_decode($_COOKIE[ base64_encode('nps_previous_products') ] ), true);
+    $value_array = json_decode( base64_decode( $_COOKIE[ base64_encode('nps_previous_products') ] ), true);
     $max_recent_display = 5;
 ?>
 <div class="block block-list block-viewed">
@@ -69,14 +69,23 @@ $nps_prdctrl = new productDrop;
                         <?php if($_product->getRatingSummary()): ?>
                             <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
                         <?php endif; ?>
+                        
+
+                        <?php 
+                            /*
+                            if($_product->isSaleable()){
+                                echo '<button type="button" title="' . $this->__('Add to Cart') . '" class="button btn-cart" onclick="setLocation(\'' . echo $_item['cart_link'] . '\')"><span><span>' . $this->__('Add to Cart') . '</span></span></button>';
+                            } 
+                            */
+                        ?>
                     </div>
                     <div class="recent-desc-toggle hover-helper" onMouseOver="showHoverHelperClassHover(this,'HIDE ME')" onmouseout="showHoverHelperClassHoverOff(this,'&#x25B2;')">READ MORE</div>
                 </span>
             </li>
 
-                <?php endif; //end the check for values ?>
+                <?php $i++; endif; //end the check for values ?>
 
-            <?php $i++; endif; //end the check for max number of elements ?>
+            <?php endif; //end the check for max number of elements ?>
 
         <?php endforeach; ?>
 

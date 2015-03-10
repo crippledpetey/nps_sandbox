@@ -75,6 +75,7 @@ class NPS_BetterLayerNavigation_Model_Observer {
 			$image_id = $chid;
 
 			$child_product = Mage::getModel('catalog/product')->load($chid);
+			$cart_link = Mage::helper('checkout/cart')->getAddUrl($child_product);
 
 			$price = number_format($child_product->getPrice(), 2);
 
@@ -92,6 +93,8 @@ class NPS_BetterLayerNavigation_Model_Observer {
 
 			//set image
 			$image_id = $product->getID();
+
+			$cart_link = Mage::helper('checkout/cart')->getAddUrl($product);
 
 			$price = number_format($product->getPrice(), 2);
 		}
@@ -117,6 +120,7 @@ class NPS_BetterLayerNavigation_Model_Observer {
 			'manufacturer' => $manufacturer,
 			'sku' => $sku,
 			'price' => $price,
+			'cart_link' => $cart_link,
 		);
 
 		//set cookie values

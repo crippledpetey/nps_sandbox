@@ -71,3 +71,35 @@
 		});
 	});
 </script>
+
+<?php
+//list of accepted IP addresses
+$accepted_addresses = array(
+		'127.0.0.1',
+		'50.255.234.185',
+		'50.255.234.186',
+		'50.255.234.187',
+		'50.255.234.188',
+		'50.255.234.189',
+		'50.255.234.190',
+	);
+
+//check if user is internal
+if( in_array( $_SERVER['REMOTE_ADDR'], $accepted_addresses ) ){?>
+	<style>
+		#internal-container {
+			text-align: center;
+			padding: 10px 15px 45px 15px;
+		}
+		#internal-container > h2:first-child {
+			font-size: 48px;
+			margin-top: 25px;
+		}
+	</style>
+	<!--INTERNAL ONLY -->
+	<div id="internal-container">
+		<h2>Internal Information</h2>
+	</div>
+
+
+<?php }?>

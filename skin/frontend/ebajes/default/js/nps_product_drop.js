@@ -109,7 +109,7 @@ jQuery(document).ready(function($){
         var priceLow = $("#price-number-input-low").val();
         var priceHi = $("#price-number-input-hi").val();
         var redir = $(this).data('url')+"price="+priceLow+'-'+priceHi;
-        window.location.replace(redir)
+        window.location.replace(redir);
 	});
 
 
@@ -138,7 +138,8 @@ jQuery(document).ready(function($){
 				$(this).siblings(".recent-desc-toggle").removeClass("show-helper");
 				$(this).siblings(".recent-desc-toggle").empty();
 				$(this).siblings(".recent-desc-toggle").html("READ MORE");
-			});	
+			});
+
 		} else {
 
 			$(this).parent(".recent-prd-desc").addClass("active");

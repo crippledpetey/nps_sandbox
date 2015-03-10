@@ -1309,7 +1309,7 @@ transition: background-color 250ms ease-in-out 0s;}
 -o-transition: all 200ms ease;
 transition: all 200ms ease;}
 .products-grid .product-image { display:block; margin:0 0 10px;background: url("../images/bkg-bottom-img.png") 10px bottom no-repeat transparent; padding-bottom:3px;height: auto !important;width: 165px !important;}
-.products-grid .product-image img { max-width:100%;border:1px solid #e3e1e3;border-bottom: 1px solid #bcbcbc;}
+.products-grid .product-image img { max-width:100%;border:1px solid #e3e1e3;border-bottom: 1px solid #bcbcbc;background: #fff;}
 .products-grid .product-name { /*min-height:2.7em;*/ margin:0 0 5px; height: 105px; }
 .products-grid .product-name a {}
 .products-grid .price-box { margin:5px 0 10px; }
@@ -1647,8 +1647,9 @@ color: #6e6e6e; }
 .product-options-bottom .tier-prices .price,
 .product-options-bottom .tier-prices .benefit { color:#e26703; }
 .product-options-bottom .price-box {/* float:left; */margin:0; padding:0;}
-.product-options-bottom .price-box .regular-price .price, .small-price {font-size: 30px;color: #005b00;text-shadow: 1px 2px 2px rgba(0,0,0,.2);}
-.small-price {font-size: 15px;font-weight: bold;}
+.products-grid .item .regular-price .price, .product-options-bottom .price-box .regular-price .price, .small-price {font-size: 30px;color: #005b00;text-shadow: 1px 2px 2px rgba(0,0,0,.2);}
+.small-price {font-size: 12px;font-weight: bold;}
+.products-grid .item .regular-price .price { font-size: 18px;}
 .product-options-bottom .add-to-links { padding:0;float:left; line-height:34px; margin:0; clear:both}
 .product-options-bottom .add-to-links li { display:inline}
 .product-options-bottom .price-label { float:none; padding-right:5px; }
