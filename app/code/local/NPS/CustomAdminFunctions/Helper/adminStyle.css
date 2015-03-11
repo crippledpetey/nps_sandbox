@@ -1,11 +1,19 @@
 #nps-custom-attr-manager-container label {
 	display: inline-block;
 	margin-right: 15px;
-	width: 145px;
+	width: 45%;
+	min-width: 150px;
 	font-weight: bold;
 	background: #efefef;
 	color: #333;
 	padding: 4px 5px 6px 10px;
+}
+#nps-custom-attr-manager-container .half-block input[type="text"],
+#nps-custom-attr-manager-container .half-block input[type="number"],
+#nps-custom-attr-manager-container .half-block input[type="date"],
+#nps-custom-attr-manager-container .half-block input[type="email"],
+#nps-custom-attr-manager-container .half-block select {
+	width: 50%;
 }
 #nps-custom-attr-manager-container p.page-head-note {
 	font-size:11px;
@@ -30,10 +38,62 @@
 	white-space: normal;
 	clear: both;
 }
+#nps-custom-attr-manager-container .clearer.small,
+#nps-custom-attr-manager-container .clearer.medium,
+#nps-custom-attr-manager-container .clearer.big {
+	border-top: 1px dotted #ccc;
+}
+#nps-custom-attr-manager-container .clearer.small {
+	height: 10px;
+}
+#nps-custom-attr-manager-container .clearer.medium {
+	height: 30px;
+}
+#nps-custom-attr-manager-container .clearer.big {
+	height: 50px;	
+}
 #nps-custom-attr-manager-container .full-width {
 	width: 100%;
 	margin-bottom: 15px;
 }
 #nps-custom-attr-manager-container #nps_attr_new_options {
 	height: 320px;
+}
+#nps-custom-attr-manager-container input[type="submit"]{
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ed6502 #a04300 #a04300 #ed6502;
+	padding: 1px 7px 2px 7px;
+	background: #ffac47 url(images/btn_bg.gif) repeat-x 0 100%;
+	color: #fff;
+	font: bold 12px arial, helvetica, sans-serif;
+	cursor: pointer;
+	text-align: center !important;
+	white-space: nowrap;
+}
+#nps-admin-custom-attr-nav a {
+	text-decoration: none !important;
+}
+#nps-admin-custom-attr-nav li {
+	height: 25px;
+	padding: 12px 5px 4px 10px;
+
+}
+#nps-admin-custom-attr-nav li, #nps-admin-custom-attr-nav li a {
+	transition: all .5s;
+	-webkit-transition: all .5s;
+	-moz-transition: all .5s;
+}
+#nps-admin-custom-attr-nav li.active{
+	background: rgba(254, 194, 133,.6);
+}
+#nps-admin-custom-attr-nav li:hover{
+	background: rgba(254, 194, 133,1);
+}
+#nps-admin-custom-attr-nav li:hover, #nps-admin-custom-attr-nav li.active {
+	color: #fff;
+	text-decoration: none !important;
+}
+#nps-admin-custom-attr-nav li.active {
+	text-shadow: 1px 1px 3px rgba(0,0,0,.3);
 }
