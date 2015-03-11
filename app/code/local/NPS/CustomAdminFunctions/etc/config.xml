@@ -49,7 +49,7 @@
             <catalog>
                 <children>
                     <nps_attribute_manager_menu translate="title" module="customadminfunctions">
-                        <title>Attribute Manager En Mass</title> 
+                        <title>NPS Attribute Tools</title> 
                         <sort_order>30</sort_order>
                         <action>AttributeManager/index/index</action>
                     </nps_attribute_manager_menu>

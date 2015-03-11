@@ -1,0 +1,39 @@
+#nps-custom-attr-manager-container label {
+	display: inline-block;
+	margin-right: 15px;
+	width: 145px;
+	font-weight: bold;
+	background: #efefef;
+	color: #333;
+	padding: 4px 5px 6px 10px;
+}
+#nps-custom-attr-manager-container p.page-head-note {
+	font-size:11px;
+	color: #999;
+}
+#nps-custom-attr-manager-container h1 {
+	border-bottom: 1px dotted #d9d9d9;
+}
+#nps-custom-attr-manager-container .half-block {
+	display: block;
+	width: 50%;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	float: left;
+	margin-bottom: 15px;
+}
+#nps-custom-attr-manager-container .clearer{
+	display: block;
+	content:" ";
+	width: 100%;
+	white-space: normal;
+	clear: both;
+}
+#nps-custom-attr-manager-container .full-width {
+	width: 100%;
+	margin-bottom: 15px;
+}
+#nps-custom-attr-manager-container #nps_attr_new_options {
+	height: 320px;
+}
