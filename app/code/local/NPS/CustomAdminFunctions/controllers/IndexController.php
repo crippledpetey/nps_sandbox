@@ -82,12 +82,12 @@ PAGE LOAD FUNCTIONS THAT CONTROL UPDATES
 				//trigger page refresh
 				$refresh = true;
 			} elseif ($_POST['nps_function'] == 'nps_attr_option_settings') {
-
+				var_dump($_REQUEST);
 				//set the refresh url
 				$append_url = 'btf=2&attr=' . $_POST['attribute_id'];
 
 				//trigger page refresh
-				$refresh = true;
+				//$refresh = true;
 			}
 
 			//if refresh is true then reload the page to prevent duplicate posting
@@ -116,7 +116,7 @@ HTML OUTPUT MEHTODS
 		$html .= '<ul id="nps-admin-custom-attr-nav">';
 
 		//attribute controls
-		$html .= '<a href="' . $url_base . '?btf=2" title="Attribute Controls"><li class="' . $this->active(2, $this->btf) . '">Attribute Custom Controls</li></a>';
+		$html .= '<a href="' . $url_base . '?btf=2" title="Attribute Controls"><li class="' . $this->active(2, $this->btf) . '">Custom Attribute Controls</li></a>';
 
 		//mass add options
 		$html .= '<a href="' . $url_base . '?btf=1" title="Mass Attribute Option Addition"><li class="' . $this->active(1, $this->btf) . '">Mass Attribute Option Addition</li></a>';
@@ -250,8 +250,9 @@ HTML OUTPUT MEHTODS
 				$html .= '<label for="attr_option_duplicate_handling">Duplicate Handling</label>';
 				$html .= '<select name="attr_option_duplicate_handling"><option value=""></option>';
 				$html .= '<option value="override">Override (newest products value is used)</option>';
-				$html .= '<option value="append">Override (creates a comma separated list)</option>';
-				$html .= '<option value="hide">Override (Hides all values if they differ)</option>';
+				$html .= '<option value="append">Append Values (creates a comma separated list)</option>';
+				$html .= '<option value="hide">Hide All Values (Hides all values if they differ)</option>';
+				$html .= '<option value="popular">Most Popular (Displays the value that appears most)</option>';
 				$html .= '</select>';
 				$html .= '</div>';
 
@@ -265,7 +266,7 @@ HTML OUTPUT MEHTODS
 
 				$html .= '<div class="half-block">';
 				$html .= '<label for="attr_option_desc_location">Description Location</label>';
-				$html .= '<select name="attr_option_desc_location"><option value=""></option>';
+				$html .= '<select name="attr_option_desc_location[]" multiple size="5"><option value="">****N/A****</option>';
 				$html .= '<option value="techspecs">Technical Specifications</option>';
 				$html .= '<option value="features">Product Features</option>';
 				$html .= '<option value="manufacturer_info">Manufacturer Specific Features</option>';
