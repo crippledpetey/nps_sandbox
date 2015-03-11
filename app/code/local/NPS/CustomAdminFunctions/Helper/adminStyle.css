@@ -1,3 +1,4 @@
+
 #nps-custom-attr-manager-container label {
 	display: inline-block;
 	margin-right: 2%;
@@ -10,6 +11,8 @@
 	display: table-cell;
 	vertical-align: top;
 	float: left;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 #nps-custom-attr-manager-container .half-block input[type="text"],
 #nps-custom-attr-manager-container .half-block input[type="number"],
@@ -21,6 +24,10 @@
 #nps-custom-attr-manager-container p.page-head-note {
 	font-size:11px;
 	color: #999;
+	padding-right: 20px;
+}
+#nps-custom-attr-manager-container .nps-attr-desc-controls p.page-head-note {
+	padding-left: 20px;
 }
 #nps-custom-attr-manager-container h1 {
 	border-bottom: 1px dotted #d9d9d9;
@@ -99,4 +106,26 @@
 }
 #nps-admin-custom-attr-nav li.active {
 	text-shadow: 1px 1px 3px rgba(0,0,0,.3);
+}
+#nps-custom-attr-manager-container .area-toggle{ cursor: pointer; }
+#nps-custom-attr-manager-container .nps-attr-desc-control-content {
+	min-height: 250px;
+    display: none;
+    border: 1px solid #d9d9d9;
+    padding: 10px 15px 25px 15px;
+    
+    margin-bottom: 20px;
+}
+#nps-custom-attr-manager-container textarea {
+	min-height: 200px;
+}
+
+
+
+#nps-custom-attr-manager-container .noborder {
+	border: none !important;
+	border-top: none !important;
+	border-right: none !important;
+	border-bottom: none !important;
+	border-left: none !important;
 }
