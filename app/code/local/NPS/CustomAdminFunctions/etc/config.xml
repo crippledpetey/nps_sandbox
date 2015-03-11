@@ -5,7 +5,12 @@
             <version>0.1.0</version>
         </NPS_CustomAdminFunctions>
     </modules>
-    <global>        
+    <global>
+        <helpers>
+            <customadminfunctions>
+                <class>NPS_CustomAdminFunctions_Helper</class>
+            </customadminfunctions>
+        </helpers>
         <events>     
             <catalog_product_save_after>      
                 <observers>     
@@ -26,20 +31,38 @@
                     </product_Save_Inv_Config>
                 </observers>  
             </catalog_product_save_after> 
-        </events>  
-    </global>  
+        </events>
+    </global>
+    <admin>
+        <routers>
+            <nps_attribute_manager>
+                <use>admin</use>
+                <args>
+                    <module>NPS_CustomAdminFunctions</module>
+                    <frontName>AttributeManager</frontName>
+                </args>
+            </nps_attribute_manager>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <catalog>
+                <children>
+                    <nps_attribute_manager_menu translate="title" module="customadminfunctions">
+                        <title>Attribute Manager En Mass</title> 
+                        <sort_order>30</sort_order>
+                        <action>AttributeManager/index/index</action>
+                    </nps_attribute_manager_menu>
+                </children>
+            </catalog>
+        </menu> 
+    </adminhtml>
     <frontend>
         <routers>
-            <!-- This node's name should be the same as our alias -->
             <customadminfunctions>
-                <!-- use parameter specifies which of basic routers needs to be used.
-This can be "standard" for frontend or "admin" for backend -->
                 <use>standard</use>
-                <!-- router arguments block -->
                 <args>
-                    <!-- This parameter specifies the full name of out module -->
                     <module>NPS_CustomAdminFunctions</module>
-                    <!-- This parameter sets module alias -->
                     <frontName>customadminfunctions</frontName>
                 </args>
             </customadminfunctions>
