@@ -90,7 +90,7 @@ PAGE LOAD FUNCTIONS THAT CONTROL UPDATES
 
 			} elseif ($_POST['nps_function'] == 'nps_attr_option_settings') {
 				//set page message
-				//Mage::getSingleton('adminhtml/session')->addSuccess('testing');
+				Mage::getSingleton('adminhtml/session')->addSuccess('Options for <span style="color:#999;font-style:italic;">' . strtoupper($_POST['attribute_id']) . '</span> have been updated');
 
 				//get the post type anomolies
 				$checkboxes = $this->attrOptionCheckboxes();
@@ -133,6 +133,7 @@ PAGE LOAD FUNCTIONS THAT CONTROL UPDATES
 
 			//if refresh is true then reload the page to prevent duplicate posting
 			if ($refresh) {
+				session_write_close();
 				Mage::app()->getFrontController()->getResponse()->setRedirect($_SERVER['REQUEST_URI'] . '?' . $append_url);
 			}
 		}
@@ -456,7 +457,7 @@ DATABASE AND OTHER UPDATE METHODS CALLED BY  $this->requestFunctions()
 					$recordCount++;
 				}
 				//set success message
-				Mage::getSingleton('adminhtml/session')->addSuccess('Successfully added ' . $recordCount . ' options to the ' . $attributeId . ' Attribute');
+				Mage::getSingleton('adminhtml/session')->addSuccess('Successfully added <span style="color:#999;font-style:italic;">' . $recordCount . '</span> options to the <span style="color:#999;font-style:italic;">' . strtoupper($_POST['nps_attr_select']) . '</span> Attribute');
 			} else {
 				Mage::getSingleton('adminhtml/session')->addNotice('Warning; no options were added. This could be because they submitted options would duplicate existing ones. If you think this to be incorrect please see the development team for assistance. ERROR NO:SCVOW74EMVOCGFD');
 			}
