@@ -37,56 +37,57 @@
         setcookie('last_category', $cookie_value, 0, '/' );
 
     } else {
+        if( isset( $_SERVER['HTTP_REFERER'] ) ){
+            //verify previous page is on site
+            if( strrpos( $_SERVER['HTTP_REFERER'], Mage::getBaseUrl() ) === 0 ){
+                $_brdcmb_prd = Mage::registry('current_product');
+                
+                //if cookie is set use it for the breadcrumbs
+                if( isset( $_COOKIE['last_category'] ) ){
 
-        //verify previous page is on site
-        if( strrpos( $_SERVER['HTTP_REFERER'], Mage::getBaseUrl() ) === 0 ){
-            $_brdcmb_prd = Mage::registry('current_product');
-            
-            //if cookie is set use it for the breadcrumbs
-            if( isset( $_COOKIE['last_category'] ) ){
+                    //add product to the 
+                    $crumbs = json_decode( base64_decode( $_COOKIE['last_category'] ), true );
 
-                //add product to the 
-                $crumbs = json_decode( base64_decode( $_COOKIE['last_category'] ), true );
+                    //change the last value to make sure an arrow populates
+                    foreach ($crumbs as $key => $value) {
 
-                //change the last value to make sure an arrow populates
-                foreach ($crumbs as $key => $value) {
+                        //if this is the last one
+                        if( !empty( $crumbs[ $key ]['last'] ) ){
 
-                    //if this is the last one
-                    if( !empty( $crumbs[ $key ]['last'] ) ){
+                            //unset last
+                            $crumbs[ $key ]['last'] = null;
 
-                        //unset last
-                        $crumbs[ $key ]['last'] = null;
+                            //check for search results
+                            if( strrpos( $crumbs[ $key ]['label'], 'Search results' ) === 0 ){
 
-                        //check for search results
-                        if( strrpos( $crumbs[ $key ]['label'], 'Search results' ) === 0 ){
+                                //set search results link
+                                $crumbs[ $key ]['link'] = $_SERVER['HTTP_REFERER'];
+                            } else {
 
-                            //set search results link
-                            $crumbs[ $key ]['link'] = $_SERVER['HTTP_REFERER'];
-                        } else {
+                                //set category id
+                                $cat_id = str_replace(array('Category','category'), null, $key );
+                                //$_helper= Mage::helper('catalog/category');
 
-                            //set category id
-                            $cat_id = str_replace(array('Category','category'), null, $key );
-                            //$_helper= Mage::helper('catalog/category');
-
-                            //get category information
-                            $last_category = Mage::getModel('catalog/category')->load( $cat_id );
-                            
-                            //set the url for the category
-                            $crumbs[ $key ]['link'] = $last_category->getUrl();    
-                        }                        
+                                //get category information
+                                $last_category = Mage::getModel('catalog/category')->load( $cat_id );
+                                
+                                //set the url for the category
+                                $crumbs[ $key ]['link'] = $last_category->getUrl();    
+                            }                        
+                        }
                     }
-                }
 
-                //append the product
-                $prd_cookie = array(
-                  'label' => $_brdcmb_prd->getName(),
-                  'link' => '',
-                  'title' => 'Go to ' . $_brdcmb_prd->getName(),
-                  'first' => null,
-                  'last' => true,
-                  'readonly' => null,
-                );
-                $crumbs[] = $prd_cookie;
+                    //append the product
+                    $prd_cookie = array(
+                      'label' => $_brdcmb_prd->getName(),
+                      'link' => '',
+                      'title' => 'Go to ' . $_brdcmb_prd->getName(),
+                      'first' => null,
+                      'last' => true,
+                      'readonly' => null,
+                    );
+                    $crumbs[] = $prd_cookie;
+                }
             }
         }
     }       
