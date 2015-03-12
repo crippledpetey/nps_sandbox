@@ -60,9 +60,6 @@ $nps_prdctrl = new productView;
     </div>
 <?php endif; ?>
 <?php
-    $query = "SELECT DISTINCT e.entity_id FROM catalog_product_option AS p INNER JOIN catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN catalog_product_entity AS e ON e.sku = o.sku WHERE p.product_id = " . $this->getProduct()->getId();
-
-    var_dump( Mage::getSingleton('core/resource')->getConnection('core_read')->fetchAll($query) );
     //output special description regions (attribute controlled)
     echo $nps_prdctrl->getFeatures( $this->getProduct() );
     echo $nps_prdctrl->getSpecs( $this->getProduct() );
