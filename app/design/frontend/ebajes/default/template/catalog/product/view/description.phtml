@@ -29,15 +29,17 @@
  *
  * @see Mage_Catalog_Block_Product_View_Description
  */
+require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/nps.shortcodes.class.php');
+require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.view.class.php');
+
+$npsSC = new needPlumbingShortcodes;
+$nps_prdctrl = new productView;
 ?>
 <?php $_description = $this->getProduct()->getDescription(); ?>
 <?php if ($_description): ?>
     <h2><?php echo $this->__('Product Description') ?></h2>
     <div class="std">
         <?php
-	        require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/nps.shortcodes.class.php');
-	        $npsSC = new needPlumbingShortcodes;
-
         	//get the description
         	$prd_desc = $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description');
 
@@ -57,3 +59,11 @@
         ?>
     </div>
 <?php endif; ?>
+<?php
+    //output special description regions (attribute controlled)
+    echo $nps_prdctrl->getFeatures( $this->getProduct() );
+    echo $nps_prdctrl->getSpecs( $this->getProduct() );
+    echo $nps_prdctrl->getTech( $this->getProduct() );
+    echo $nps_prdctrl->getMaint( $this->getProduct() );
+
+?>

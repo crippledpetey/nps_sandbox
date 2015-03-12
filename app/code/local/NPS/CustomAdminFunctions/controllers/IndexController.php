@@ -130,15 +130,15 @@ PAGE LOAD FUNCTIONS THAT CONTROL UPDATES
 
 				//trigger page refresh
 				$refresh = true;
-			} elseif($_POST['nps_function'] == 'attr_option_reorder'){
+			} elseif ($_POST['nps_function'] == 'attr_option_reorder') {
 				//default numeric value
 				$numeric = false;
 				//check for numeric trigger
-				if( isset( $_POST['attr_reorder_is_numeric'] ) ){
+				if (isset($_POST['attr_reorder_is_numeric'])) {
 					$numeric = true;
 				}
 				//reorder options
-				$this->reorderOptions( $_POST['nps_attr_select'], $numeric);
+				$this->reorderOptions($_POST['nps_attr_select'], $numeric);
 				//set the refresh url
 				$append_url = 'btf=3';
 				//trigger page refresh
@@ -682,20 +682,25 @@ INFASTRUCTURE METHODS
 			$order_by = 'CAST(v.value AS DECIMAL (12 , 4 ))';
 		}
 
-		//write query
+		//insert options into temp table
 		$query_1 = "INSERT INTO nps_dev.eav_attribute_reorder_temp (`option_id`, `value`) SELECT core.option_id, upd.value FROM nps_dev.eav_attribute_option AS core INNER JOIN (SELECT  v.value, o.option_id, @n:=@n + 1 AS 'new_order' FROM nps_dev.eav_attribute_option AS o INNER JOIN nps_dev.eav_attribute_option_value AS v ON o.option_id = v.option_id, (SELECT @n:=0) m WHERE attribute_id = " . $attribute_id . " ORDER BY " . $order_by . " ASC) AS upd ON upd.option_id = core.option_id";
-
+		//set counter
 		$query_2 = "SELECT @i := 0;";
+		//set values based on counter
 		$query_3 = "UPDATE nps_dev.eav_attribute_reorder_temp set new_order = (select @i := @i + 1) WHERE id IS NOT NULL";
+		//update actual order
 		$query_4 = "UPDATE nps_dev.eav_attribute_option AS CORE INNER JOIN nps_dev.eav_attribute_reorder_temp AS UPD ON UPD.option_id = CORE.option_id SET CORE.sort_order = UPD.new_order WHERE CORE.sort_order <> UPD.new_order";
+		//delete all entires from temp table
 		$query_5 = "DELETE FROM nps_dev.eav_attribute_reorder_temp";
 
+		//run queries
 		$this->sqlwrite->query($query_1);
 		$this->sqlwrite->query($query_2);
 		$this->sqlwrite->query($query_3);
 		$this->sqlwrite->query($query_4);
 		$this->sqlwrite->query($query_5);
 
+		//set success message
 		Mage::getSingleton('adminhtml/session')->addSuccess('Reordered options');
 	}
 
