@@ -102,7 +102,7 @@ PAGE LOAD FUNCTIONS THAT CONTROL UPDATES
 				foreach ($pageOptions as $key => $default) {
 					//check if checkbox
 					if (in_array($key, $checkboxes)) {
-						if (!empty($_POST[$key])) {
+						if (isset($_POST[$key]) && $_POST[$key] == 'on') {
 							$pageOptions[$key] = 1;
 						} else {
 							$pageOptions[$key] = 0;
@@ -324,12 +324,16 @@ HTML OUTPUT MEHTODS
 			if ($attributeRaw = Mage::getSingleton("eav/config")->getAttribute('catalog_product', $attribute_id, 'attribute_id')) {
 
 				//get existing values
-				$existingArray = array();
-				$existingRaw = $this->getAttributeOptions($attributeRaw->getId());
-				if ($existingRaw) {
-					$existingArray = json_decode($existingRaw['options'], true);
-				} else {
-					$existingArray = $this->getAttrOptionDefaults();
+				$existingArray = $this->getAttrOptionDefaults();
+				$dbValues = $this->getAttributeOptions($attributeRaw->getId());
+				if ($dbValues) {
+					$dbArray = json_decode($dbValues['options'], true);
+					//verify all values exist and set default if not (prevents error on change of available values)
+					foreach ($existingArray as $key => $value) {
+						if (!empty($dbArray[$key])) {
+							$existingArray[$key] = $dbArray[$key];
+						}
+					}
 				}
 
 				//hidden attribute ID number
@@ -404,12 +408,12 @@ HTML OUTPUT MEHTODS
 					$html .= '		<div class="half-block">';
 					$html .= '			<div class="half-block">';
 					$html .= '				<label for="nps_attr_option_' . $key . '_inlist">Show Specification in List</label>';
-					$html .= '				<input type="checkbox" name="nps_attr_option_' . $key . '_inlist"' . $this->checked($existingArray['nps_attr_option_' . $key . '_inlist'], 'on') . '><div class="clearer"></div>';
+					$html .= '				<input type="checkbox" name="nps_attr_option_' . $key . '_inlist"' . $this->checked($existingArray['nps_attr_option_' . $key . '_inlist'], true) . '><div class="clearer"></div>';
 					$html .= '				<p class="page-head-note">Checking this will populate the spec name and value in the generated bulleted list in the description region.</p>';
 					$html .= '			</div>';
 					$html .= '			<div class="half-block">';
 					$html .= '				<label for="nps_attr_option_' . $key . '">Add Display Content</label>';
-					$html .= '				<input type="checkbox" name="nps_attr_option_' . $key . '_display_content"' . $this->checked($existingArray['nps_attr_option_' . $key . '_display_content'], 'on') . '><div class="clearer"></div>';
+					$html .= '				<input type="checkbox" name="nps_attr_option_' . $key . '_display_content"' . $this->checked($existingArray['nps_attr_option_' . $key . '_display_content'], true) . '><div class="clearer"></div>';
 					$html .= '				<p class="page-head-note">Checking this will add the content from below to the body of the description region.</p>';
 					$html .= '			</div>';
 					$html .= '		</div>';
@@ -583,6 +587,13 @@ INFASTRUCTURE METHODS
 					'show_desc' => true,
 				),
 			),
+			'maint' => array(
+				'label' => 'Maintenance',
+				'defaults' => array(
+					'show_spec' => false,
+					'show_desc' => false,
+				),
+			),
 		);
 	}
 	private function attrOptionMultiSelect() {
@@ -635,12 +646,23 @@ INFASTRUCTURE METHODS
 			$this->setConnection();
 		}
 		//check for existing option
-		$select = $this->sqlwrite->select()->from('nps_attribute_options', array('id', 'attribute_id', 'options'))->where('attribute_id=?', $attribute_id);
+		$select = $this->sqlwrite->select()->from('nps_attribute_options', array('id', 'attribute_id', 'options', 'parent_show', 'desc_show'))->where('attribute_id=?', $attribute_id);
 		$rowsArray = $this->sqlread->fetchRow($select);
 		return $rowsArray;
 	}
 
 	protected function setAttributeOptions($attribute_id, $option_array) {
+
+		//check for parent and description values
+		$parent_show = false;
+		$description_show = false;
+		if ($option_array['attr_option_carry_parent']) {
+			$parent_show = true;
+		}
+		if ($option_array['attr_option_add_prd_desc']) {
+			$description_show = true;
+		}
+
 		//serialize data
 		$serialized = json_encode($option_array);
 
@@ -657,6 +679,8 @@ INFASTRUCTURE METHODS
 			//set update fields
 			$update_fields = array();
 			$update_fields['options'] = $serialized;
+			$update_fields['parent_show'] = (string) $parent_show;
+			$update_fields['desc_show'] = (string) $description_show;
 			$update_where = $this->sqlwrite->quoteInto('attribute_id=?', $attribute_id);
 			$this->sqlwrite->update('nps_attribute_options', $update_fields, $update_where);
 		} else {
@@ -664,6 +688,8 @@ INFASTRUCTURE METHODS
 			$insert_fields = array();
 			$insert_fields['options'] = $serialized;
 			$insert_fields['attribute_id'] = $attribute_id;
+			$insert_fields['parent_show'] = (string) $parent_show;
+			$insert_fields['desc_show'] = (string) $description_show;
 			$this->sqlwrite->insert('nps_attribute_options', $insert_fields);
 		}
 		//commit the transaction
