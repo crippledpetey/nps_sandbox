@@ -21,6 +21,7 @@ class NPS_CustomAdminFunctions_IndexController extends Mage_Adminhtml_Controller
 			'npsWelcomePage',
 			'createAddOptionsAttributeForm',
 			'customAttributeOptions',
+			'autoOrderAttributes',
 		);
 
 		//set the primary display content
@@ -129,6 +130,19 @@ PAGE LOAD FUNCTIONS THAT CONTROL UPDATES
 
 				//trigger page refresh
 				$refresh = true;
+			} elseif($_POST['nps_function'] == 'attr_option_reorder'){
+				//default numeric value
+				$numeric = false;
+				//check for numeric trigger
+				if( isset( $_POST['attr_reorder_is_numeric'] ) ){
+					$numeric = true;
+				}
+				//reorder options
+				$this->reorderOptions( $_POST['nps_attr_select'], $numeric);
+				//set the refresh url
+				$append_url = 'btf=3';
+				//trigger page refresh
+				$refresh = true;
 			}
 
 			//if refresh is true then reload the page to prevent duplicate posting
@@ -163,6 +177,9 @@ HTML OUTPUT MEHTODS
 		//mass add options
 		$html .= '<a href="' . $url_base . '?btf=1" title="Mass Attribute Option Addition"><li class="' . $this->active(1, $this->btf) . '">Mass Attribute Option Addition</li></a>';
 
+		//auto order
+		$html .= '<a href="' . $url_base . '?btf=3" title="Auto Order Attribute Options"><li class="' . $this->active(3, $this->btf) . '">Order Attribute Options</li></a>';
+
 		//close the list
 		$html .= '</ul>';
 
@@ -172,6 +189,38 @@ HTML OUTPUT MEHTODS
 	private function npsWelcomePage() {
 		$html = '<h1>NPS Custom Attribute Tools</h1>';
 		$html .= '<p>Please select a function from the left</p>';
+		return $html;
+	}
+
+	private function autoOrderAttributes() {
+		//start boody
+		$html = '<h1>Auto Order Attribute Options</h1>';
+		$html .= '<form id="nps_attr_option_select_attr_reorder" name="nps_attr_option_select_attr_reorder" method="post" action="' . $_SERVER['PHP_SELF'] . '" enctype="multipart/form-data">';
+
+		//include hidden form key and function command
+		$html .= '<input type="hidden" name="btf" value="3">';
+		$html .= '<input type="hidden" name="nps_function" value="attr_option_reorder">';
+		$html .= '<input type="hidden" name="form_key" value="' . Mage::getSingleton('core/session')->getFormKey() . '">';
+
+		$html .= '<label for="nps_attr_select">Select Attribute</label>';
+		$html .= '<select name="nps_attr_select" required><option></option>';
+
+		//get the list of attribute that can have options selected
+		$attributes = Mage::getResourceModel('catalog/product_attribute_collection')->getItems();
+		foreach ($attributes as $attribute) {
+			if ($attribute->getFrontendLabel() !== '' && !empty($attribute->getFrontendLabel())) {
+				$html .= '<option value="' . $attribute->getId() . '">' . $attribute->getFrontendLabel() . '</option>';
+			}
+		}
+
+		//close select box
+		$html .= '</select><div class="clearer small noborder"></div>';
+		//is numeric checkbox
+		$html .= '<label for="attr_reorder_is_numeric">Field is Numeric</label>';
+		$html .= '<input type="checkbox" name="attr_reorder_is_numeric"><div class="clearer big"></div>';
+		//submit button
+		$html .= '<input type="submit" value="Update Attribute">';
+
 		return $html;
 	}
 
@@ -508,47 +557,6 @@ INFASTRUCTURE METHODS
 			return false;
 		}
 	}
-	public function getPageMessages($mode = 'array') {
-		//check for cookie
-		if (isset($_COOKIE[$this->page_cookie])) {
-			if ($mode == 'array') {
-				return json_decode(base64_decode($_COOKIE[$this->page_cookie]), true);
-			} elseif ($mode == 'json') {
-				return base64_decode($_COOKIE[$this->page_cookie]);
-			} elseif ($mode == 'raw') {
-				return $_COOKIE[$this->page_cookie];
-			} elseif ($mode == 'object') {
-				return json_decode(base64_decode($_COOKIE[$this->page_cookie]));
-			}
-		}
-	}
-	public function setPageMessage($type, $title, $message) {
-
-		//get existing page messages
-		$cArray = $this->getPageMessages();
-
-		//add the new page message
-		$cArray[] = array('x' => $type, 't' => $title, 'm' => $message);
-
-		//reencode the message
-		$cArrayEncoded = base64_encode(json_encode($cArray));
-
-		//set the cookie
-		setcookie($this->page_cookie, $cArrayEncoded, 0, '/');
-
-	}
-	public function getPageMessageHtml() {
-		//get the page messages
-		$pageMessages = $this->getPageMessages();
-		if (!empty($pageMessages)) {
-			$html = '<div id="nps-page-messages">';
-			foreach ($pageMessages as $key => $value) {
-				$html .= '<div class="pg-msg ' . $value['x'] . '"><p class="pg-msg-title">' . $value['t'] . '</p><p class="pg-msg-body">' . $value['m'] . '</p></div>';
-			}
-			$html .= '</div>';
-			return $html;
-		}
-	}
 	private function setNPSClassVars() {
 		$this->page_cookie = base64_encode('pagemessages');
 	}
@@ -631,8 +639,8 @@ INFASTRUCTURE METHODS
 		$rowsArray = $this->sqlread->fetchRow($select);
 		return $rowsArray;
 	}
-	protected function setAttributeOptions($attribute_id, $option_array) {
 
+	protected function setAttributeOptions($attribute_id, $option_array) {
 		//serialize data
 		$serialized = json_encode($option_array);
 
@@ -646,25 +654,49 @@ INFASTRUCTURE METHODS
 
 		//check for existing
 		if (!empty($this->getAttributeOptions($attribute_id))) {
-
 			//set update fields
 			$update_fields = array();
 			$update_fields['options'] = $serialized;
 			$update_where = $this->sqlwrite->quoteInto('attribute_id=?', $attribute_id);
 			$this->sqlwrite->update('nps_attribute_options', $update_fields, $update_where);
-
 		} else {
-
 			//set insert fields
 			$insert_fields = array();
 			$insert_fields['options'] = $serialized;
 			$insert_fields['attribute_id'] = $attribute_id;
 			$this->sqlwrite->insert('nps_attribute_options', $insert_fields);
-
 		}
-
 		//commit the transaction
 		$this->sqlwrite->commit();
+	}
+
+	protected function reorderOptions($attribute_id, $is_numeric = true) {
+		//verify connection is there
+		if (!isset($this->sqlwrite)) {
+			$this->setConnection();
+		}
+
+		//check for numeric flag
+		$order_by = 'v.value';
+		if ($is_numeric) {
+			$order_by = 'CAST(v.value AS DECIMAL (12 , 4 ))';
+		}
+
+		//write query
+		$query_1 = "INSERT INTO nps_dev.eav_attribute_reorder_temp (`option_id`, `value`) SELECT core.option_id, upd.value FROM nps_dev.eav_attribute_option AS core INNER JOIN (SELECT  v.value, o.option_id, @n:=@n + 1 AS 'new_order' FROM nps_dev.eav_attribute_option AS o INNER JOIN nps_dev.eav_attribute_option_value AS v ON o.option_id = v.option_id, (SELECT @n:=0) m WHERE attribute_id = " . $attribute_id . " ORDER BY " . $order_by . " ASC) AS upd ON upd.option_id = core.option_id";
+
+		$query_2 = "SELECT @i := 0;";
+		$query_3 = "UPDATE nps_dev.eav_attribute_reorder_temp set new_order = (select @i := @i + 1) WHERE id IS NOT NULL";
+		$query_4 = "UPDATE nps_dev.eav_attribute_option AS CORE INNER JOIN nps_dev.eav_attribute_reorder_temp AS UPD ON UPD.option_id = CORE.option_id SET CORE.sort_order = UPD.new_order WHERE CORE.sort_order <> UPD.new_order";
+		$query_5 = "DELETE FROM nps_dev.eav_attribute_reorder_temp";
+
+		$this->sqlwrite->query($query_1);
+		$this->sqlwrite->query($query_2);
+		$this->sqlwrite->query($query_3);
+		$this->sqlwrite->query($query_4);
+		$this->sqlwrite->query($query_5);
+
+		Mage::getSingleton('adminhtml/session')->addSuccess('Reordered options');
 	}
 
 }
