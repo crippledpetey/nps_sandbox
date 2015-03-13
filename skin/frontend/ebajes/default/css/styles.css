@@ -1142,8 +1142,9 @@ transition: background-color 250ms ease-in-out 0s;}
     text-align: center;
     width: 50px;
 
-    position: static; 
-    top: -35px;
+    position: absolute; 
+    top: -20px;
+    color: red;
     border: 2px solid #fff;
     background: rgba(0,0,0,.4);
     box-shadow: 1px 2px 5px rgba(0,0,0,.35);
@@ -1167,7 +1168,7 @@ transition: background-color 250ms ease-in-out 0s;}
     border: 1px solid #fff;
 }
 .ui-tooltip {
-	display: inline-block;
+	display: block;
   	width: auto;
   	max-width: 380px;
     padding: 7px 20px;

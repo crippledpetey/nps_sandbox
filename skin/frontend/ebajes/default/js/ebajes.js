@@ -160,8 +160,12 @@ jQuery(document).ready(function($){
     $(".prd-fancybox > img").attr("title","Click for larger view");
 
     //instantiate tooltips
-    $(".tooltips").tooltip();
-    $(".tooltip").tooltip();
+    $(".tooltips").tooltip({
+        position: { my: "center bottom", at: "center bottom" },
+    });
+    $(".tooltip").tooltip({
+        position: { my: "center bottom", at: "center bottom" },
+    });
 
     //clear search
     $("#clear-search").click(function(){
