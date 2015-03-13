@@ -1,5 +1,13 @@
-
-#nps-custom-attr-manager-container label {
+#nps-control-nav-bottom {
+	margin-top: 200px;
+	padding: 25px 10px 30px 7px;
+	border-top: 1px dotted #d9d9d9;
+	background: #efefef;
+	width: 218px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.nps-attribute-manager-index-index label {
 	display: inline-block;
 	margin-right: 2%;
 	width: 45%;
@@ -14,25 +22,25 @@
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
-#nps-custom-attr-manager-container .half-block input[type="text"],
-#nps-custom-attr-manager-container .half-block input[type="number"],
-#nps-custom-attr-manager-container .half-block input[type="date"],
-#nps-custom-attr-manager-container .half-block input[type="email"],
-#nps-custom-attr-manager-container .half-block select {
+.nps-attribute-manager-index-index .half-block input[type="text"],
+.nps-attribute-manager-index-index .half-block input[type="number"],
+.nps-attribute-manager-index-index .half-block input[type="date"],
+.nps-attribute-manager-index-index .half-block input[type="email"],
+.nps-attribute-manager-index-index .half-block select {
 	width: 45%;
 }
-#nps-custom-attr-manager-container p.page-head-note {
+.nps-attribute-manager-index-index p.page-head-note {
 	font-size:11px;
 	color: #999;
 	padding-right: 20px;
 }
-#nps-custom-attr-manager-container .nps-attr-desc-controls p.page-head-note {
+.nps-attribute-manager-index-index .nps-attr-desc-controls p.page-head-note {
 	padding-left: 20px;
 }
-#nps-custom-attr-manager-container h1 {
+.nps-attribute-manager-index-index h1 {
 	border-bottom: 1px dotted #d9d9d9;
 }
-#nps-custom-attr-manager-container .half-block {
+.nps-attribute-manager-index-index .half-block {
 	display: block;
 	width: 49%;
 	box-sizing: border-box;
@@ -41,35 +49,36 @@
 	float: left;
 	margin-bottom: 15px;
 }
-#nps-custom-attr-manager-container .clearer{
+.nps-attribute-manager-index-index .clearer{
 	display: block;
 	content:" ";
 	width: 100%;
 	white-space: normal;
 	clear: both;
 }
-#nps-custom-attr-manager-container .clearer.small,
-#nps-custom-attr-manager-container .clearer.medium,
-#nps-custom-attr-manager-container .clearer.big {
+.nps-attribute-manager-index-index .clearer.small,
+.nps-attribute-manager-index-index .clearer.medium,
+.nps-attribute-manager-index-index .clearer.big {
 	border-top: 1px dotted #ccc;
 }
-#nps-custom-attr-manager-container .clearer.small {
+.nps-attribute-manager-index-index .clearer.small {
 	height: 10px;
 }
-#nps-custom-attr-manager-container .clearer.medium {
+.nps-attribute-manager-index-index .clearer.medium {
 	height: 30px;
 }
-#nps-custom-attr-manager-container .clearer.big {
+.nps-attribute-manager-index-index .clearer.big {
 	height: 50px;	
 }
-#nps-custom-attr-manager-container .full-width {
+.nps-attribute-manager-index-index .full-width {
 	width: 100%;
 	margin-bottom: 15px;
 }
-#nps-custom-attr-manager-container #nps_attr_new_options {
+.nps-attribute-manager-index-index #nps_attr_new_options {
 	height: 320px;
 }
-#nps-custom-attr-manager-container input[type="submit"]{
+#set_working_attribute_form input[type="submit"],
+.nps-attribute-manager-index-index input[type="submit"]{
 	border-width: 1px;
 	border-style: solid;
 	border-color: #ed6502 #a04300 #a04300 #ed6502;
@@ -107,8 +116,16 @@
 #nps-admin-custom-attr-nav li.active {
 	text-shadow: 1px 1px 3px rgba(0,0,0,.3);
 }
-#nps-custom-attr-manager-container .area-toggle{ cursor: pointer; }
-#nps-custom-attr-manager-container .nps-attr-desc-control-content {
+#nps-admin-custom-attr-nav li.separator {
+	height: 1px;
+	display: block;
+	width: 100%;
+	background: rgba(0,0,0,.1);
+	padding: 0;
+	margin: 10px 0 20px 0;
+}
+.nps-attribute-manager-index-index .area-toggle{ cursor: pointer; }
+.nps-attribute-manager-index-index .nps-attr-desc-control-content {
 	min-height: 250px;
     display: none;
     border: 1px solid #d9d9d9;
@@ -116,13 +133,13 @@
     
     margin-bottom: 20px;
 }
-#nps-custom-attr-manager-container textarea {
+.nps-attribute-manager-index-index textarea {
 	min-height: 200px;
 }
 
 
 
-#nps-custom-attr-manager-container .noborder {
+.nps-attribute-manager-index-index .noborder {
 	border: none !important;
 	border-top: none !important;
 	border-right: none !important;

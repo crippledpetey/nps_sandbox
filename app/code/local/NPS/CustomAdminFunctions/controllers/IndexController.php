@@ -22,6 +22,8 @@ class NPS_CustomAdminFunctions_IndexController extends Mage_Adminhtml_Controller
 			'createAddOptionsAttributeForm',
 			'customAttributeOptions',
 			'autoOrderAttributes',
+			'blankAttrRemover',
+			'removeOptionsAttributeForm',
 		);
 
 		//set the primary display content
@@ -54,13 +56,29 @@ class NPS_CustomAdminFunctions_IndexController extends Mage_Adminhtml_Controller
 /**
 PAGE LOAD FUNCTIONS THAT CONTROL UPDATES
  */
-
+	private function setConnection() {
+		//database read adapter
+		$this->sqlread = Mage::getSingleton('core/resource')->getConnection('core_read');
+		$this->sqlwrite = Mage::getSingleton('core/resource')->getConnection('core_write');
+		//database table prefix
+		$this->tablePrefix = (string) Mage::getConfig()->getTablePrefix();
+	}
 	public function requestFunctions() {
+
+		//set default refresh values
+		$refresh = false;
+		$append_url = null;
+
+		//check for default attribute value
+		if (isset($_POST['nps_set_default_attribute'])) {
+			if ((empty($_COOKIE[$this->dwa_cookie])) || ($_COOKIE[$this->dwa_cookie] !== $_POST['nps_set_default_attribute'])) {
+				setcookie($this->dwa_cookie, $_POST['nps_set_default_attribute'], 0, '/');
+				$refresh = true;
+			}
+		}
 
 		//check if form is subitted
 		if (isset($_POST['nps_function'])) {
-			$refresh = false;
-			$append_url = null;
 
 			//if mass attribute addition
 			if ($_POST['nps_function'] == 'mass_attr_option_add') {
@@ -137,19 +155,48 @@ PAGE LOAD FUNCTIONS THAT CONTROL UPDATES
 				if (isset($_POST['attr_reorder_is_numeric'])) {
 					$numeric = true;
 				}
+
+				//check for fraction trigger
+				$fraction = false;
+				if (isset($_POST['attr_reorder_is_fraction']) && $_POST['attr_reorder_is_fraction'] == 'on') {
+					$numeric = false;
+					$fraction = true;
+				}
+
 				//reorder options
-				$this->reorderOptions($_POST['nps_attr_select'], $numeric);
+				$this->reorderOptions($_POST['nps_attr_select'], $numeric, $fraction);
 				//set the refresh url
 				$append_url = 'btf=3';
 				//trigger page refresh
 				$refresh = true;
-			}
+			} elseif ($_POST['nps_function'] == 'attr_option_remove_blank') {
 
-			//if refresh is true then reload the page to prevent duplicate posting
-			if ($refresh) {
-				session_write_close();
-				Mage::app()->getFrontController()->getResponse()->setRedirect($_SERVER['REQUEST_URI'] . '?' . $append_url);
+				//reorder options
+				$this->removeBlankOptions($_POST['nps_attr_select']);
+				//set the refresh url
+				$append_url = 'btf=4';
+				//trigger page refresh
+				$refresh = true;
+			} elseif ($_POST['nps_function'] == 'mass_attr_option_remove') {
+				if (!empty($_POST['nps_attr_remove_options']) && $_POST['nps_attr_remove_options'] !== '') {
+
+					//reorder options
+					$this->removeSelectedOptions($_POST['nps_attr_select'], $_POST['nps_attr_remove_options']);
+
+					//set the refresh url
+					$append_url = 'btf=5';
+
+					//trigger page refresh
+					$refresh = true;
+				}
 			}
+		}
+
+		//if refresh is true then reload the page to prevent duplicate posting
+		if ($refresh) {
+			session_write_close();
+			if (!empty($append_url)) {$append_url = '?' . $append_url;}
+			Mage::app()->getFrontController()->getResponse()->setRedirect($_SERVER['REQUEST_URI'] . $append_url);
 		}
 	}
 
@@ -172,16 +219,38 @@ HTML OUTPUT MEHTODS
 		$html .= '<ul id="nps-admin-custom-attr-nav">';
 
 		//attribute controls
-		$html .= '<a href="' . $url_base . '?btf=2" title="Attribute Controls"><li class="' . $this->active(2, $this->btf) . '">Custom Attribute Controls</li></a>';
+		$html .= '<a href="' . $url_base . '?btf=2" title="Attribute Controls"><li class="' . $this->active(2, $this->btf) . '">Attribute Control Panel</li></a>';
+
+		//insert separator
+		$html .= '<li class="separator"></li>';
 
 		//mass add options
-		$html .= '<a href="' . $url_base . '?btf=1" title="Mass Attribute Option Addition"><li class="' . $this->active(1, $this->btf) . '">Mass Attribute Option Addition</li></a>';
+		$html .= '<a href="' . $url_base . '?btf=1" title="Mass Add Attribute Options"><li class="' . $this->active(1, $this->btf) . '">Mass Add Attribute Options</li></a>';
+
+		//Remove Blank Values En Mass
+		$html .= '<a href="' . $url_base . '?btf=5" title="Remove Specific Options"><li class="' . $this->active(5, $this->btf) . '">Mass Remove Attribute Options</li></a>';
+
+		//Remove Blank Values
+		$html .= '<a href="' . $url_base . '?btf=4" title="Remove Blank Options"><li class="' . $this->active(4, $this->btf) . '">Remove Blank Attribute Options</li></a>';
 
 		//auto order
-		$html .= '<a href="' . $url_base . '?btf=3" title="Auto Order Attribute Options"><li class="' . $this->active(3, $this->btf) . '">Order Attribute Options</li></a>';
+		$html .= '<a href="' . $url_base . '?btf=3" title="Auto Order Attribute Options"><li class="' . $this->active(3, $this->btf) . '">Autorder Attribute Options</li></a>';
 
 		//close the list
 		$html .= '</ul>';
+
+		//set default attribute
+		$html .= '<div id="nps-control-nav-bottom">';
+		$html .= '	<h3>Set Default Attribute</h3>';
+		$html .= '	<form id="set_working_attribute_form" enctype="multipart/form-data" method="post" action="' . $_SERVER['REQUEST_URI'] . '">';
+		$html .= '		<select id="nps_set_default_attribute" name="nps_set_default_attribute" style="width: 95%;"><option value="unset"' . $this->selected(null, $this->dwa_select) . '></option>';
+		$html .= implode('', $this->getAttributesForSelect('both', $this->dwa_select));
+		$html .= '		</select>';
+		$html .= '		<div class="clearer small noborder"></div>';
+		$html .= '		<input type="submit" value="Set Working Attribute">';
+		$html .= '		<input type="hidden" name="form_key" value="' . Mage::getSingleton('core/session')->getFormKey() . '">';
+		$html .= '	</form>';
+		$html .= '</div>';
 
 		return $html;
 	}
@@ -189,6 +258,31 @@ HTML OUTPUT MEHTODS
 	private function npsWelcomePage() {
 		$html = '<h1>NPS Custom Attribute Tools</h1>';
 		$html .= '<p>Please select a function from the left</p>';
+		return $html;
+	}
+
+	private function blankAttrRemover() {
+		//start boody
+		$html = '<h1>Auto Remove Blank Options</h1>';
+		$html .= '<form id="nps_attr_option_select_attr_remove_blank" name="nps_attr_option_select_attr_remove_blank" method="post" action="' . $_SERVER['PHP_SELF'] . '" enctype="multipart/form-data">';
+
+		//include hidden form key and function command
+		$html .= '<input type="hidden" name="btf" value="4">';
+		$html .= '<input type="hidden" name="nps_function" value="attr_option_remove_blank">';
+		$html .= '<input type="hidden" name="form_key" value="' . Mage::getSingleton('core/session')->getFormKey() . '">';
+
+		$html .= '<label for="nps_attr_select">Select Attribute</label>';
+		$html .= '<select name="nps_attr_select" required><option></option>';
+
+		//get the list of attribute that can have options selected
+		$html .= implode(null, $this->getAttributesForSelect('code', $this->dwa_code));
+
+		//close select box
+		$html .= '</select><div class="clearer small noborder"></div>';
+
+		//submit button
+		$html .= '<input type="submit" value="Remove Blank Options">';
+
 		return $html;
 	}
 
@@ -206,20 +300,66 @@ HTML OUTPUT MEHTODS
 		$html .= '<select name="nps_attr_select" required><option></option>';
 
 		//get the list of attribute that can have options selected
-		$attributes = Mage::getResourceModel('catalog/product_attribute_collection')->getItems();
-		foreach ($attributes as $attribute) {
-			if ($attribute->getFrontendLabel() !== '' && !empty($attribute->getFrontendLabel())) {
-				$html .= '<option value="' . $attribute->getId() . '">' . $attribute->getFrontendLabel() . '</option>';
-			}
-		}
+		$html .= implode('', $this->getAttributesForSelect('id', $this->dwa_id));
 
 		//close select box
 		$html .= '</select><div class="clearer small noborder"></div>';
 		//is numeric checkbox
+		$html .= '<div class="half-block">';
 		$html .= '<label for="attr_reorder_is_numeric">Field is Numeric</label>';
-		$html .= '<input type="checkbox" name="attr_reorder_is_numeric"><div class="clearer big"></div>';
+		$html .= '<input type="checkbox" name="attr_reorder_is_numeric">';
+		$html .= '</div>';
+
+		//is fraction checkbox
+		$html .= '<div class="half-block">';
+		$html .= '<label for="attr_reorder_is_fraction">Field is Fraction</label>';
+		$html .= '<input type="checkbox" name="attr_reorder_is_fraction">';
+		$html .= '</div>';
+		$html .= '<div class="clearer big"></div>';
+
 		//submit button
 		$html .= '<input type="submit" value="Update Attribute">';
+
+		return $html;
+	}
+
+	private function removeOptionsAttributeForm() {
+
+		//start html output
+		$html = '<h1>Mass Attribute Option Removal</h1>';
+
+		//explanation
+		$html .= '<p class="page-head-note">Youb can use this tool to quickly remove a grouping of options for a given attribute.</p>';
+		$html .= '<p class="page-head-note">Select the attribute from the list and enter a comma separated list of option values that you would like to remove.</p>';
+
+		//start form
+		$html .= '<form id="nps_mass_attr_option_remove" name="nps_mass_attr_option_remove" method="post" action="' . $_SERVER['PHP_SELF'] . '" enctype="multipart/form-data">';
+
+		//include hidden form key and function command
+		$html .= '<input type="hidden" name="nps_function" value="mass_attr_option_remove">';
+		$html .= '<input type="hidden" name="form_key" value="' . Mage::getSingleton('core/session')->getFormKey() . '">';
+
+		//start select box
+		$html .= '<div class="half-block">';
+		$html .= '<label for="nps_attr_select">Select Attribute</label>';
+		$html .= '<select name="nps_attr_select" required value=""><option>SELECT ATTRIBUTE</option>';
+
+		//get the list of attribute that can have options selected
+		$html .= implode('', $this->getAttributesForSelect('code', $this->dwa_code));
+
+		//close select box
+		$html .= '</select>';
+		$html .= '</div>';
+
+		//add text area for adding comma separated values
+		$html .= '<label for="nps_attr_remove_options" class="full-width" style="display: block;">Comma Separated Values</label>';
+		$html .= '<textarea id="nps_attr_remove_options" name="nps_attr_remove_options" class="full-width" required></textarea><br>';
+
+		//submit button
+		$html .= '<input type="submit" value="Remove Attribute Options">';
+
+		//close form
+		$html .= '</form>';
 
 		return $html;
 	}
@@ -227,7 +367,7 @@ HTML OUTPUT MEHTODS
 	private function createAddOptionsAttributeForm() {
 
 		//start html output
-		$html = '<h1>Mass Attribute Option Addition</h1>';
+		$html = '<h1>Mass Add Attribute Options</h1>';
 
 		//explanation
 		$html .= '<p class="page-head-note">This area will allow you to insert a massive amount of attribute options for a selected attribute. Enter a comma separated list of values below to add them to the attribute you select. It is imperative that you <span style="color:red;font-weight:bold;">DO NOT</span> insert values that have comma in them or you will confuse the system and cause undesired results.</p>';
@@ -247,15 +387,7 @@ HTML OUTPUT MEHTODS
 		$html .= '<select name="nps_attr_select" required value=""><option>SELECT ATTRIBUTE</option>';
 
 		//get the list of attribute that can have options selected
-		$attributes = Mage::getResourceModel('catalog/product_attribute_collection')->getItems();
-		foreach ($attributes as $attribute) {
-
-			//make sure type is multiselect
-			if ($attribute->getFrontendInput() == 'multiselect') {
-				$html .= '<option data-attr-type="" value="' . $attribute->getAttributecode() . '">' . $attribute->getFrontendLabel() . '</option>';
-			}
-
-		}
+		$html .= implode('', $this->getAttributesForSelect('both', $this->dwa_select));
 
 		//close select box
 		$html .= '</select>';
@@ -291,15 +423,10 @@ HTML OUTPUT MEHTODS
 			$html .= '<input type="hidden" name="btf" value="2">';
 
 			$html .= '<label for="nps_attr_select">Select Attribute</label>';
-			$html .= '<select name="attr" required value=""><option>SELECT ATTRIBUTE</option>';
+			$html .= '<select name="attr" required>';
 
 			//get the list of attribute that can have options selected
-			$attributes = Mage::getResourceModel('catalog/product_attribute_collection')->getItems();
-			foreach ($attributes as $attribute) {
-				if ($attribute->getFrontendLabel() !== '' && !empty($attribute->getFrontendLabel())) {
-					$html .= '<option value="' . $attribute->getAttributecode() . '">' . $attribute->getFrontendLabel() . '</option>';
-				}
-			}
+			$html .= implode('', $this->getAttributesForSelect('code', $this->dwa_code));
 
 			//close select box
 			$html .= '</select><div class="clearer big"></div>';
@@ -462,7 +589,6 @@ HTML OUTPUT MEHTODS
 /**
 DATABASE AND OTHER UPDATE METHODS CALLED BY  $this->requestFunctions()
  */
-
 	protected function addAttributeOptions($attribute_code, array $optionsArray, $sort_start) {
 
 		//database read adapter
@@ -516,17 +642,80 @@ DATABASE AND OTHER UPDATE METHODS CALLED BY  $this->requestFunctions()
 			}
 		}
 	}
+	protected function getAttributeOptions($attribute_id) {
+		//verify connection is there
+		if (!isset($this->sqlwrite)) {
+			$this->setConnection();
+		}
+		//check for existing option
+		$select = $this->sqlwrite->select()->from('nps_attribute_options', array('id', 'attribute_id', 'options', 'parent_show', 'desc_show'))->where('attribute_id=?', $attribute_id);
+		$rowsArray = $this->sqlread->fetchRow($select);
+		return $rowsArray;
+	}
+
+	protected function setAttributeOptions($attribute_id, $option_array) {
+
+		//check for parent and description values
+		$parent_show = false;
+		$description_show = false;
+		if ($option_array['attr_option_carry_parent']) {
+			$parent_show = true;
+		}
+		if ($option_array['attr_option_add_prd_desc']) {
+			$description_show = true;
+		}
+
+		//serialize data
+		$serialized = json_encode($option_array);
+
+		//verify connection is there
+		if (!isset($this->sqlread)) {
+			$this->setConnection();
+		}
+
+		//start transaction
+		$this->sqlwrite->beginTransaction();
+
+		//check for existing
+		if (!empty($this->getAttributeOptions($attribute_id))) {
+			//set update fields
+			$update_fields = array();
+			$update_fields['options'] = $serialized;
+			$update_fields['parent_show'] = (string) $parent_show;
+			$update_fields['desc_show'] = (string) $description_show;
+			$update_where = $this->sqlwrite->quoteInto('attribute_id=?', $attribute_id);
+			$this->sqlwrite->update('nps_attribute_options', $update_fields, $update_where);
+		} else {
+			//set insert fields
+			$insert_fields = array();
+			$insert_fields['options'] = $serialized;
+			$insert_fields['attribute_id'] = $attribute_id;
+			$insert_fields['parent_show'] = (string) $parent_show;
+			$insert_fields['desc_show'] = (string) $description_show;
+			$this->sqlwrite->insert('nps_attribute_options', $insert_fields);
+		}
+		//commit the transaction
+		$this->sqlwrite->commit();
+	}
 
 /**
 INFASTRUCTURE METHODS
  */
 
-	private function setConnection() {
-		//database read adapter
-		$this->sqlread = Mage::getSingleton('core/resource')->getConnection('core_read');
-		$this->sqlwrite = Mage::getSingleton('core/resource')->getConnection('core_write');
-		//database table prefix
-		$this->tablePrefix = (string) Mage::getConfig()->getTablePrefix();
+	private function setNPSClassVars() {
+		$this->page_cookie = base64_encode('pagemessages');
+		$this->dwa_cookie = 'nps_default_working_attribute';
+		$this->dwa_delim = '-';
+		$this->dwa_select = null;
+		$this->dwa_value_array = null;
+		$this->dwa_id = null;
+		$this->dwa_code = null;
+		if (!empty($_COOKIE[$this->dwa_cookie])) {
+			$this->dwa_select = $_COOKIE[$this->dwa_cookie];
+			$this->dwa_value_array = explode($this->dwa_delim, $_COOKIE[$this->dwa_cookie]);
+			$this->dwa_id = $this->dwa_value_array[0];
+			$this->dwa_code = $this->dwa_value_array[1];
+		}
 	}
 	public function checked($value, $test, $noOutput = false) {
 		if ($value == $test) {
@@ -560,9 +749,6 @@ INFASTRUCTURE METHODS
 		} else {
 			return false;
 		}
-	}
-	private function setNPSClassVars() {
-		$this->page_cookie = base64_encode('pagemessages');
 	}
 	public function getProductDescriptionZones() {
 		return array(
@@ -639,64 +825,8 @@ INFASTRUCTURE METHODS
 		}
 		return $return;
 	}
+	protected function reorderOptions($attribute_id, $is_numeric = true, $is_fraction = false) {
 
-	protected function getAttributeOptions($attribute_id) {
-		//verify connection is there
-		if (!isset($this->sqlwrite)) {
-			$this->setConnection();
-		}
-		//check for existing option
-		$select = $this->sqlwrite->select()->from('nps_attribute_options', array('id', 'attribute_id', 'options', 'parent_show', 'desc_show'))->where('attribute_id=?', $attribute_id);
-		$rowsArray = $this->sqlread->fetchRow($select);
-		return $rowsArray;
-	}
-
-	protected function setAttributeOptions($attribute_id, $option_array) {
-
-		//check for parent and description values
-		$parent_show = false;
-		$description_show = false;
-		if ($option_array['attr_option_carry_parent']) {
-			$parent_show = true;
-		}
-		if ($option_array['attr_option_add_prd_desc']) {
-			$description_show = true;
-		}
-
-		//serialize data
-		$serialized = json_encode($option_array);
-
-		//verify connection is there
-		if (!isset($this->sqlread)) {
-			$this->setConnection();
-		}
-
-		//start transaction
-		$this->sqlwrite->beginTransaction();
-
-		//check for existing
-		if (!empty($this->getAttributeOptions($attribute_id))) {
-			//set update fields
-			$update_fields = array();
-			$update_fields['options'] = $serialized;
-			$update_fields['parent_show'] = (string) $parent_show;
-			$update_fields['desc_show'] = (string) $description_show;
-			$update_where = $this->sqlwrite->quoteInto('attribute_id=?', $attribute_id);
-			$this->sqlwrite->update('nps_attribute_options', $update_fields, $update_where);
-		} else {
-			//set insert fields
-			$insert_fields = array();
-			$insert_fields['options'] = $serialized;
-			$insert_fields['attribute_id'] = $attribute_id;
-			$insert_fields['parent_show'] = (string) $parent_show;
-			$insert_fields['desc_show'] = (string) $description_show;
-			$this->sqlwrite->insert('nps_attribute_options', $insert_fields);
-		}
-		//commit the transaction
-		$this->sqlwrite->commit();
-	}
-
-	protected function reorderOptions($attribute_id, $is_numeric = true) {
 		//verify connection is there
 		if (!isset($this->sqlwrite)) {
 			$this->setConnection();
@@ -708,8 +838,17 @@ INFASTRUCTURE METHODS
 			$order_by = 'CAST(v.value AS DECIMAL (12 , 4 ))';
 		}
 
+		//check for fraction
+		if ($is_fraction) {
+			$reorder_select = "SELECT core.option_id, upd.value FROM nps_dev.eav_attribute_option AS core INNER JOIN (SELECT v.value, o.option_id, attribute_id, CAST( CASE WHEN v.value NOT LIKE '%/%' THEN v.value ELSE CAST(CAST(REPLACE(LEFT(v.value, LOCATE('/', v.value, 1) - 1), CONCAT(LEFT(v.value, LOCATE(' ', v.value, 1) - 1), ' '), '') AS DECIMAL (12 , 4 )) / CAST(REPLACE(v.value, LEFT(v.value, LOCATE('/', v.value, 1)), '') AS DECIMAL (12 , 4 )) + CAST(LEFT(v.value, LOCATE(' ', v.value, 1) - 1) AS DECIMAL (12 , 4 )) AS DECIMAL (12 , 4 )) END AS DECIMAL(12,4) ) AS `decimal` FROM nps_dev.eav_attribute_option AS o INNER JOIN nps_dev.eav_attribute_option_value AS v ON o.option_id = v.option_id WHERE attribute_id = " . $attribute_id . " ORDER BY `decimal` ASC) AS upd ON upd.option_id = core.option_id, (SELECT @n:=0) m";
+		} else {
+
+			//base update select for all string values that aren't fractions
+			$reorder_select = "SELECT core.option_id, upd.value FROM nps_dev.eav_attribute_option AS core INNER JOIN (SELECT  v.value, o.option_id, @n:=@n + 1 AS 'new_order' FROM nps_dev.eav_attribute_option AS o INNER JOIN nps_dev.eav_attribute_option_value AS v ON o.option_id = v.option_id, (SELECT @n:=0) m WHERE attribute_id = " . $attribute_id . " ORDER BY " . $order_by . " ASC) AS upd ON upd.option_id = core.option_id";
+		}
+
 		//insert options into temp table
-		$query_1 = "INSERT INTO nps_dev.eav_attribute_reorder_temp (`option_id`, `value`) SELECT core.option_id, upd.value FROM nps_dev.eav_attribute_option AS core INNER JOIN (SELECT  v.value, o.option_id, @n:=@n + 1 AS 'new_order' FROM nps_dev.eav_attribute_option AS o INNER JOIN nps_dev.eav_attribute_option_value AS v ON o.option_id = v.option_id, (SELECT @n:=0) m WHERE attribute_id = " . $attribute_id . " ORDER BY " . $order_by . " ASC) AS upd ON upd.option_id = core.option_id";
+		$query_1 = "INSERT INTO nps_dev.eav_attribute_reorder_temp (`option_id`, `value`) " . $reorder_select;
 		//set counter
 		$query_2 = "SELECT @i := 0;";
 		//set values based on counter
@@ -730,6 +869,70 @@ INFASTRUCTURE METHODS
 		Mage::getSingleton('adminhtml/session')->addSuccess('Reordered options');
 	}
 
+	protected function removeBlankOptions($attribute_code) {
+
+		$attribute = Mage::getModel('catalog/resource_eav_attribute')
+			->loadByCode(Mage_Catalog_Model_Product::ENTITY, $attribute_code);
+
+		$optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+			->setAttributeFilter($attribute->getAttributeId())
+			->setPositionOrder('desc', true)
+			->load();
+
+		$count = 0;
+		foreach ($optionCollection as $option) {
+			//remove if options value is empty
+			if ($option->getValue() == '' || $option->getValue() == ' ' || $option->getValue() == '	' || str_replace(' ', null, $option->getValue()) == '') {
+				$option->delete();
+				$count++;
+			}
+		}
+
+		Mage::getSingleton('adminhtml/session')->addSuccess('Removed ' . $count . ' blank options');
+	}
+
+	protected function removeSelectedOptions($attribute_code, $data) {
+
+		$toBeRemoved = explode(',', $data);
+		$attribute = Mage::getModel('catalog/resource_eav_attribute')
+			->loadByCode(Mage_Catalog_Model_Product::ENTITY, $attribute_code);
+
+		$optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+			->setAttributeFilter($attribute->getAttributeId())
+			->setPositionOrder('desc', true)
+			->load();
+
+		$count = 0;
+		foreach ($optionCollection as $option) {
+			//remove if options value is empty
+			if (in_array($option->getValue(), $toBeRemoved)) {
+				$option->delete();
+				$count++;
+			}
+		}
+
+		Mage::getSingleton('adminhtml/session')->addSuccess('Removed ' . $count . ' options');
+	}
+	private function getAttributesForSelect($value_type = 'code', $checkValue = null, $separator = '-') {
+		$options = array();
+		//get the list of attribute that can have options selected
+		$attributes = Mage::getResourceModel('catalog/product_attribute_collection')->getItems();
+		foreach ($attributes as $attribute) {
+			if ($attribute->getFrontendLabel() !== '' && !empty($attribute->getFrontendLabel())) {
+				if ($value_type == 'id') {
+					$attr_value = $attribute->getId();
+				} elseif ($value_type == 'code') {
+					$attr_value = $attribute->getAttributecode();
+				} elseif ($value_type == 'both') {
+					$attr_value = $attribute->getId() . $separator . $attribute->getAttributecode();
+				}
+				$options[] = '<option value="' . $attr_value . '" ' . $this->selected($checkValue, $attr_value) . '>' . $attribute->getFrontendLabel() . '</option>';
+			}
+		}
+		return $options;
+	}
+
 }
 
 ?>
+
