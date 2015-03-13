@@ -41,7 +41,7 @@
         <col />
         <tbody>
         <?php foreach ($_additional as $_data): ?>
-            <?php if( !in_array( $_helper->productAttribute($_product, $_data['value'], $_data['code']), array('N/A','No') ) ):?>
+            <?php if( !in_array( $_helper->productAttribute($_product, $_data['value'], $_data['code']), array('N/A','No','', null, ' ') ) ):?>
             <tr>
                 <?php 
 
