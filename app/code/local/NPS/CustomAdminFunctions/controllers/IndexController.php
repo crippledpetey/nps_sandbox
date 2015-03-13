@@ -557,7 +557,14 @@ HTML OUTPUT MEHTODS
 					$html .= '			</div>';
 					$html .= '		</div>';
 					$html .= '		<div class="clearer small noborder"></div>';
-					$html .= '		<label for="nps_attr_option_' . $key . '_description">Display Content</label>';
+					$html .= '		<label for="nps_attr_option_' . $key . '_list_supp">List Supplement Text</label>';
+					$html .= '		<div class="clearer small noborder"></div>';
+					$html .= '		<p class="page-head-note">This content will be appended to the end of the value in the generated list</p>';
+					$html .= '		<input type="text" id="nps_attr_option_' . $key . '_list_supp" name="nps_attr_option_' . $key . '_list_supp" class="full-width" value="' . $existingArray['nps_attr_option_' . $key . '_list_supp'] . '">';
+					$html .= '		<div class="clearer small noborder"></div>';
+					$html .= '		<label for="nps_attr_option_' . $key . '_description">Attribute Description</label>';
+					$html .= '		<div class="clearer small noborder"></div>';
+					$html .= '		<p class="page-head-note">This content will be displayed on hover of the name in multiple locations on the site</p>';
 					$html .= '		<textarea id="nps_attr_option_' . $key . '_description" name="nps_attr_option_' . $key . '_description" class="full-width">' . $existingArray['nps_attr_option_' . $key . '_description'] . '</textarea><br>';
 					$html .= '	</div>';
 					$html .= '</div>';
@@ -710,6 +717,8 @@ INFASTRUCTURE METHODS
 		$this->dwa_value_array = null;
 		$this->dwa_id = null;
 		$this->dwa_code = null;
+
+		//check and set cookie vars
 		if (!empty($_COOKIE[$this->dwa_cookie])) {
 			$this->dwa_select = $_COOKIE[$this->dwa_cookie];
 			$this->dwa_value_array = explode($this->dwa_delim, $_COOKIE[$this->dwa_cookie]);
@@ -757,6 +766,7 @@ INFASTRUCTURE METHODS
 				'defaults' => array(
 					'show_spec' => true,
 					'show_desc' => false,
+					'show_list_supp' => null,
 				),
 			),
 			'feat' => array(
@@ -764,6 +774,7 @@ INFASTRUCTURE METHODS
 				'defaults' => array(
 					'show_spec' => true,
 					'show_desc' => true,
+					'show_list_supp' => null,
 				),
 			),
 			'tech' => array(
@@ -771,6 +782,7 @@ INFASTRUCTURE METHODS
 				'defaults' => array(
 					'show_spec' => true,
 					'show_desc' => true,
+					'show_list_supp' => null,
 				),
 			),
 			'maint' => array(
@@ -778,6 +790,7 @@ INFASTRUCTURE METHODS
 				'defaults' => array(
 					'show_spec' => false,
 					'show_desc' => false,
+					'show_list_supp' => null,
 				),
 			),
 		);
@@ -819,6 +832,7 @@ INFASTRUCTURE METHODS
 		$attr_prd_desc_attr = $this->getProductDescriptionZones();
 		foreach ($attr_prd_desc_attr as $key => $default) {
 			$return['nps_attr_option_' . $key . '_inlist'] = $default['defaults']['show_spec'];
+			$return['nps_attr_option_' . $key . '_list_supp'] = $default['defaults']['show_list_supp'];
 			$return['nps_attr_option_' . $key . '_display_content'] = $default['defaults']['show_desc'];
 			$return['nps_attr_option_' . $key . '_priority'] = 0;
 			$return['nps_attr_option_' . $key . '_description'] = null;
