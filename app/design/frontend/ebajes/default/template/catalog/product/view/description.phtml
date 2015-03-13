@@ -56,13 +56,14 @@ for( $i=1; $i<=6; $i++){
     if( $vid_title_attr_val ){
         $value['title'] = $vid_title_attr_val;
     }
-    if( !empty( $value ) ){
+    if( !empty( $value['code'] ) ){
         $prd_vids[] = $value;
     }    
 }
  
 ?>
 <?php if (!empty( $prd_vids ) ): ?>
+    <?php var_dump( $prd_vids ); ?>
     <h2><?php echo $this->__('Product Videos') ?></h2>
     <div class="std prd-videos">
         <ul>
