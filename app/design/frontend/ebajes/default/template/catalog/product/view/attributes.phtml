@@ -42,8 +42,32 @@
         <tbody>
         <?php foreach ($_additional as $_data): ?>
             <tr>
-                <th class="label"><?php echo $this->escapeHtml($this->__($_data['label'])) ?></th>
-                <td class="data"><?php echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?></td>
+                <?php 
+
+                    //set attribute variables
+                    $attributeModel = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', $_data['code']); 
+                    $attr_id = $attributeModel->_data['attribute_id'];
+                    //check for existing option
+                    $sqlread = Mage::getSingleton('core/resource')->getConnection('core_read');
+                    $select = $sqlread->select()->from('nps_attribute_options', array('id', 'attribute_id', 'options', 'parent_show', 'desc_show'))->where('attribute_id=?', $attr_id);
+                    $attr_json = $sqlread->fetchRow($select);
+                    $attr_options = json_decode($attr_json['options'], true);
+                ?>
+                <?php 
+                $tooltipClass = null;
+                $tooltipValue = null;
+                $uom = null;
+                if( !empty( $attr_options['nps_attr_option_specs_description'] ) ){
+                    $tooltipClass = " tooltips ";
+                    $tooltipValue = ' title="' . $attr_options['nps_attr_option_specs_description'] . '" ';
+                }
+                if( !empty( $attr_options['attr_option_add_uom'] ) ){
+                    $uom = ' ' . $attr_options['attr_option_add_uom'];
+                }
+                ?>
+                
+                <th class="label<?php echo $tooltipClass ?>" <?php echo $tooltipValue ?>><?php echo $this->escapeHtml($this->__($_data['label'])) ?></th>
+                <td class="data"><?php echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) . $uom ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

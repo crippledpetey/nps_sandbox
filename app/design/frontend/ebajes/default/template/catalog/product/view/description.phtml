@@ -61,9 +61,9 @@ $nps_prdctrl = new productView;
 <?php endif; ?>
 <?php
     //output special description regions (attribute controlled)
-    echo $nps_prdctrl->getFeatures( $this->getProduct() );
-    echo $nps_prdctrl->getSpecs( $this->getProduct() );
-    echo $nps_prdctrl->getTech( $this->getProduct() );
-    echo $nps_prdctrl->getMaint( $this->getProduct() );
+    echo $nps_prdctrl->getFeatures( $this->getProduct(), $npsSC );
+    echo $nps_prdctrl->getSpecs( $this->getProduct(), $npsSC );
+    echo $nps_prdctrl->getTech( $this->getProduct(), $npsSC );
+    echo $nps_prdctrl->getMaint( $this->getProduct(), $npsSC );
 
 ?>

@@ -515,6 +515,14 @@ HTML OUTPUT MEHTODS
 				$html .= '</select>';
 				$html .= '</div>';
 
+				$html .= '<div class="clearer small"></div>';
+
+				//carry child up to container products
+				$html .= '<div class="half-block">';
+				$html .= '<label for="attr_option_add_uom">Unit of Measurement</label>';
+				$html .= '<input type="text" name="attr_option_add_uom" value="' . $existingArray['attr_option_add_uom'] . '">';
+				$html .= '</div>';
+
 				$html .= '<div class="clearer medium"></div>';
 
 				//description sections
@@ -826,6 +834,7 @@ INFASTRUCTURE METHODS
 			'attr_option_carry_parent' => null,
 			'attr_option_duplicate_handling' => null,
 			'attr_option_add_prd_desc' => null,
+			'attr_option_add_uom' => null,
 			'attr_option_desc_location' => array(),
 		);
 

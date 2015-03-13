@@ -104,8 +104,8 @@ jQuery(document).ready(function($){
     }
 
     function fixTwoColLayout(windowWidth) {
-        var mainWidth = $(window).width() - 200;
-        if( (windowWidth > 479)  && ( $(".col2-right-layout .col-main").width() < mainWidth ) ){
+        var mainWidth = $(window).width()-200;
+        if( (windowWidth > 479 )  && ( $(".col-main").width() < mainWidth ) ){
             $(".col-main").css("width",mainWidth-70);
         }
     }
