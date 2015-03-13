@@ -41,6 +41,7 @@
         <col />
         <tbody>
         <?php foreach ($_additional as $_data): ?>
+            <?php if( !in_array( $_helper->productAttribute($_product, $_data['value'], $_data['code']), array('N/A','No') ) ):?>
             <tr>
                 <?php 
 
@@ -69,6 +70,7 @@
                 <th class="label<?php echo $tooltipClass ?>" <?php echo $tooltipValue ?>><span><?php echo $this->escapeHtml($this->__($_data['label'])) ?></span></th>
                 <td class="data"><?php echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) . $uom ?></td>
             </tr>
+            <?php endif;?>
         <?php endforeach; ?>
         </tbody>
     </table>
