@@ -58,7 +58,7 @@
                 $tooltipValue = null;
                 $uom = null;
                 if( !empty( $attr_options['nps_attr_option_specs_description'] ) ){
-                    $tooltipClass = " tooltips ";
+                    $tooltipClass = " tooltips underline-attr";
                     $tooltipValue = ' title="' . $attr_options['nps_attr_option_specs_description'] . '" ';
                 }
                 if( !empty( $attr_options['attr_option_add_uom'] ) ){
@@ -66,7 +66,7 @@
                 }
                 ?>
                 
-                <th class="label<?php echo $tooltipClass ?>" <?php echo $tooltipValue ?>><?php echo $this->escapeHtml($this->__($_data['label'])) ?></th>
+                <th class="label<?php echo $tooltipClass ?>" <?php echo $tooltipValue ?>><span><?php echo $this->escapeHtml($this->__($_data['label'])) ?></span></th>
                 <td class="data"><?php echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) . $uom ?></td>
             </tr>
         <?php endforeach; ?>

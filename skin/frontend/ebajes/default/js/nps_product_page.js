@@ -40,6 +40,41 @@ jQuery(document).ready(function($){
 			//$("#product-more-views > ul").css("width",windowWidth-100);
 		}
 	}
+	function triggerPopUp(popup){
+		$("#page-overlay-dark").removeClass("hidden");
+		$("#page-overlay-dark").animate(400,function(){
+			$(this).css({
+				'height' 	: $(window).height(),
+				'width' 	: '100%',
+				'display'	: 'block', 
+			});
+		},function(){
+			$(popup).removeClass("hidden");
+			$(popup).css({
+				'position':'fixed',
+				'z-index' : 10000,
+				'top':'10%',
+				'left' : ($(window).width() - $(popup).outerWidth())/2,
+			});
+		});
+	}
+
+	$(".video-pop").each(function(){
+		var height = $(window).height()*.8;
+		var width = $(window).width()*.8;
+		$(this).children("iframe").attr({
+			"height":height,
+			"width":width,
+		});
+	});
+	$("#page-overlay-dark").click(function(){
+		$(".video-pop").each(function(){
+			$(this).addClass("hidden").attr("style","");
+			$(".trigger-video-pop").each(function(){
+				$(this).removeClass("hidden");
+			})
+		});
+	});
 
 	//GET PAGE WIDTH AND HEIGHT FOR USE
 	var wWidth = $( window ).width();
@@ -116,6 +151,11 @@ jQuery(document).ready(function($){
             	$(this).attr("src", src);
             });
         });
+	});
+	$(".trigger-video-pop").click(function(){
+		$(this).addClass("hidden");
+		var popUpID = $(this).data("triggerIdKey")+"-video-pop";
+		triggerPopUp( $("#"+popUpID) );
 	});
 });
 
