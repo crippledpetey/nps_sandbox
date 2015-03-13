@@ -387,7 +387,7 @@ HTML OUTPUT MEHTODS
 		$html .= '<select name="nps_attr_select" required value=""><option>SELECT ATTRIBUTE</option>';
 
 		//get the list of attribute that can have options selected
-		$html .= implode('', $this->getAttributesForSelect('both', $this->dwa_select));
+		$html .= implode('', $this->getAttributesForSelect('code', $this->dwa_select));
 
 		//close select box
 		$html .= '</select>';
@@ -620,6 +620,7 @@ DATABASE AND OTHER UPDATE METHODS CALLED BY  $this->requestFunctions()
 			}
 
 			if (!empty($optionsArray)) {
+
 				$attributeData = $attributeRaw->getData();
 				$attributeId = $attributeData['attribute_id'];
 				$recordCount = 0;
