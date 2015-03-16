@@ -59,6 +59,9 @@
 
     <adminhtml_catalog_product_edit>
         <update handle="editor"/>
+        <reference name="head">
+            <action method="addJs"><script>custom/nps.product.edit.js</script></action>
+        </reference>
         <reference name="content">
             <block type="adminhtml/catalog_product_edit" name="product_edit"></block>
         </reference>

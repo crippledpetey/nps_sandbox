@@ -55,7 +55,7 @@
                     </nps_attribute_manager_menu>
                 </children>
             </catalog>
-        </menu> 
+        </menu>
     </adminhtml>
     <frontend>
         <routers>

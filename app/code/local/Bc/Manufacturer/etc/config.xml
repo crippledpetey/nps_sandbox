@@ -15,6 +15,7 @@
                 </args>
             </manufacturer>
         </routers>
+        <!-- REMOVE TOP LINK
         <layout>
             <updates>
                 <manufacturer>
@@ -22,6 +23,7 @@
                 </manufacturer>
             </updates>
         </layout>
+        -->
     </frontend>
     <admin>
         <routers>

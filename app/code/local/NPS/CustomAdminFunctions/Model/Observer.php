@@ -118,7 +118,7 @@ class NPS_CustomAdminFunctions_Model_Observer {
 						$updates[$data->attribute_id] = $value;
 					} elseif ($data->attr_option_duplicate_handling == 'append') {
 						if (empty($updates[$data->attribute_id])) {$updates[$data->attribute_id] = '';}
-						if ($updates[$data->attribute_id] !== $value) {$updates[$data->attribute_id] .= $value;}
+						if (!stripos($updates[$data->attribute_id], $value)) {$updates[$data->attribute_id] .= ',' . $value;}
 					} elseif ($data->attr_option_duplicate_handling == 'hide') {
 						if (!empty($updates[$data->attribute_id]) && $updates[$data->attribute_id] !== $value) {unset($updates[$data->attribute_id]);}
 					} elseif ($data->attr_option_duplicate_handling == 'popular') {

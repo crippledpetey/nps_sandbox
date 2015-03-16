@@ -35,7 +35,7 @@ $nps_prdctrl = new productDrop;
 <?php
     //compile cookie information
     $value_array = json_decode( base64_decode( $_COOKIE[ base64_encode('nps_previous_products') ] ), true);
-    $max_recent_display = 5;
+    $max_recent_display = 4;
 ?>
 <div class="block block-list block-viewed">
     <div class="block-title">
@@ -43,10 +43,10 @@ $nps_prdctrl = new productDrop;
     </div>
     <div class="block-content no-bottom-padd">
         <ol id="recently-viewed-items">
+        <?php $count = 1; ?>
+        <?php foreach ( $value_array as $_item): ?>
 
-        <?php $i=1; foreach (array_reverse( $value_array ) as $_item): ?>
-
-            <?php if( $i <= $max_recent_display) :?>
+            <?php if( $count <= $max_recent_display) :?>
                 <?php $_product = Mage::getModel('catalog/product')->load($_item['parent_id']); ?>
                 <?php if( !empty( $_item['title'] ) && !empty( $_item['url'] ) && !empty( $_item['manufacturer'] ) && !empty( $_item['sku'] ) && !empty( $_item['img'] ) && !empty( $_item['price'] ) ): ?>
 
@@ -83,7 +83,7 @@ $nps_prdctrl = new productDrop;
                 </span>
             </li>
 
-                <?php $i++; endif; //end the check for values ?>
+                <?php $count++; endif; //end the check for values ?>
 
             <?php endif; //end the check for max number of elements ?>
 
