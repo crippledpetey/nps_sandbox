@@ -48,6 +48,9 @@ class NPS_BetterLayerNavigation_Model_Observer {
 			$value_array = array();
 		}
 
+		//inverse the array
+		$value_array = array_reverse( $value_array );
+
 		//set the flat values
 		$manufacturer = $product->getAttributeText('manufacturer');
 		$sku = $product->getSKU();
@@ -122,6 +125,9 @@ class NPS_BetterLayerNavigation_Model_Observer {
 			'price' => $price,
 			'cart_link' => $cart_link,
 		);
+
+		//inverse array
+		$value_array = array_reverse( $value_array );
 
 		//set cookie values
 		$cookieValue = base64_encode(json_encode($value_array));
