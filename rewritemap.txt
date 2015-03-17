@@ -1,0 +1,20 @@
+##
+# START REWRITE MAP FILE
+##
+
+#### 985 ####
+toto/ms854114/bone ms854114-html.html?npsf=458&chid=982
+toto/ms854114/colonial-white ms854114-html.html?npsf=459&chid=984
+toto/ms854114/cotton ms854114-html.html?npsf=460&chid=981
+toto/ms854114/sedona-beige ms854114-html.html?npsf=461&chid=983
+#### 985 ####
+
+#### 980 ####
+toto/ct705eln/cotton ct705eln.html?npsf=455&chid=977
+toto/ct705eln/sedona-beige ct705eln.html?npsf=456&chid=978
+toto/ct705eln/bone ct705eln.html?npsf=457&chid=979
+#### 980 ####
+
+##
+# END REWRITE MAP FILE
+##

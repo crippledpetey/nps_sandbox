@@ -89,6 +89,28 @@ class NPS_CustomAdminFunctions_Model_Observer {
 		$query = "SELECT DISTINCT e.entity_id FROM catalog_product_option AS p INNER JOIN catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN catalog_product_entity AS e ON e.sku = o.sku WHERE p.product_id = " . $product_id;
 		return Mage::getSingleton('core/resource')->getConnection('core_read')->fetchAll($query);
 	}
+	static public function slugify($text) {
+		// replace non letter or digits by -
+		$text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+
+		// trim
+		$text = trim($text, '-');
+
+		// transliterate
+		$text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+		// lowercase
+		$text = strtolower($text);
+
+		// remove unwanted characters
+		$text = preg_replace('~[^-\w]+~', '', $text);
+
+		if (empty($text)) {
+			return 'n-a';
+		}
+
+		return $text;
+	}
 
 	public function updateContainerProductAttributes(Varien_Event_Observer $observer) {
 		//get products and child IDs
@@ -134,4 +156,139 @@ class NPS_CustomAdminFunctions_Model_Observer {
 		}
 
 	}
+
+	public function updateUrlReWrite(Varien_Event_Observer $observer) {
+		require_once Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php';
+
+		//check fo make sure product is container product
+		$containerPrdCheck = Mage::getModel("eav/entity_attribute_set")->load($observer->getEvent()->getProduct()->getAttributeSetId())->getData();
+		if ($containerPrdCheck['attribute_set_name'] == 'Container Product') {
+
+			//check to make sure required attributes are present
+			$prdAttr = Mage::getModel('catalog/product')->load($observer->getEvent()->getProduct()->getId());
+
+			//set variable that will be used
+			$attr_manufacturer = $prdAttr->getAttributeText('manufacturer');
+			$attr_container_productid = $prdAttr->getResource()->getAttribute('container_productid')->getFrontend()->getValue($prdAttr);
+			$attr_url_key = $prdAttr->getResource()->getAttribute('url_key')->getFrontend()->getValue($prdAttr);
+
+			//make sure required variables are present
+			if (!empty($attr_container_productid) && !empty($attr_manufacturer)) {
+
+				//get url ID
+				$coreUrl = Mage::getModel('core/url_rewrite')->setStoreId(1)->loadByRequestPath($prdAttr->getUrlPath()); //
+				$rwID = $coreUrl->getData()['url_rewrite_id'];
+
+				//get existing rewrites
+				$db_rewrites = $this->getRewrites($prdAttr->getId());
+
+				//set static values for DB insertion
+				$store_id = '1';
+				$category_id = null;
+				$product_id = null;
+				$id_path = 'product/' . $prdAttr->getId();
+				$target_path_base = $attr_url_key;
+				$is_system = '0';
+				$options = 'RP';
+				$description = null;
+
+				//compile new urls
+				$rules = array();
+				$url_manufacturer = self::slugify($attr_manufacturer);
+				$url_container_productid = self::slugify($attr_container_productid);
+
+				//start product drop class for obtaining custom option information
+				$nps_options = new productDrop;
+				if ($nps_options->getUrlOptionsForProduct($prdAttr->getId())) {
+
+					//create array of rewrite URLS
+					foreach ($nps_options->getUrlOptionsForProduct($prdAttr->getId()) as $key => $val) {
+
+						//slugify finish
+						$url_finish = self::slugify($val['title']);
+
+						//set container product url
+						$preferred = $url_manufacturer . '/' . $url_container_productid . '/' . $url_finish;
+						$cp_target = $target_path_base . '.html?npsf=' . $val['npsf'] . '&chid=' . $val['chid'];
+
+						//create redirects
+						//$rules[] = 'Redirect 301 /product/' . $manufacturer . '/' . $url_container_productid . '/' . $url_finish . ' ' . $preferred;
+
+						//create core rewrite
+						$rules[] = $preferred . ' ' . $cp_target;
+
+						//$urls[] = 'product/' . $url_manufacturer . '/' . $url_container_productid . '/' . $url_finish_title . '?npsf=' . $val['npsf'] . '&chid=' . $val['chid']);
+					}
+				}
+
+				if (!empty($rules)) {
+					//get/create product rewrites files
+					$prd_rw_file_path = Mage::getBaseDir('base') . DIRECTORY_SEPARATOR . 'rewritemap.txt';
+
+					//find string
+					$current = file_get_contents($prd_rw_file_path);
+					$search_string = "#### " . $prdAttr->getId() . " ####"; //check for existing product info
+
+					//if the product already has records
+					if (stripos($current, $search_string)) {
+
+						//explode the string to isolate the product entries
+						$file_array = explode($search_string, $current);
+
+						//start of file content
+						$new_string = array($file_array[0]);
+
+						//replace old rules in file
+						$new_string[] = "#### " . $prdAttr->getId() . " ####\n";
+						foreach ($rules as $rule) {
+							$new_string[] = $rule . "\n";
+						}
+						$new_string[] = "#### " . $prdAttr->getId() . " ####";
+
+						//re-append the end of the file
+						$new_string[] = $file_array[2];
+
+						//recompile into a string
+						$new_string = implode(null, $new_string);
+
+					} else {
+
+						//kill the end line
+						$new_string = str_replace("##\n# END REWRITE MAP FILE\n##", null, $current);
+
+						//write new rules to end of file
+						$new_string .= "#### " . $prdAttr->getId() . " ####\n";
+						foreach ($rules as $rule) {
+							$new_string .= $rule . "\n";
+						}
+						$new_string .= "#### " . $prdAttr->getId() . " ####\n";
+
+						//readd file ending
+						$new_string .= "\n##\n# END REWRITE MAP FILE\n##";
+					}
+
+					file_put_contents($prd_rw_file_path, $new_string);
+				}
+			}
+		}
+	}
+
+	protected function getRewrites($productID) {
+		//start database connection and get rewrites from the DB
+		$connection_read = Mage::getSingleton('core/resource')->getConnection('core_read');
+		$connection_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+		$select = $connection_read->select()->from('core_url_rewrite', array('url_rewrite_id', 'store_id', 'category_id', 'product_id', 'id_path', 'request_path', 'target_path', 'is_system', 'options', 'description'))->where('`is_system` = 0 AND product_id=?', $productID);
+		$rewrites = $connection_read->fetchAll($select);
+
+		return $rewrites;
+	}
 }
+/*
+ob_start();
+var_dump($prdAttr->getAttributeText('manufacturer'));
+var_dump($prdAttr->getResource()->getAttribute('container_productid')->getFrontend()->getValue($prdAttr) );
+$output = ob_get_clean();
+$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w");
+fwrite($fileHandle, $output);
+fclose($fileHandle);
+ */

@@ -29,6 +29,10 @@ class productDrop {
 		$query = "SELECT o.option_type_id FROM catalog_product_option AS p INNER JOIN catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN catalog_product_entity AS e ON e.sku = o.sku WHERE e.entity_id = " . $entity_id;
 		return $this->sqlread->fetchAll($query);
 	}
+	public function getUrlOptionsForProduct($product_id) {
+		$query = "SELECT o.option_type_id as 'npsf', e.entity_id as 'chid', e.sku, t.title FROM catalog_product_option AS p INNER JOIN catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN catalog_product_entity AS e ON e.sku = o.sku INNER JOIN catalog_product_option_type_title as t ON t.option_type_id = o.option_type_id WHERE p.product_id = " . $product_id;
+		return $this->sqlread->fetchAll($query);
+	}
 	public function getContainerProductURL($entity_id, $manual_get = null) {
 		//get parents entity
 		$parent_id = $this->getContainerProductID($entity_id);

@@ -116,6 +116,9 @@
     Options +FollowSymLinks
     RewriteEngine on
 
+    #ENABLES /product/manufacturer/url_key/finish URLS
+    RewriteRule ^product/(.*)/?$ /${prdfinder:$1} [R,L,NC,QSA]
+
 ############################################
 ## you can put here your magento root folder
 ## path relative to web root
@@ -162,6 +165,7 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-l
+
 
 ############################################
 ## rewrite everything else to index.php

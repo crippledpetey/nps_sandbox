@@ -25,18 +25,26 @@ jQuery(document).ready(function(e) {
     e( document ).ajaxComplete(function() {
 	  console.log( "Triggered ajaxComplete handler." );
 	});
+    var content = 'Find Attribute: <input type="text" id="unassigned-attr-search" onkeyup="srchUnassignedAttr()"><span style="margin-left: 25px;"><button id="clear-search-undefiined-attributes" title="Clear Search Input" onClick="clrUnassignedAttr()" type="button" class="scalable delete" style=""><span><span><span>Clear</span></span></span></button>';
+
+    $("#page:main-container > table td:nth-child(3)").prepend( content );
+    
 });
 
-(function() {
-	
+(function($) {
+    var content = 'Find Attribute: <input type="text" id="unassigned-attr-search" onkeyup="srchUnassignedAttr()"><span style="margin-left: 25px;"><button id="clear-search-undefiined-attributes" title="Clear Search Input" onClick="clrUnassignedAttr()" type="button" class="scalable delete" style=""><span><span><span>Clear</span></span></span></button>';
+
+    $("#tree-div2").prepend( content );
+    /*
 	theParent = document.getElementById("tree-div2");
 	theKid = document.createElement("span");
 	theKid.innerHTML = 'Find Attribute: <input type="text" id="unassigned-attr-search" onkeyup="srchUnassignedAttr()"><span style="margin-left: 25px;"><button id="clear-search-undefiined-attributes" title="Clear Search Input" onClick="clrUnassignedAttr()" type="button" class="scalable delete" style=""><span><span><span>Clear</span></span></span></button>';
 	
 	// prepend theKid to the beginning of theParent
 	theParent.insertBefore(theKid, theParent.firstChild);
+    */
 
-})();
+});
 
 function srchUnassignedAttr(){
 	input = document.getElementById("unassigned-attr-search").value;
