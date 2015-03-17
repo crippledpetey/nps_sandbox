@@ -207,10 +207,13 @@
 
 ##JASON
     Allow from 50.173.94.122
-    Allow from 70.211.77.163
+    Allow from 74.213.205.130
 
 ##AARON
     Allow from 73.48.207.61
+
+##ALEX
+    Allow from 97.94.139.203
 
 ##BOB
     Allow from 73.12.253.47
