@@ -224,7 +224,7 @@ class NPS_CustomAdminFunctions_Model_Observer {
 
 				if (!empty($rules)) {
 					//get/create product rewrites files
-					$prd_rw_file_path = Mage::getBaseDir('base') . DIRECTORY_SEPARATOR . 'rewritemap.txt';
+					$prd_rw_file_path = Mage::getBaseDir('base') . DIRECTORY_SEPARATOR . 'rewrite' . DIRECTORY_SEPARATOR . 'rewritemap.txt';
 
 					//find string
 					$current = file_get_contents($prd_rw_file_path);
