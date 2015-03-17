@@ -216,6 +216,7 @@ class NPS_CustomAdminFunctions_Model_Observer {
 
 						//create core rewrite
 						$rules[] = $preferred . ' ' . $cp_target;
+						$rules[] = $preferred . '/ ' . $cp_target;
 
 						//$urls[] = 'product/' . $url_manufacturer . '/' . $url_container_productid . '/' . $url_finish_title . '?npsf=' . $val['npsf'] . '&chid=' . $val['chid']);
 					}

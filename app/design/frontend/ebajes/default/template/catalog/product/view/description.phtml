@@ -71,7 +71,7 @@ for( $i=1; $i<=6; $i++){
                 if( !empty( $video['code'] ) ){
                     $url = 'https://www.youtube.com/watch?v=' . $video['code'] . '&html5=true';
                     $thumb = 'http://img.youtube.com/vi/' . $video['code'] . '/0.jpg';
-                    echo '<li><a class="trigger-video-pop tooltip" title="' . $video['title'] . '" data-trigger-id-key="' . $key . '" id="' . $key . '-video-pop-trigger" style="display: block;"><img src="' . $thumb . '"></a><div id="' . $key . '-video-pop" class="hidden video-pop"><iframe src="https://www.youtube.com/embed/' . $video['code'] . '" frameborder="0" allowfullscreen controls="controls" class="video-stream" x-webkit-airplay="allow" ></iframe></div></li>';
+                    echo '<li><a class="trigger-video-pop tooltip" title="' . $video['title'] . '" data-trigger-id-key="' . $key . '" id="' . $key . '-video-pop-trigger" style="display: block;"><img src="' . $thumb . '"></a><div id="' . $key . '-video-pop" class="hidden video-pop"><a title="Close" class="video-pop-close fancybox-item fancybox-close" href="javascript:;"></a><iframe src="https://www.youtube.com/embed/' . $video['code'] . '" frameborder="0" allowfullscreen controls="controls" class="video-stream" x-webkit-airplay="allow" ></iframe></div></li>';
                 }
             }
             ?>

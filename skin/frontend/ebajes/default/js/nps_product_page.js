@@ -42,6 +42,7 @@ jQuery(document).ready(function($){
 	}
 	function triggerPopUp(popup){
 		$("#page-overlay-dark").removeClass("hidden");
+		$(popup).find(".video-pop-close").removeClass("hidden");
 		if( $(popup).data("origSrc") !== "" && $(popup).data("origSrc") !== undefined ){
 			var origSrc = $(popup).data("origSrc");
 			$(popup).children("iframe").attr("src",origSrc);	
@@ -53,17 +54,25 @@ jQuery(document).ready(function($){
 		
 		$("#page-overlay-dark").animate(400,function(){
 			$(this).css({
-				'height' 	: $(window).height(),
-				'width' 	: '100%',
-				'display'	: 'block', 
+				'height' 		: $(window).height(),
+				'width' 				: '100%',
+				'display'				: 'block', 
 			});
 		},function(){
 			$(popup).removeClass("hidden");			
 			$(popup).css({
-				'position':'fixed',
-				'z-index' : 10000,
-				'top':'10%',
-				'left' : ($(window).width() - $(popup).outerWidth())/2,
+				'position'				: 'fixed',
+				'z-index' 				: 10000,
+				'top'					: '10%',
+				'left' 					: ($(window).width() - $(popup).outerWidth())/2,
+				'padding'				: '15px',
+				'background'			: '#f9f9f9',
+				'color'					: '#444',
+				'text-shadow'			: 'none',
+				'-webkit-border-radius'	: '4px',
+				'-moz-border-radius'	: '4px',
+				'border-radius'			: '4px',
+				'box-shadow'			: '0 10px 25px rgba(0, 0, 0, 0.5)',
 			});
 		});
 	}
@@ -74,6 +83,21 @@ jQuery(document).ready(function($){
 		$(this).children("iframe").attr({
 			"height":height,
 			"width":width,
+		});
+	});
+	$(".video-pop-close").click(function(){
+		$("#page-overlay-dark").animate(400, function(){
+			$(this).css("opacity",0);
+			}, function(){
+				$("#page-overlay-dark").attr("style","");
+				$("#page-overlay-dark").addClass("hidden");
+				$(".video-pop").each(function(){
+					$(this).addClass("hidden").attr("style","");
+					$(this).children("iframe").attr("src","");
+					$(".trigger-video-pop").each(function(){
+						$(this).removeClass("hidden");
+					})
+				});
 		});
 	});
 	$("#page-overlay-dark").click(function(){
@@ -149,6 +173,8 @@ jQuery(document).ready(function($){
 
 	$(".product-image-zoom > img").width("278");
 	$(".product-image-zoom > img").height("278");
+	$(".catalog-product-view .product-image > img").width("278");
+	$(".catalog-product-view .product-image > img").height("278");
 
 	$(".attachment-icon a").each(function(){
 		$(this).mouseover(function() { 
