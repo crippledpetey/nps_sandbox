@@ -225,3 +225,4 @@ sftp-config.json
 _logs/
 app/code/community/HALO/Haloebajessettings/etc/system.xml
 /media
+rewritemap.txt
