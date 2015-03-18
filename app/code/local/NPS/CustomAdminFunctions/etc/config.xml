@@ -29,11 +29,11 @@
                         <class>NPS_CustomAdminFunctions_Model_Observer</class>
                         <method>updateGroupedProductInventory</method>  
                     </product_Save_Inv_Config>
-                    <product_Save_Url_Rewrite>     
+                    <!--<product_Save_Url_Rewrite>     
                         <type>singleton</type>  
                         <class>NPS_CustomAdminFunctions_Model_Observer</class>
                         <method>updateUrlReWrite</method>  
-                    </product_Save_Url_Rewrite>
+                    </product_Save_Url_Rewrite>-->
                 </observers>  
             </catalog_product_save_after> 
         </events>
