@@ -225,6 +225,9 @@
 ##BRINKLEY
    Allow from 204.93.104.58
 
+##DEZI
+    Allow from 73.41.121.182
+
 ###########################################
 ## Deny access to release notes to prevent disclosure of the installed Magento version
 
