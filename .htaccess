@@ -228,6 +228,9 @@
 ##DEZI
     Allow from 73.41.121.182
 
+##RANDOM
+    Allow from 67.174.62.7
+
 ###########################################
 ## Deny access to release notes to prevent disclosure of the installed Magento version
 
