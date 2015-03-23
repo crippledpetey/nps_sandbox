@@ -356,6 +356,7 @@ class NPS_CustomAdminFunctions_Model_Observer {
 
 			//if there are products selected run the insert
 			if (!empty($prd_table_data)) {
+				outputToTestingText($table_data);
 				//insert into the purchase order table
 				$this->_addVendorPurchaseOrder($obs_data['vendors'][$_POST['nps_source_vendor_id']]['inv_table_values']['inv-po-table'], $table_data);
 				//add order items to table
@@ -375,7 +376,7 @@ class NPS_CustomAdminFunctions_Model_Observer {
 		foreach ($fields as $name => $value) {
 			$cols[] = "`" . $name . "`";
 			if (empty($value)) {
-				$vals[] = null;
+				$vals[] = 'NULL';
 			} else {
 				$vals[] = "'" . $value . "'";
 			}
@@ -394,14 +395,13 @@ class NPS_CustomAdminFunctions_Model_Observer {
 
 			//loop through rows
 			foreach ($row as $name => $value) {
-				$cols[] = $name;
-				if (is_null($value) || is_int($value)) {
-					$vals[] = $value;
+				$cols[] = "`" . $name . "`";
+				if (empty($value)) {
+					$vals[] = 'NULL';
 				} else {
 					$vals[] = "'" . $value . "'";
 				}
 			}
-
 			//write value to database
 			$query = "INSERT INTO `" . $table . "` (" . implode(',', $cols) . ") VALUES (" . implode(",", $vals) . ")";
 			$connection_write->query($query);
