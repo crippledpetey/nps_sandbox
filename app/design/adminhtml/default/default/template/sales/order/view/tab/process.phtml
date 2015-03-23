@@ -61,7 +61,11 @@
     if( stripos( $shippingData['street'], "\n") ){
         $address_array = explode("\n",$shippingData['street']);
         $observerData['address1'] = $address_array[0];
-        $observerData['address2'] = $address_array[1];
+        if( !empty( $address_array[1] ) ){
+            $observerData['address2'] = $address_array[1];    
+        } else {
+            $observerData['address2'] = null;    
+        }        
     } else {
         $observerData['address1'] = $shippingData['street'];
         $observerData['address2'] = null;
