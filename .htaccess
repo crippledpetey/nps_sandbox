@@ -238,6 +238,9 @@
 ## RANDOM
     Allow from 67.174.62.7
 
+## TDP OFFICE ENTRIES
+    Allow from 71.12.97.202
+
 ###########################################
 ## Deny access to release notes to prevent disclosure of the installed Magento version
 
