@@ -55,10 +55,10 @@
             <resources>
                 <admin>
                     <children>
-                        <nps_vendor_manager_menu translate="title" module="vendormanager">
+                        <vendormanager_menu>
                             <title>NPS Vendor Manager</title>
-                            <sort_order>10</sort_order>
-                        </nps_vendor_manager_menu>
+                            <sort_order>2</sort_order>
+                        </vendormanager_menu>
                     </children>
                 </admin>
             </resources>
