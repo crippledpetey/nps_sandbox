@@ -274,7 +274,7 @@ HTML OUTPUT MEHTODS
 
 			//check for field map
 			if (empty($vendor['po_table_field_map'])) {
-				$vendor['po_table_field_map'] = array();
+				$vendor['po_table_field_map'] = serialize(array());
 			}
 			$html .= '				<textarea name="nps_vendor_po_table_fields" style="width: 50%;">' . implode("\n", unserialize($vendor['po_table_field_map'])) . '</textarea>';
 			$html .= '		</div>';
@@ -282,7 +282,7 @@ HTML OUTPUT MEHTODS
 			$html .= '				<label for="nps_vendor_po_item_table_fields">Purchase Order Items Table</label>';
 
 			if (empty($vendor['po_item_table_field_map'])) {
-				$vendor['po_item_table_field_map'] = array();
+				$vendor['po_item_table_field_map'] = serialize(array());
 			}
 			$html .= '				<textarea name="nps_vendor_po_item_table_fields" style="width: 50%;">' . implode("\n", unserialize($vendor['po_item_table_field_map'])) . '</textarea>';
 			$html .= '		</div>';
