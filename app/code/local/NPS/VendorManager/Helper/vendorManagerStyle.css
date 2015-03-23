@@ -40,18 +40,32 @@
 	-moz-box-sizing: border-box;
 	float: left;
 	margin-bottom: 15px;
+  	padding: 15px;
 }
 .nps-vendor-manager-index-index .half-block {
  	width: 49%;
- }
+ 	margin-right: 25px;
+}
+.nps-vendor-manager-index-index .half-block.last {
+	margin-right: 0;
+}
 .nps-vendor-manager-index-index .one-third {
 	width: 32%;
+	border-right: 1px dashed #dedede;
+	padding-top: 0;
+}
+.nps-vendor-manager-index-index .one-third > label {
+	margin-bottom: 7px;
 }
 .nps-vendor-manager-index-index .one-third > label,
 .nps-vendor-manager-index-index .one-third > input,
 .nps-vendor-manager-index-index .one-third > select,
 .nps-vendor-manager-index-index .one-third > textarea {
-	width: 80% !important;
+	width: 99% !important;
+}
+.nps-vendor-manager-index-index .half-block.no-border,
+.nps-vendor-manager-index-index .one-third.no-border {
+	border: none !important;
 }
 .nps-vendor-manager-index-index .clearer {
 	display: block;

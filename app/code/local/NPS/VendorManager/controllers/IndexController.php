@@ -83,9 +83,28 @@ PAGE LOAD FUNCTIONS THAT CONTROL UPDATES
 				$updateFields['vendor_label'] = $_POST['nps_vendor_label'];
 				$updateFields['po_table'] = $_POST['nps_vendor_po_table'];
 				$updateFields['po_item_table'] = $_POST['nps_vendor_po_item_table'];
+
+				//encode po and items table fields
+				if (!empty($_POST['nps_vendor_po_table_fields'])) {
+					$po_fields = explode("\n", $_POST['nps_vendor_po_table_fields']);
+					$po_fields = serialize($po_fields);
+					$updateFields['po_table_field_map'] = $po_fields;
+
+					outputToTestingText($po_fields);
+				}
+				if (!empty($_POST['nps_vendor_po_item_table_fields'])) {
+					$po_item_fields = explode("\n", $_POST['nps_vendor_po_item_table_fields']);
+					$po_item_fields = serialize($po_item_fields);
+					$updateFields['po_item_table_field_map'] = $po_item_fields;
+					outputToTestingText($po_item_fields, true);
+				}
+				//set refresh to true
+				$refresh = true;
+				$append_url = 'v=' . $_POST['nps_vendor_id'] . '&btf=' . $_POST['btf'];
+
+				//run update
+				$this->_updateVendor($_POST['nps_vendor_id'], $updateFields);
 			}
-			//run update
-			$this->_updateVendor($_POST['nps_vendor_inv_file'], $updateFields);
 		}
 
 		//if refresh is true then reload the page to prevent duplicate posting
@@ -140,7 +159,7 @@ HTML OUTPUT MEHTODS
 			$html .= '<option value="' . $v['id'] . '">' . $v['vendor_label'] . '</option>';
 		}
 		$html .= '</select>';
-		$html .= '<input type="submit" value="Remove Blank Options">';
+		$html .= '<input type="submit" style="margin-left: 35px;" value="Configure Vendor">';
 		$html .= '<div class="clearer small noborder"></div>';
 		$html .= '<input type="hidden" name="btf" value="1">';
 		$html .= '</form>';
@@ -149,11 +168,10 @@ HTML OUTPUT MEHTODS
 	}
 
 	private function manageVendor() {
-
+		//check for selected vendor
 		if (empty($_GET['v'])) {
-
+			//set output to the select vendor drop down
 			$html = $this->_selectVendor();
-
 		} else {
 			//get vendor information
 			$vendor = $this->_getVendor($_GET['v']);
@@ -163,62 +181,108 @@ HTML OUTPUT MEHTODS
 			$html .= '<form id="nps_vendor_options_update" name="nps_vendor_options_update" method="post" action="' . $_SERVER['PHP_SELF'] . '" enctype="multipart/form-data">';
 
 			//vendor Identity
-			$html .= '<h4>' . $vendor['vendor_label'] . ' Identity</h4>';
-			$html .= '<div class="half-block">';
-			$html .= '	<label for="nps_vendor_id">Vendor ID <span class="page-head-note">(cannot be changed)</span></label>';
-			$html .= '	<input type="text" disabled name="nps_vendor_id_display" value="' . $vendor['id'] . '">';
-			$html .= '	<input type="hidden" name="nps_vendor_id" value="' . $vendor['id'] . '">';
+			$html .= '<div class="entry-edit">';
+			$html .= '	<div class="entry-edit-head">';
+			$html .= '		<h4 class="icon-head head-edit-form fieldset-legend">' . $vendor['vendor_label'] . ' Identity</h4>';
+			$html .= '	</div>';
+			$html .= '	<div class="fieldset" id="grop_fields">';
+			$html .= '		<div class="half-block">';
+			$html .= '			<label for="nps_vendor_id">Vendor ID <span class="page-head-note">(cannot be changed)</span></label>';
+			$html .= '			<input type="text" disabled name="nps_vendor_id_display" value="' . $vendor['id'] . '">';
+			$html .= '			<input type="hidden" name="nps_vendor_id" value="' . $vendor['id'] . '">';
+			$html .= '		</div>';
+			$html .= '		<div class="half-block last">';
+			$html .= '			<label for="nps_vendor_identity">Vendor Identity <span class="page-head-note">(cannot be changed)</span></label>';
+			$html .= '			<input type="text" disabled name="nps_vendor_identity_display" value="' . $vendor['vendor_id'] . '">';
+			$html .= '			<input type="hidden" name="nps_vendor_identity" value="' . $vendor['vendor_id'] . '">';
+			$html .= '		</div>';
+			$html .= '		<div class="half-block">';
+			$html .= '			<label for="nps_vendor_label">Vendor Label</label>';
+			$html .= '			<input type="text" name="nps_vendor_label" value="' . $vendor['vendor_label'] . '">';
+			$html .= '		</div>';
+			$html .= '	<div class="clearer"></div>';
+			$html .= '	</div>';
 			$html .= '</div>';
-			$html .= '<div class="half-block">';
-			$html .= '	<label for="nps_vendor_identity">Vendor Identity <span class="page-head-note">(cannot be changed)</span></label>';
-			$html .= '	<input type="text" disabled name="nps_vendor_identity_display" value="' . $vendor['vendor_id'] . '">';
-			$html .= '	<input type="hidden" name="nps_vendor_identity" value="' . $vendor['vendor_id'] . '">';
-			$html .= '</div>';
-			$html .= '<div class="half-block">';
-			$html .= '	<label for="nps_vendor_label">Vendor Label</label>';
-			$html .= '	<input type="text" name="nps_vendor_label" value="' . $vendor['vendor_label'] . '">';
-			$html .= '</div>';
-			$html .= '<div class="clearer" style="height:55px;"></div>';
 
 			//Inventory Settings
-			$html .= '<h4>' . $vendor['vendor_label'] . ' Inventory Settings</h4>';
-			$html .= '<p class="page-head-note">The following fields define how the system interacts with the inventory file</p>';
-
-			$html .= '<div class="half-block">';
-			$html .= '	<label for="nps_vendor_inv_file">Inventory Filename RegEx</label>';
-			$html .= '	<input type="text" name="nps_vendor_inv_file" value="' . $vendor['file_name'] . '">';
+			$html .= '<div class="entry-edit">';
+			$html .= '	<div class="entry-edit-head">';
+			$html .= '		<h4 class="icon-head head-edit-form fieldset-legend">' . $vendor['vendor_label'] . ' Inventory Settings</h4>';
+			$html .= '	</div>';
+			$html .= '	<div class="fieldset" id="grop_fields">';
+			$html .= '		<div class="half-block">';
+			$html .= '			<label for="nps_vendor_inv_file">Inventory Filename RegEx</label>';
+			$html .= '			<input type="text" name="nps_vendor_inv_file" value="' . $vendor['file_name'] . '">';
+			$html .= '			<div class="clearer"></div>';
+			$html .= '			<p class="page-head-note">This should be the name of the file that gets imported into the DB for inventory.</p>';
+			$html .= '		</div>';
+			$html .= '		<div class="half-block no-border last standardize-children">';
+			$html .= '			<div class="one-third std-me">';
+			$html .= '				<label for="nps_vendor_inv_col_count">Total Column</label>';
+			$html .= '				<input type="number" min="0" name="nps_vendor_inv_col_count" value="' . $vendor['inv_col_count'] . '">';
+			$html .= '				<div class="clearer"></div>';
+			$html .= '				<p class="page-head-note">Total number of columns in the inventory file</p>';
+			$html .= '			</div>';
+			$html .= '			<div class="one-third std-me">';
+			$html .= '				<label for="nps_vendor_inv_qty_col">Quantity Column</label>';
+			$html .= '				<input type="number" min="0" name="nps_vendor_inv_qty_col" value="' . $vendor['inv_qty_col'] . '">';
+			$html .= '				<div class="clearer"></div>';
+			$html .= '				<p class="page-head-note">Quantity column number</p>';
+			$html .= '			</div>';
+			$html .= '			<div class="one-third std-me no-border">';
+			$html .= '				<label for="nps_vendor_inv_uid_col">Vendor UID Column</label>';
+			$html .= '				<input type="number" min="0" name="nps_vendor_inv_uid_col" value="' . $vendor['inv_uid_col'] . '">';
+			$html .= '				<div class="clearer"></div>';
+			$html .= '				<p class="page-head-note">Vendor unique identifier column number</p>';
+			$html .= '			</div>';
+			$html .= '		</div>';
+			$html .= '	<div class="clearer"></div>';
+			$html .= '	</div>';
 			$html .= '</div>';
-			$html .= '<div class="half-block">';
-			$html .= '	<div class="one-third">';
-			$html .= '		<label for="nps_vendor_inv_col_count">Total Column</label>';
-			$html .= '		<input type="number" min="0" name="nps_vendor_inv_col_count" value="' . $vendor['inv_col_count'] . '">';
-			$html .= '	</div>';
-			$html .= '	<div class="one-third">';
-			$html .= '		<label for="nps_vendor_inv_qty_col">Quantity Column</label>';
-			$html .= '		<input type="number" min="0" name="nps_vendor_inv_qty_col" value="' . $vendor['inv_qty_col'] . '">';
-			$html .= '	</div>';
-			$html .= '	<div class="one-third">';
-			$html .= '		<label for="nps_vendor_inv_uid_col">Vendor UID Column</label>';
-			$html .= '		<input type="number" min="0" name="nps_vendor_inv_uid_col" value="' . $vendor['inv_uid_col'] . '">';
-			$html .= '	</div>';
-			$html .= '</div>';
-			$html .= '<div class="clearer" style="height:55px;"></div>';
 
 			//purchase order info
-			$html .= '<h4>' . $vendor['vendor_label'] . ' Purchase Order Settings</h4>';
-			$html .= '<p class="page-head-note">The following fields define where and how the vendors purchase orders are staged at.</p>';
-			$html .= '<div class="half-block">';
-			$html .= '		<label for="nps_vendor_po_table">Purchase Order Table</label>';
-			$html .= '		<input type="text" name="nps_vendor_po_table" value="' . $vendor['po_table'] . '">';
+			$html .= '<div class="entry-edit">';
+			$html .= '	<div class="entry-edit-head">';
+			$html .= '		<h4 class="icon-head head-edit-form fieldset-legend">' . $vendor['vendor_label'] . ' Purchase Order Settings</h4>';
+			$html .= '	</div>';
+			$html .= '	<div class="fieldset" id="grop_fields">';
+			$html .= '		<div class="half-block">';
+			$html .= '				<label for="nps_vendor_po_table">Purchase Order Table</label>';
+			$html .= '				<input type="text" name="nps_vendor_po_table" value="' . $vendor['po_table'] . '">';
+			$html .= '				<div class="clearer"></div>';
+			$html .= '				<p class="page-head-note">This is the table that the purchase orders will be populated in</p>';
+			$html .= '		</div>';
+			$html .= '		<div class="half-block last">';
+			$html .= '				<label for="nps_vendor_po_item_table">Purchase Order Items Table</label>';
+			$html .= '				<input type="text" name="nps_vendor_po_item_table" value="' . $vendor['po_item_table'] . '">';
+			$html .= '				<div class="clearer"></div>';
+			$html .= '				<p class="page-head-note">This is the table that the purchase order items will be populated in</p>';
+			$html .= '		</div>';
+			$html .= '		<div class="clearer"></div>';
+			$html .= '	</div>';
 			$html .= '</div>';
-			$html .= '<div class="half-block">';
-			$html .= '		<label for="nps_vendor_po_item_table">Purchase Order Items Table</label>';
-			$html .= '		<input type="text" name="nps_vendor_po_item_table" value="' . $vendor['po_item_table'] . '">';
+
+			$html .= '<div class="entry-edit">';
+			$html .= '	<div class="entry-edit-head">';
+			$html .= '		<h4 class="icon-head head-edit-form fieldset-legend">' . $vendor['vendor_label'] . ' PO Table Fields</h4>';
+			$html .= '	</div>';
+			$html .= '	<div class="fieldset" id="grop_fields">';
+			$html .= '		<p class="page-head-note">The following values define the table layout for the vendor purchase order and items table.</p>';
+			$html .= '		<p class="page-head-note">Columns should be 1 per line</p>';
+			$html .= '		<div class="half-block">';
+			$html .= '				<label for="nps_vendor_po_table_fields">Purchase Order Table Fields</label>';
+			$html .= '				<textarea name="nps_vendor_po_table_fields" style="width: 50%;">' . implode("\n", unserialize($vendor['po_table_field_map'])) . '</textarea>';
+			$html .= '		</div>';
+			$html .= '		<div class="half-block last">';
+			$html .= '				<label for="nps_vendor_po_item_table_fields">Purchase Order Items Table</label>';
+			$html .= '				<textarea name="nps_vendor_po_item_table_fields" style="width: 50%;">' . implode("\n", unserialize($vendor['po_item_table_field_map'])) . '</textarea>';
+			$html .= '		</div>';
+			$html .= '		<div class="clearer"></div>';
+			$html .= '	</div>';
 			$html .= '</div>';
-			$html .= '<div class="clearer" style="height:55px;"></div>';
 
 			//include hidden form key and function command
-			$html .= '<input type="hidden" name="btf" value="4">';
+			$html .= '<input type="hidden" name="btf" value="1">';
 			$html .= '<input type="hidden" name="nps_function" value="vendor_manager_core_settings">';
 			$html .= '<input type="hidden" name="nps_value_updated" value="false">';
 			$html .= '<input type="hidden" name="form_key" value="' . Mage::getSingleton('core/session')->getFormKey() . '">';
@@ -226,6 +290,7 @@ HTML OUTPUT MEHTODS
 			//submit button
 			$html .= '<div class="clearer"></div>';
 			$html .= '<input type="submit" value="Save Vendor Options">';
+			$html .= '</form>';
 
 			//include the javascript file
 			$DS = DIRECTORY_SEPARATOR;
@@ -241,7 +306,7 @@ DATABASE AND OTHER UPDATE METHODS CALLED BY  $this->requestFunctions()
 	public function _getVendor($vendor_id) {
 
 		//start base query
-		$query = 'SELECT `id`, `vendor_id`, `file_name`, `inv_uid_col`, `inv_qty_col`, `inv_col_count`, `vendor_label`, `po_table`, `po_item_table` FROM `nps_vendor` WHERE `id` = ' . $vendor_id;
+		$query = 'SELECT `id`, `vendor_id`, `file_name`, `inv_uid_col`, `inv_qty_col`, `inv_col_count`, `vendor_label`, `po_table`, `po_item_table`,`po_table_field_map`,`po_item_table_field_map` FROM `nps_vendor` WHERE `id` = ' . $vendor_id;
 
 		//get the result
 		$this->sqlread->query($query);
@@ -328,6 +393,22 @@ INFASTRUCTURE METHODS
 		}
 	}
 
+}
+if (!function_exists('outputToTestingText')) {
+	function outputToTestingText($data, $continue = false) {
+
+		ob_start();
+		var_dump($data);
+		$output = ob_get_clean();
+		if ($continue) {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "a+");
+		} else {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w+");
+		}
+
+		fwrite($fileHandle, $output);
+		fclose($fileHandle);
+	}
 }
 
 ?>

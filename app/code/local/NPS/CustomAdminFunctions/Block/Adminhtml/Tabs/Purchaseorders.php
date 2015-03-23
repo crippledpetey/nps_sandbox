@@ -98,7 +98,7 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_PurchaseOrders extends Mage_
 	}
 
 	public function _getPurchaseOrders($table, $order_id) {
-		$query = "SELECT `id`, `order_id`, `po_number`, `imported`, `purchase_date`, `last_modified`, `courier_code`, `shipping_name`, `address1`, `address2`, `city`, `region`, `postal_code`, `country`, `phone`, `buyer_email`, `buyer_name`, `tracking_number`, `shipped` FROM `" . $table . "` WHERE `order_id` = " . $order_id;
+		$query = "SELECT * FROM `" . $table . "` WHERE `order_id` = " . $order_id;
 
 		$this->readConnection->query($query);
 		$results = $this->readConnection->fetchAll($query);
@@ -106,7 +106,7 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_PurchaseOrders extends Mage_
 	}
 
 	public function _getPurchaseOrderItems($table, $order_id, $po_number) {
-		$query = "SELECT `id`, `order_id`, `po_number`, `tdp_uid`, `nps_uid`, `sku`, `name`, `qty_ordered`, `unit_price`, `unit_price_incl_tax`, `line_price`, `line_price_incl_tax`, `unit_weight`, `line_weight`, `tracking_number`, `exp_ship_date`, `shipped` FROM `" . $table . "` WHERE `order_id` = " . $order_id . " AND `po_number` = " . $po_number . " ORDER BY `po_number`, `id`";
+		$query = "SELECT * FROM `" . $table . "` WHERE `order_id` = " . $order_id . " AND `po_number` = " . $po_number . " ORDER BY `po_number`, `id`";
 
 		$this->readConnection->query($query);
 		$results = $this->readConnection->fetchAll($query);
