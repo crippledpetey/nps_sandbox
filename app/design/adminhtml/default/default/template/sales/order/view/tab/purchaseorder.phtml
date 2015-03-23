@@ -25,14 +25,15 @@
 */
 ?>
 <?php 
-    
     //set the order var
     $_order = $this->getOrder();
     $_orderId = $_order->getId();
     $_orderInfo = $_order->getData();
-    //var_dump( $_orderId );
-    
+    $DS = DIRECTORY_SEPARATOR;
 ?>
+<style>
+<?php echo file_get_contents( Mage::getBaseDir().$DS.'app'.$DS.'code'.$DS.'local'.$DS.'NPS'.$DS.'CustomAdminFunctions'.$DS.'Helper'.$DS.'purchase-order-style.css'); ?>
+</style>
 <?php foreach($this->_getVendors() as $vendor ) : ?>
     <?php $pos = $this->_getPurchaseOrders( $vendor['po_table'], $_orderId );?>
     <?php if( !empty( $pos ) ) : ?>
@@ -51,31 +52,10 @@
                                 <div class="grid">
                                     <div class="form-group">
                                         <table cellspacing="0" class="data vendor-purchase-order-tables">
-                                            <colgroup>
-                                            <col width="1">
-                                            </colgroup>
-                                            <colgroup>
-                                            <col width="1">
-                                            <col width="1">
-                                            <col width="1">
-                                            <col width="1">
-                                            </colgroup>
-                                            <colgroup>
-                                            <col width="1">
-                                            <col width="1">
-                                            <col width="1">
-                                            <col width="1">
-                                            <col width="1">
-                                            </colgroup>
-                                            <colgroup>
-                                            <col width="1">
-                                            <col width="1">
-                                            <col width="1">
-                                            <col width="1">
-                                            </colgroup>
                                             <thead>
                                                 <tr class="headings">
                                                     <th class="a-center">PO Number</th>
+                                                    <th class="a-center">PO Status</th>
 
                                                     <th class="a-center"><span class="nobr">Internal Product ID</span></th>
                                                     <th class="a-center"><span class="nobr">Vendor Product ID</span></th>
@@ -95,6 +75,13 @@
                                                 <?php foreach( $this->_getPurchaseOrderItems($vendor['po_item_table'], $_orderId, $po['po_number']) as $po_item ):?>
                                                 <tr class="border">
                                                     <td class="a-center"><?php echo $po_item['po_number'] ?></td>
+                                                    
+                                                    <?php if( $po['imported'] == 1 ) :?>
+                                                        <td class="a-center bkg-success">IMPORTED</td>
+                                                    <?php else: ?>
+                                                        <td class="a-center bkg-danger">AWAITING VENDOR</td>
+                                                    <?php endif; ?>
+                                                    </td>
 
                                                     <td class="a-center"><?php echo $po_item['nps_uid'] ?></td>
                                                     <td class="a-center"><?php echo $po_item['tdp_uid'] ?></td>
@@ -105,9 +92,34 @@
                                                     <td class="a-center"><?php echo $po_item['line_price'] ?></td>
                                                     <td class="a-center"><?php echo $po_item['line_price_incl_tax'] ?></td>
 
-                                                    <td class="a-center"><?php echo $po_item['shipped'] ?></td>
-                                                    <td class="a-center"><?php echo $po_item['tracking_number'] ?></td>
-                                                    <td class="a-center last"><?php echo $po_item['exp_ship_date'] ?></td>
+                                                    <?php 
+                                                        if($po_item['shipped']){
+                                                            echo '<td class="a-center bkg-success">YES</td>';
+                                                        } else {
+                                                            echo '<td class="a-center bkg-danger">NO</td>';
+                                                        }
+                                                    ?>
+                                                    <td class="a-center">
+                                                    <?php 
+                                                        if(!empty( $po_item['tracking_number'] ) ){
+                                                            //get vedor shipping information
+                                                            $shipping_info = $this->_getVendorShippingMethod( $vendor['id'], $po['courier_code'] );
+                                                            $link_url =  $this->_shipperTrackingLink( $shipping_info['courier'], $po_item['tracking_number'] );
+                                                            echo '<a href="" title="Click here to open the ' . $shipping_info['courier'] . ' tracking website in a new location" target="_blank">' . $po_item['tracking_number'] . '</a>';
+                                                        } else {
+                                                            echo "NONE PROVIDED";
+                                                        }
+                                                    ?>
+                                                    </td>
+                                                    <td class="a-center last">
+                                                    <?php 
+                                                        if(!empty( $po_item['exp_ship_date'] ) ){
+                                                            echo date('m/d/Y', strtotime( $shipping_info['exp_ship_date'] ) );
+                                                        } else {
+                                                            echo "NONE PROVIDED";
+                                                        }
+                                                    ?>
+                                                    </td>
                                                 </tr>
                                                 <?php endforeach; ?>
                                             </tbody>

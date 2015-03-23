@@ -177,34 +177,36 @@ class Mage_Catalog_Block_Product_View_Attachments extends Mage_Core_Block_Templa
 				}
 
 				foreach ($asset_file_names as $asset_file_name) {
-					//make sure .pdf is on the end
-					$file_check = strtolower(substr($asset_file_name, -3));
-					if ($file_check !== 'pdf') {
-						$asset_file_name .= '.pdf';
-					}
+					if (!empty($asset_file_name)) {
+						//make sure .pdf is on the end
+						$file_check = strtolower(substr($asset_file_name, -3));
+						if ($file_check !== 'pdf') {
+							$asset_file_name .= '.pdf';
+						}
 
-					//set file location variable
-					$file_location = $protocol . $settings['domain'] . $settings['folder'] . '/' . $manufacturer . '/' . $asset_file_name;
+						//set file location variable
+						$file_location = $protocol . $settings['domain'] . $settings['folder'] . '/' . $manufacturer . '/' . $asset_file_name;
 
-					//check if file exists
-					if ($this->remoteFileExists($file_location)) {
-						$return_data[$attribute_code]['src'] = $file_location;
-						$return_data[$attribute_code]['html'] = '<span class="attachment-icon">';
+						//check if file exists
+						if ($this->remoteFileExists($file_location)) {
+							$return_data[$attribute_code]['src'] = $file_location;
+							$return_data[$attribute_code]['html'] = '<span class="attachment-icon">';
 
-						$return_data[$attribute_code]['html'] .= '<a href="' . $file_location . '" title="Download the ' . $settings['title'] . ' for the ' . ucwords(str_replace('_', ' ', $manufacturer)) . ' ' . strtoupper($sku) . '" download>';
-						$return_data[$attribute_code]['html'] .= '<img src="/media/css/' . $attribute_code . '_icon.png" alt="Download the ' . $settings['title'] . ' for the ' . ucwords(str_replace('_', ' ', $manufacturer)) . ' ' . strtoupper($sku) . '">';
-						$return_data[$attribute_code]['html'] .= '</a>';
-						$return_data[$attribute_code]['html'] .= '</span>';
+							$return_data[$attribute_code]['html'] .= '<a href="' . $file_location . '" title="Download the ' . $settings['title'] . ' for the ' . ucwords(str_replace('_', ' ', $manufacturer)) . ' ' . strtoupper($sku) . '" download>';
+							$return_data[$attribute_code]['html'] .= '<img src="/media/css/' . $attribute_code . '_icon.png" alt="Download the ' . $settings['title'] . ' for the ' . ucwords(str_replace('_', ' ', $manufacturer)) . ' ' . strtoupper($sku) . '">';
+							$return_data[$attribute_code]['html'] .= '</a>';
+							$return_data[$attribute_code]['html'] .= '</span>';
 
-						$return_data[$attribute_code]['html'] .= '<span class="attachment-link">';
-						$return_data[$attribute_code]['html'] .= '<a class="tooltip" href="' . $file_location . '" title="" download>';
-						$return_data[$attribute_code]['html'] .= ucwords(str_replace('_', ' ', $manufacturer)) . ' ' . strtoupper($sku) . ' - ' . $settings['title'];
-						$return_data[$attribute_code]['html'] .= '</a>';
-						$return_data[$attribute_code]['html'] .= '</span>';
+							$return_data[$attribute_code]['html'] .= '<span class="attachment-link">';
+							$return_data[$attribute_code]['html'] .= '<a class="tooltip" href="' . $file_location . '" title="" download>';
+							$return_data[$attribute_code]['html'] .= ucwords(str_replace('_', ' ', $manufacturer)) . ' ' . strtoupper($sku) . ' - ' . $settings['title'];
+							$return_data[$attribute_code]['html'] .= '</a>';
+							$return_data[$attribute_code]['html'] .= '</span>';
 
-					} elseif ($settings['show_if_null']) {
-						//return null message if file is not present
-						$return_data[$attribute_code]['html'] = '<p>' . $settings['sin_message'] . '</p>';
+						} elseif ($settings['show_if_null']) {
+							//return null message if file is not present
+							$return_data[$attribute_code]['html'] = '<p>' . $settings['sin_message'] . '</p>';
+						}
 					}
 				}
 			}

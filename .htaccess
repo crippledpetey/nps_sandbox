@@ -136,6 +136,11 @@
     RewriteRule ^api/rest api.php?type=rest [QSA,L]
 
 ############################################
+## rewrite vendor api calls
+
+    RewriteRule ^vendor-api/(.*)/(.*)/(.*)/? vendor-api.php?vendor=$1&secret=$2&function=$3 [QSA,L]
+
+############################################
 ## workaround for HTTP authorization
 ## in CGI environment
 
@@ -198,6 +203,8 @@
     Deny from all
     Allow from 127.0.0.1
     Allow from 10.1.*.*
+
+## NPS OFFICE 
     Allow from 50.255.234.190
     Allow from 50.255.234.189
     Allow from 50.255.234.188
@@ -205,30 +212,30 @@
     Allow from 50.255.234.186
     Allow from 50.255.234.185
 
-##JASON
+## JASON
     Allow from 50.173.94.122
     Allow from 74.213.205.130
 
-##AARON
+## AARON
     Allow from 73.48.207.61
 
-##ALEX
+## ALEX
     Allow from 97.94.139.203
 
-##BOB
+## BOB
     Allow from 73.12.253.47
 
-##BRANDON
+## BRANDON
     Allow from 73.41.95.153
     Allow from 166.170.40.59
 
-##BRINKLEY
+## BRINKLEY
    Allow from 204.93.104.58
 
-##DEZI
+## DEZI
     Allow from 73.41.121.182
 
-##RANDOM
+## RANDOM
     Allow from 67.174.62.7
 
 ###########################################

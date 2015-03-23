@@ -428,6 +428,7 @@ final class Mage {
 		/**
 		CUSTOM FOR TESTING PURPOSES - ADD TO LOG SO THAT WE CAN SEE WHAT EVENTS ARE FIRING
 
+
 		$file = Mage::getBaseDir('base') . DIRECTORY_SEPARATOR . 'events_fired.log';
 		// Open the file to get existing content
 		$current = file_get_contents($file);
@@ -438,6 +439,7 @@ final class Mage {
 
 		return $result;
 		 */
+
 	}
 
 	/**

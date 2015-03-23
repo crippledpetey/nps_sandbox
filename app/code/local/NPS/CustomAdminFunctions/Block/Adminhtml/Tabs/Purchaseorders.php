@@ -63,6 +63,26 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_PurchaseOrders extends Mage_
 	public function createEventsForObserver($data) {
 		//Mage::dispatchEvent('nps_vendor_order_processor', $data);
 	}
+	public function _shipperTrackingLink($shipper, $tracking_number) {
+		$return = array(
+			'UPS' => 'http://wwwapps.ups.com/etracking/tracking.cgi?tracknum=' . $tracking_number,
+			'FedEx' => 'https://www.fedex.com/apps/fedextrack/?action=track&trackingnumber=' . $tracking_number . '&cntry_code=us',
+			'USPS' => 'https://tools.usps.com/go/TrackConfirmAction.action?tRef=fullpage&tLc=1&text28777=&tLabels=' . $tracking_number,
+		);
+		if (!empty($return[$shipper])) {
+			return $return[$shipper];
+		} else {
+			return 'Invalid Shipper';
+		}
+
+	}
+	public function _getVendorShippingMethod($vendor_id, $po_code) {
+		$query = "SELECT `id`,`vendor_id`, `mage_code`, `label`, `po_code`, `courier` FROM `nps_dev`.`nps_vendor_shipment_translator` WHERE `vendor_id` = " . $vendor_id . " AND `po_code` = '" . $po_code . "'";
+
+		$this->readConnection->query($query);
+		$results = $this->readConnection->fetchRow($query);
+		return $results;
+	}
 	public function _getVendors($where = null) {
 
 		//start base query
