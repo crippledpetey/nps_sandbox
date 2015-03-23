@@ -271,10 +271,19 @@ HTML OUTPUT MEHTODS
 			$html .= '		<p class="page-head-note">Columns should be 1 per line</p>';
 			$html .= '		<div class="half-block">';
 			$html .= '				<label for="nps_vendor_po_table_fields">Purchase Order Table Fields</label>';
+
+			//check for field map
+			if (empty($vendor['po_table_field_map'])) {
+				$vendor['po_table_field_map'] = array();
+			}
 			$html .= '				<textarea name="nps_vendor_po_table_fields" style="width: 50%;">' . implode("\n", unserialize($vendor['po_table_field_map'])) . '</textarea>';
 			$html .= '		</div>';
 			$html .= '		<div class="half-block last">';
 			$html .= '				<label for="nps_vendor_po_item_table_fields">Purchase Order Items Table</label>';
+
+			if (empty($vendor['po_item_table_field_map'])) {
+				$vendor['po_item_table_field_map'] = array();
+			}
 			$html .= '				<textarea name="nps_vendor_po_item_table_fields" style="width: 50%;">' . implode("\n", unserialize($vendor['po_item_table_field_map'])) . '</textarea>';
 			$html .= '		</div>';
 			$html .= '		<div class="clearer"></div>';
