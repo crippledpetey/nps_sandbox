@@ -57,7 +57,7 @@
                     <children>
                         <nps_vendor_manager_menu translate="title" module="vendormanager">
                             <title>NPS Vendor Manager</title>
-                            <sort_order>300</sort_order>
+                            <sort_order>10</sort_order>
                         </nps_vendor_manager_menu>
                     </children>
                 </admin>
