@@ -374,8 +374,8 @@ class NPS_CustomAdminFunctions_Model_Observer {
 		$vals = array();
 		foreach ($fields as $name => $value) {
 			$cols[] = "`" . $name . "`";
-			if (is_null($value) || is_int($value)) {
-				$vals[] = $value;
+			if (empty($value)) {
+				$vals[] = null;
 			} else {
 				$vals[] = "'" . $value . "'";
 			}
