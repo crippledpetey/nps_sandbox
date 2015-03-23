@@ -288,13 +288,139 @@ class NPS_CustomAdminFunctions_Model_Observer {
 
 		return $rewrites;
 	}
+
+	public function orderVendorProcessing($observer) {
+
+		//check for po number and selected products
+		if (isset($_POST['nps_source_vendor_po_number']) && !empty($_POST['vendor_source_product_id'])) {
+
+			//start db connection
+			$connection_read = Mage::getSingleton('core/resource')->getConnection('core_read');
+
+			//convert observer data from json & base 64
+			$obs_data = $_POST['nps_source_vendor_observer_info'];
+			$obs_data = base64_decode($obs_data);
+			$obs_data = json_decode($obs_data, true);
+
+			//set order table variables
+			$table_data['order_id'] = $obs_data['order_id'];
+			$table_data['po_number'] = $_POST['nps_source_vendor_po_number'];
+			$table_data['purchase_date'] = $obs_data['order_date'];
+			$table_data['courier_code'] = $obs_data['vendors'][$_POST['nps_source_vendor_id']]['shipping_method']['po_code'];
+			$table_data['shipping_name'] = $obs_data['shipping_receiving_name'];
+			$table_data['address1'] = $obs_data['address1'];
+			$table_data['address2'] = $obs_data['address2'];
+			$table_data['city'] = $obs_data['city'];
+			$table_data['region'] = $obs_data['region'];
+			$table_data['postal_code'] = $obs_data['postal'];
+			$table_data['country'] = $obs_data['country'];
+			$table_data['phone'] = $obs_data['phone'];
+			$table_data['buyer_email'] = $obs_data['buyer_email'];
+			$table_data['buyer_name'] = $obs_data['buyer_name'];
+
+			//ignored fields
+			// $table_data['last_modified'] = 'CURRENT_TIMESTAMP';
+			// $table_data['imported'] = 0;
+			// $table_data['tracking_number'] = null;
+			// $table_data['shipped'] = 0;
+
+			//set product table variables
+			$prd_table_data = array();
+
+			//loop through available products
+			foreach ($obs_data['vendors'][$_POST['nps_source_vendor_id']]['avail_prds'] as $op) {
+
+				//verify item was selected before adding to array
+				if (in_array($op['product_id'], $_POST['vendor_source_product_id'])) {
+					//get order item information
+					$query = "SELECT `sku`, `name`, `qty_ordered`, `base_price`, `price_incl_tax`, `base_row_total`, `row_total_incl_tax`, `weight`, `row_weight` FROM `sales_flat_order_item` WHERE `item_id` = " . $op['order_item_id'];
+					$results = $connection_read->query($query);
+					$prd_info = $connection_read->fetchRow($query);
+
+					//set the array variables
+					$prd_table_data[$op['product_id']]['order_id'] = $_POST['nps_source_vendor_order_id'];
+					$prd_table_data[$op['product_id']]['po_number'] = $_POST['nps_source_vendor_po_number'];
+					$prd_table_data[$op['product_id']]['tdp_uid'] = $op['vendor_uid'];
+					$prd_table_data[$op['product_id']]['nps_uid'] = $op['product_id'];
+					$prd_table_data[$op['product_id']]['sku'] = $prd_info['sku'];
+					$prd_table_data[$op['product_id']]['name'] = $prd_info['name'];
+					$prd_table_data[$op['product_id']]['qty_ordered'] = $prd_info['qty_ordered'];
+					$prd_table_data[$op['product_id']]['unit_price'] = $prd_info['base_price'];
+					$prd_table_data[$op['product_id']]['unit_price_incl_tax'] = $prd_info['price_incl_tax'];
+					$prd_table_data[$op['product_id']]['line_price'] = $prd_info['base_row_total'];
+					$prd_table_data[$op['product_id']]['line_price_incl_tax'] = $prd_info['row_total_incl_tax'];
+					$prd_table_data[$op['product_id']]['unit_weight'] = $prd_info['weight'];
+					$prd_table_data[$op['product_id']]['line_weight'] = $prd_info['row_weight'];
+				}
+			}
+
+			//if there are products selected run the insert
+			if (!empty($prd_table_data)) {
+				//insert into the purchase order table
+				$this->_addVendorPurchaseOrder($obs_data['vendors'][$_POST['nps_source_vendor_id']]['inv_table_values']['inv-po-table'], $table_data);
+				//add order items to table
+				$this->_addVendorPurchaseOrderItems($obs_data['vendors'][$_POST['nps_source_vendor_id']]['inv_table_values']['inv-po-item-table'], $prd_table_data);
+			}
+
+			//refresh page
+			session_write_close();
+			Mage::app()->getFrontController()->getResponse()->setRedirect($_SERVER['REQUEST_URI']);
+		}
+	}
+
+	protected function _addVendorPurchaseOrder($table, $fields) {
+		$connection_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+		$cols = array();
+		$vals = array();
+		foreach ($fields as $name => $value) {
+			$cols[] = "`" . $name . "`";
+			if (is_null($value) || is_int($value)) {
+				$vals[] = $value;
+			} else {
+				$vals[] = "'" . $value . "'";
+			}
+		}
+		$query = "INSERT INTO `" . $table . "` (" . implode(',', $cols) . ") VALUES (" . implode(",", $vals) . ")";
+		$connection_write->query($query);
+	}
+	protected function _addVendorPurchaseOrderItems($table, $fields) {
+		//start db connection
+		$connection_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+		foreach ($fields as $prd_entity => $row) {
+
+			//reset array of values
+			$cols = array();
+			$vals = array();
+
+			//loop through rows
+			foreach ($row as $name => $value) {
+				$cols[] = $name;
+				if (is_null($value) || is_int($value)) {
+					$vals[] = $value;
+				} else {
+					$vals[] = "'" . $value . "'";
+				}
+			}
+
+			//write value to database
+			$query = "INSERT INTO `" . $table . "` (" . implode(',', $cols) . ") VALUES (" . implode(",", $vals) . ")";
+			$connection_write->query($query);
+		}
+	}
 }
-/*
-ob_start();
-var_dump($prdAttr->getAttributeText('manufacturer'));
-var_dump($prdAttr->getResource()->getAttribute('container_productid')->getFrontend()->getValue($prdAttr) );
-$output = ob_get_clean();
-$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w");
-fwrite($fileHandle, $output);
-fclose($fileHandle);
- */
+if (!function_exists('outputToTestingText')) {
+	function outputToTestingText($data, $continue = false) {
+
+		ob_start();
+		var_dump($data);
+		$output = ob_get_clean();
+		if ($continue) {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "a+");
+		} else {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w+");
+		}
+
+		fwrite($fileHandle, $output);
+		fclose($fileHandle);
+	}
+}

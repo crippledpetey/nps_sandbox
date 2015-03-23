@@ -36,7 +36,27 @@
                     </product_Save_Url_Rewrite>-->
                 </observers>  
             </catalog_product_save_after> 
+            <nps_vendor_order_processor>
+                <observers>
+                    <vendor_order_sourcing>
+                        <type>singleton</type>  
+                        <class>NPS_CustomAdminFunctions_Model_Observer</class>
+                        <method>orderVendorProcessing</method>  
+                    </vendor_order_sourcing>
+                </observers>  
+            </nps_vendor_order_processor>
         </events>
+        <blocks>
+            <customadminfunctions>
+                    <class>NPS_CustomAdminFunctions_Block</class>
+            </customadminfunctions>
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_edit_tabs>NPS_CustomAdminFunctions_Block_Adminhtml_Tabs</catalog_product_edit_tabs>
+                    <sales_order_view_tabs>NPS_CustomAdminFunctions_Block_Adminhtml_Ordertabs</sales_order_view_tabs>
+                </rewrite>
+            </adminhtml>
+        </blocks>
     </global>
     <admin>
         <routers>
