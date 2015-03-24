@@ -134,11 +134,19 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		return $results;
 	}
 	public function _addImageGalleryImage($product_id, $file, $order, $type) {
+		/*
 		$query = "INSERT INTO `nps_product_media_gallery` (`product_id`,`file_name`,`order`,`type`) VALUES (" . $product_id . ",'" . $file . "'," . $order . ",'" . $type . "')";
-
-		outputToTestingText($query);
-
 		$this->writeConnection->query($query);
+		 */
+		$connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+		$connection->beginTransaction();
+		$__fields = array();
+		$__fields['product_id'] = $product_id;
+		$__fields['file_name'] = $file;
+		$__fields['order'] = $order;
+		$__fields['type'] = $type;
+		$connection->insert('nps_product_media_gallery', $__fields);
+		$connection->commit();
 	}
 	private function _imageLog($data) {
 
