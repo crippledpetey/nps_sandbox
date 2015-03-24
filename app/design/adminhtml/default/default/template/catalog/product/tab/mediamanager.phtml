@@ -26,9 +26,11 @@
 $_mmProduct = $this->getProduct();
 $prd_id = null;
 $_mmImages = array();
+$_mmImageCount = 0;
 if( !empty( $_mmProduct->getID() ) ){
 	$prd_id = $_mmProduct->getID();
 	$_mmImages = $this->_getImages( $prd_id );
+	$_mmImageCount = count( $_mmImages );
 
 }
 
@@ -79,7 +81,7 @@ $friendly_conversion = array(
 										$image_url .= $img_src_base . 'product/';
 									}
 								?>
-								<td><img src="<?php echo $image_url . $_mmProduct->getAttributeText('manufacturer') . '/gallery_thumb/' . $img['file_name'] ?>"></td>
+								<td><img src="<?php echo $image_url . $_mmProduct->getAttributeText('manufacturer') . '/65x65/' . $img['file_name'] ?>"></td>
 								<td><?php echo $friendly_conversion[ $img['type'] ] ?></td>
 								<td><?php echo $img['order'] ?></td>
 								<td></td>
@@ -87,25 +89,33 @@ $friendly_conversion = array(
 							<?php endforeach; ?>
 						<?php endif; ?>
 						<tr>
-							<td>
-								<form name="" method="post" enctype="multipart/form-data">
-									<input type="file" name="nps-media-manager-upload-input" id="nps-media-manager-upload-input">
-									<input type="hidden" name="MAX_FILE_SIZE" value="500000" />
-									<input type="hidden" name="nps-media-gallery-product-id" value="<?php echo $prd_id?>">
-									<input type="hidden" name="nps-media-gallery-product-sku" value="<?php echo $_mmProduct->getSku() ?>">
-									<input type="hidden" name="nps-media-gallery-product-manu" value="<?php echo $_mmProduct->getAttributeText('manufacturer') ?>">
-									<input type="hidden" name="nps-media-gallery-start-count" value="<?php echo count($_mmImages) +1 ?>">
-									<input type="hidden" name="nps_function" value="nps-media-manager-upload">
-									<input type="hidden" name="nps-media-gallery-updated" value="false">
-									<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
-								
+							<form name="nps-media-gallery-upload-form" method="post" enctype="multipart/form-data">
+							<td colspan="2">								
+								<input type="file" name="nps-media-manager-upload-input" id="nps-media-manager-upload-input">
 							</td>
 							<td>
-									<input type="submit" value="Upload Image">
-								</form>
+								Image Type
+								<select name="nps-media-gallery-image-type">
+									<option value="prd_shot">Product Image</option>
+									<option value="app_shot">Application Image</option>
+								</select>								
 							</td>
-							<td colspan="3">
+							<td>
+								Display Order
+								<input type="number" name="nps-media-manager-image-order" min="0" max="<?php echo $_mmImageCount + 1 ?>" id="nps-media-manager-image-order" value="<?php echo $_mmImageCount + 1 ?>">
 							</td>
+							<td>
+								<input type="submit" value="Upload Image">
+								<input type="hidden" name="MAX_FILE_SIZE" value="500000" />
+								<input type="hidden" name="nps-media-gallery-product-id" value="<?php echo $prd_id?>">
+								<input type="hidden" name="nps-media-gallery-product-sku" value="<?php echo $_mmProduct->getSku() ?>">
+								<input type="hidden" name="nps-media-gallery-product-manu" value="<?php echo $_mmProduct->getAttributeText('manufacturer') ?>">
+								<input type="hidden" name="nps-media-gallery-start-count" value="<?php echo count($_mmImages) +1 ?>">
+								<input type="hidden" name="nps_function" value="nps-media-manager-upload">
+								<input type="hidden" name="nps-media-gallery-updated" value="false">
+								<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
+							</td>
+							</form>
 						</tr>
 					</tbody>
 				</table>

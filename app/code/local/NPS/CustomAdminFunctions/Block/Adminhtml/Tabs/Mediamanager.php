@@ -41,9 +41,8 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		$refresh = false;
 		if (!empty($_POST['nps_function'])) {
 			if ($_POST['nps_function'] == 'nps-media-manager-upload' && !empty($_FILES)) {
-				if ($this->_uploadImageHandler()) {
-					$refresh = true;
-				}
+				$this->_uploadImageHandler();
+				$refresh = true;
 			}
 		}
 
@@ -91,11 +90,16 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 				//move the image to the temp directory
 				$move = move_uploaded_file($root_img, $new_image_path . $new_image_name);
 				$this->_imageLog('Move File Output');
-				$this->_imageLog($move);
 
 				$ouput = shell_exec("/scripts/product_image_to_imagebase.sh " . $new_image_name . " " . $manu_folder . " 2>&1");
-				$this->_imageLog('Shell Output');
+
+				//output records to the image script
+				$this->_imageLog($_POST['nps-media-gallery-product-manu'] . ' ' . $_POST['nps-media-gallery-product-sku'] . ' - Shell Output' . "\n");
 				$this->_imageLog($ouput);
+				$this->_imageLog("\n\n");
+
+				//insert the record into the db
+				$this->_addImageGalleryImage($_POST['nps-media-gallery-product-id'], $new_image_name, $_POST['nps-media-manager-image-order'], $_POST['nps-media-gallery-image-type']);
 			}
 		}
 		return $return;
@@ -116,7 +120,18 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		$results = $this->readConnection->fetchAll($query);
 		return $results;
 	}
+	public function _addImageGalleryImage($product_id, $file, $order, $type) {
+		$query = "INSERT INTO `nps_product_media_gallery` (`product_id`,`file_name`,`order`,`type`) VALUES ('" . $product_id . "','" . $file . "','" . $order . "','" . $type . "')";
+
+		$this->writeConnection->query($query);
+	}
 	private function _imageLog($data) {
+
+		//check file size is larger than 1mb and create a new one if so
+		if (filesize(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "image_upload.txt") > 1024) {
+			rename(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "image_upload.txt", Mage::getBaseDir() . DIRECTORY_SEPARATOR . "image_upload." . date('U') . ".txt");
+		}
+		//start output buffer
 		ob_start();
 		if (is_array($data)) {
 			var_dump($data);
