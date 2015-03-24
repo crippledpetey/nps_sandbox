@@ -731,8 +731,19 @@ INFASTRUCTURE METHODS
 		if (!empty($_COOKIE[$this->dwa_cookie])) {
 			$this->dwa_select = $_COOKIE[$this->dwa_cookie];
 			$this->dwa_value_array = explode($this->dwa_delim, $_COOKIE[$this->dwa_cookie]);
-			$this->dwa_id = $this->dwa_value_array[0];
-			$this->dwa_code = $this->dwa_value_array[1];
+
+			if (!empty($this->dwa_value_array[1])) {
+				$this->dwa_id = $this->dwa_value_array[0];
+			} else {
+				$this->dwa_id = null;
+			}
+
+			if (!empty($this->dwa_value_array[1])) {
+				$this->dwa_code = $this->dwa_value_array[1];
+			} else {
+				$this->dwa_code = null;
+			}
+
 		}
 	}
 	public function checked($value, $test, $noOutput = false) {
