@@ -24,7 +24,13 @@
 * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
 $_mmProduct = $this->getProduct();
-$_mmImages = $this->_getImages( $_mmProduct->getID() );
+$prd_id = null;
+$_mmImages = array();
+if( !empty( $_mmProduct->getID() ) ){
+	$prd_id = $_mmProduct->getID();
+	$_mmImages = $this->_getImages( $prd_id );
+
+}
 
 //set array to show friendly values
 $friendly_conversion = array(
@@ -85,7 +91,7 @@ $friendly_conversion = array(
 								<form name="" method="post" enctype="multipart/form-data">
 									<input type="file" name="nps-media-manager-upload-input" id="nps-media-manager-upload-input">
 									<input type="hidden" name="MAX_FILE_SIZE" value="500000" />
-									<input type="hidden" name="nps-media-gallery-product-id" value="<?php echo $_mmProduct->getID()?>">
+									<input type="hidden" name="nps-media-gallery-product-id" value="<?php echo $prd_id?>">
 									<input type="hidden" name="nps-media-gallery-product-sku" value="<?php echo $_mmProduct->getSku() ?>">
 									<input type="hidden" name="nps-media-gallery-product-manu" value="<?php echo $_mmProduct->getAttributeText('manufacturer') ?>">
 									<input type="hidden" name="nps-media-gallery-start-count" value="<?php echo count($_mmImages) +1 ?>">
