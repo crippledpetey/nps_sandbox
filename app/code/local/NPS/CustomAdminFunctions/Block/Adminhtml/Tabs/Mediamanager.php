@@ -86,7 +86,7 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 				$new_image_path = '/home/image_staging/' . $manu_folder . '/';
 
 				//set root image
-				$root_img = basename($_FILES["nps-media-manager-upload-input"]["tmp_name"]);
+				$root_img = $_FILES["nps-media-manager-upload-input"]["tmp_name"];
 
 				//move the image to the temp directory
 				$move = move_uploaded_file($root_img, $new_image_path . $new_image_name);
