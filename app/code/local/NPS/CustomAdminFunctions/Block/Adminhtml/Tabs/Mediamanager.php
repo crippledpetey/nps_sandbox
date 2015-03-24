@@ -89,9 +89,12 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 				$root_img = basename($_FILES["nps-media-manager-upload-input"]["tmp_name"]);
 
 				//move the image to the temp directory
-				move_uploaded_file($root_img, $new_image_path . $new_image_name);
+				$move = move_uploaded_file($root_img, $new_image_path . $new_image_name);
+				$this->_imageLog('Move File Output');
+				$this->_imageLog($move);
 
 				$ouput = shell_exec("/scripts/product_image_to_imagebase.sh " . $new_image_name . " " . $manu_folder . " 2>&1");
+				$this->_imageLog('Shell Output');
 				$this->_imageLog($ouput);
 			}
 		}
