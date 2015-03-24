@@ -74,14 +74,14 @@ $friendly_conversion = array(
 								<td><?php echo $img['id'] ?></td>
 								<?php 
 									//setup source information
-									$img_src_base = '//images.needplumbingsupplies.com/catalog/';
+									$img_src_base = 'http://images.needplumbingsupplies.com/catalog/';
 									if( $img['type'] == 'app_shot' ){
 										$image_url = $img_src_base . 'product_alt/';
 									} else {
 										$image_url = $img_src_base . 'product/';
 									}
 								?>
-								<td><img src="<?php echo $image_url . $_mmProduct->getAttributeText('manufacturer') . '/65x65/' . $img['file_name'] ?>"></td>
+								<td><img src="<?php echo $image_url .  strtolower(str_replace(array(' ', '-', '_'), null, $_mmProduct->getAttributeText('manufacturer'))) . '/65x65/' . $img['file_name'] ?>"></td>
 								<td><?php echo $friendly_conversion[ $img['type'] ] ?></td>
 								<td><?php echo $img['order'] ?></td>
 								<td></td>
