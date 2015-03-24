@@ -45,7 +45,7 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 				/**
 				MAY NEED TO USE THE VARIEN OBJECT TO CREATE THE UPLOAD FORM AND MANIPULATE THE FILES. i HAVE A FEELING THAT THE FILE IS STILL IN USE AND SO MAGE IS GETTING AN ERROR WHEN IT TRIES TO ACCESS IT WHILE IT'S PERFORMING THE BACKEND FUNCTIONS
 				 */
-				//$this->_uploadImageHandler();
+				$this->_uploadImageHandler();
 				//$refresh = true;
 			}
 		}
@@ -105,12 +105,14 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 				 */
 
 				//insert the record into the db
-				$this->_addImageGalleryImage(
-					$_POST['nps-media-gallery-product-id'],
-					$new_image_name,
-					$_POST['nps-media-manager-image-order'],
-					$_POST['nps-media-gallery-image-type']
-				);
+				/*
+			$this->_addImageGalleryImage(
+			$_POST['nps-media-gallery-product-id'],
+			$new_image_name,
+			$_POST['nps-media-manager-image-order'],
+			$_POST['nps-media-gallery-image-type']
+			);
+			 */
 			}
 		}
 		return $return;
