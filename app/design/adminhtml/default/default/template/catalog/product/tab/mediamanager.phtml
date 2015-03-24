@@ -76,9 +76,9 @@ $friendly_conversion = array(
 									//setup source information
 									$img_src_base = '//images.needplumbingsupplies.com/catalog/';
 									if( $img['type'] == 'app_shot' ){
-										$image_url .= $img_src_base . 'product_alt/';
+										$image_url = $img_src_base . 'product_alt/';
 									} else {
-										$image_url .= $img_src_base . 'product/';
+										$image_url = $img_src_base . 'product/';
 									}
 								?>
 								<td><img src="<?php echo $image_url . $_mmProduct->getAttributeText('manufacturer') . '/65x65/' . $img['file_name'] ?>"></td>
