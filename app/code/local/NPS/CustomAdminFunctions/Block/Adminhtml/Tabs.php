@@ -11,11 +11,8 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs extends Mage_Adminhtml_Block
 		//Now here we are adding new tab
 		$this->addTab('mediamanager', array(
 			'label' => Mage::helper('catalog')->__('NPS Media Manager'),
-			'content' => $this->_translateHtml($this->getLayout()
-				                                        ->createBlock('customadminfunctions/adminhtml_tabs_mediamanager')->toHtml()),
+			'content' => $this->getLayout()->createBlock('customadminfunctions/adminhtml_tabs_mediamanager')->toHtml(),
 		));
-
-		//var_dump($this->getLayout()->createBlock('customadminfunctions/adminhtml_tabs_mediamanager'));
 
 		return $this->parent;
 	}

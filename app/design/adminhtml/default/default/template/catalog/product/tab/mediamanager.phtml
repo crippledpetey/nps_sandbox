@@ -24,6 +24,14 @@
 * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
 $_mmProduct = $this->getProduct();
+$_mmImages = $this->_getImages( $_mmProduct->getID() );
+
+//set array to show friendly values
+$friendly_conversion = array(
+	'app_shot'=>'Application Shot',
+	'prd_shot'=>'Product Shot',
+	);
+
 ?>
 <div class="entry-edit">
 	<div class="entry-edit-head">
@@ -39,7 +47,62 @@ $_mmProduct = $this->getProduct();
 				</li>
 			</ul>
 			<div class="grid">
-				
+				<table id="nps-media-gallery-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Preview</th>
+							<th>Image Type</th>
+							<th>Display Order</th>
+							<th>Remove</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php if (empty( $_mmImages ) ):?>
+							<tr><td colspan="5">No Images Have Been Added</td></tr>
+						<?php else: ?>
+							<?php foreach( $_mmImages as $img ): ?>
+							<tr>
+								<td><?php echo $img['id'] ?></td>
+								<?php 
+									//setup source information
+									$img_src_base = '//images.needplumbingsupplies.com/catalog/';
+									if( $img['type'] == 'app_shot' ){
+										$image_url .= $img_src_base . 'product_alt/';
+									} else {
+										$image_url .= $img_src_base . 'product/';
+									}
+								?>
+								<td><img src="<?php echo $image_url . $_mmProduct->getAttributeText('manufacturer') . '/gallery_thumb/' . $img['file_name'] ?>"></td>
+								<td><?php echo $friendly_conversion[ $img['type'] ] ?></td>
+								<td><?php echo $img['order'] ?></td>
+								<td></td>
+							</tr>
+							<?php endforeach; ?>
+						<?php endif; ?>
+						<tr>
+							<td>
+								<form name="" method="post" enctype="multipart/form-data">
+									<input type="file" name="nps-media-manager-upload-input" id="nps-media-manager-upload-input">
+									<input type="hidden" name="MAX_FILE_SIZE" value="500000" />
+									<input type="hidden" name="nps-media-gallery-product-id" value="<?php echo $_mmProduct->getID()?>">
+									<input type="hidden" name="nps-media-gallery-product-sku" value="<?php echo $_mmProduct->getSku() ?>">
+									<input type="hidden" name="nps-media-gallery-product-manu" value="<?php echo $_mmProduct->getAttributeText('manufacturer') ?>">
+									<input type="hidden" name="nps-media-gallery-start-count" value="<?php echo count($_mmImages) +1 ?>">
+									<input type="hidden" name="nps_function" value="nps-media-manager-upload">
+									<input type="hidden" name="nps-media-gallery-updated" value="false">
+									<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
+								
+							</td>
+							<td>
+									<input type="submit" value="Upload Image">
+								</form>
+							</td>
+							<td colspan="3">
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
