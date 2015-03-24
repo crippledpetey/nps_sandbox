@@ -99,7 +99,13 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 				$this->_imageLog("\n\n");
 
 				//insert the record into the db
-				$this->_addImageGalleryImage($_POST['nps-media-gallery-product-id'], $new_image_name, $_POST['nps-media-manager-image-order'], $_POST['nps-media-gallery-image-type']);
+
+				$this->_addImageGalleryImage(
+					$_POST['nps-media-gallery-product-id'],
+					$new_image_name,
+					$_POST['nps-media-manager-image-order'],
+					$_POST['nps-media-gallery-image-type']
+				);
 			}
 		}
 		return $return;
@@ -122,6 +128,8 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 	}
 	public function _addImageGalleryImage($product_id, $file, $order, $type) {
 		$query = "INSERT INTO `nps_product_media_gallery` (`product_id`,`file_name`,`order`,`type`) VALUES (" . $product_id . ",'" . $file . "'," . $order . ",'" . $type . "')";
+
+		outputToTestingText($query);
 
 		$this->writeConnection->query($query);
 	}
