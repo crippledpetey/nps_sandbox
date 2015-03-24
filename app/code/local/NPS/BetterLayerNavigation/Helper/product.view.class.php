@@ -30,8 +30,8 @@ class productView {
 
 				//check for supplemental information
 				$value_supp = null;
-				if (!empty($options['nps_attr_option_specs_list_supp'])) {
-					$value_supp = '<span class="sub-desc-list-supp">(' . $options['nps_attr_option_specs_list_supp'] . ')</span>';
+				if (!empty($options['nps_attr_option_' . $region . '_list_supp'])) {
+					$value_supp = '<span class="sub-desc-list-supp">(' . $options['nps_attr_option_' . $region . '_list_supp'] . ')</span>';
 				}
 
 				//check for uom
@@ -53,6 +53,8 @@ class productView {
 		//get attributes
 		$display_attrs = $this->getRelevantAttributes('feat');
 		$attribute_supp = $this->generateSubDescListHtml($_product, $display_attrs, 'feat');
+
+		#var_dump($display_attrs);
 
 		$return = null;
 		$value = Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'nps_desc_region_feat', $this->storeID);

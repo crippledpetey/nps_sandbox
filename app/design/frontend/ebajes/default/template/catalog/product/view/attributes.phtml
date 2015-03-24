@@ -32,7 +32,21 @@
 ?>
 <?php
     $_helper = $this->helper('catalog/output');
-    $_product = $this->getProduct()
+    $_product = $this->getProduct();
+
+    function _npsGetAttrPopDesc( $attr_options ){
+        $return['tooltipClass'] = null;
+        $return['tooltipValue'] = null;
+
+        foreach (array('maint','feat','specs','tech') as $region) {
+            if( !empty( $attr_options['nps_attr_option_' . $region . '_description'] ) ){
+                $return['tooltipClass'] = " tooltips underline-attr";
+                $return['tooltipValue'] = ' title="' . $attr_options['nps_attr_option_' . $region . '_description'] . '" ';
+            }
+        }
+
+        return $return;
+    }
 ?>
 <?php if($_additional = $this->getAdditionalData()): ?>
     <h2><?php echo $this->__('Additional Information') ?></h2>
@@ -58,16 +72,12 @@
                 $tooltipClass = null;
                 $tooltipValue = null;
                 $uom = null;
-                if( !empty( $attr_options['nps_attr_option_specs_description'] ) ){
-                    $tooltipClass = " tooltips underline-attr";
-                    $tooltipValue = ' title="' . $attr_options['nps_attr_option_specs_description'] . '" ';
-                }
                 if( !empty( $attr_options['attr_option_add_uom'] ) ){
                     $uom = ' ' . $attr_options['attr_option_add_uom'];
                 }
                 ?>
                 
-                <th class="label<?php echo $tooltipClass ?>" <?php echo $tooltipValue ?>><span><?php echo $this->escapeHtml($this->__($_data['label'])) ?></span></th>
+                <th class="label<?php echo _npsGetAttrPopDesc($attr_options)['tooltipClass'] ?>" <?php echo _npsGetAttrPopDesc($attr_options)['tooltipValue'] ?>><span><?php echo $this->escapeHtml($this->__($_data['label'])) ?></span></th>
                 <td class="data"><?php echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) . $uom ?></td>
             </tr>
             <?php endif;?>

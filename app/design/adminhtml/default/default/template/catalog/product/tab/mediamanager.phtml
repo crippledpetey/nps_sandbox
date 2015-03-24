@@ -84,7 +84,7 @@ $friendly_conversion = array(
 								<td><img src="<?php echo $image_url .  strtolower(str_replace(array(' ', '-', '_'), null, $_mmProduct->getAttributeText('manufacturer'))) . '/65x65/' . $img['file_name'] ?>"></td>
 								<td><?php echo $friendly_conversion[ $img['type'] ] ?></td>
 								<td><?php echo $img['order'] ?></td>
-								<td></td>
+								<td><button id="nps-remove-gallery-image" title="Remove" type="button" class="scalable add"><span><span><span>Duplicate</span></span></span></button></td>
 							</tr>
 							<?php endforeach; ?>
 						<?php endif; ?>
