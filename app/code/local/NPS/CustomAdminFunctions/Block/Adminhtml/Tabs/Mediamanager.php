@@ -91,7 +91,7 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 				//move the image to the temp directory
 				move_uploaded_file($root_img, $new_image_path . $new_image_name);
 
-				$ouput = shell_exec("/scripts/product_image_to_imagebase.sh " . $manu_folder . " " . $new_image_name);
+				$ouput = shell_exec("/scripts/product_image_to_imagebase.sh " . $new_image_name . " " . $manu_folder);
 				$this->_imageLog($ouput);
 			}
 		}
