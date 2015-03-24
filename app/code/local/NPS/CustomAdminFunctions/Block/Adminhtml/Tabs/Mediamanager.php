@@ -105,14 +105,14 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 				 */
 
 				//insert the record into the db
-				/*
-			$this->_addImageGalleryImage(
-			$_POST['nps-media-gallery-product-id'],
-			$new_image_name,
-			$_POST['nps-media-manager-image-order'],
-			$_POST['nps-media-gallery-image-type']
-			);
-			 */
+
+				$this->_addImageGalleryImage(
+					$_POST['nps-media-gallery-product-id'],
+					$new_image_name,
+					$_POST['nps-media-manager-image-order'],
+					$_POST['nps-media-gallery-image-type']
+				);
+
 			}
 		}
 		return $return;
