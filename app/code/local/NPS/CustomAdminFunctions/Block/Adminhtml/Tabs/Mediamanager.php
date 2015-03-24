@@ -41,8 +41,12 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		$refresh = false;
 		if (!empty($_POST['nps_function'])) {
 			if ($_POST['nps_function'] == 'nps-media-manager-upload' && !empty($_FILES)) {
+
+				/**
+				MAY NEED TO USE THE VARIEN OBJECT TO CREATE THE UPLOAD FORM AND MANIPULATE THE FILES. i HAVE A FEELING THAT THE FILE IS STILL IN USE AND SO MAGE IS GETTING AN ERROR WHEN IT TRIES TO ACCESS IT WHILE IT'S PERFORMING THE BACKEND FUNCTIONS
+				 */
 				$this->_uploadImageHandler();
-				$refresh = true;
+				//$refresh = true;
 			}
 		}
 
@@ -89,17 +93,18 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 
 				//move the image to the temp directory
 				$move = move_uploaded_file($root_img, $new_image_path . $new_image_name);
-				$this->_imageLog('Move File Output');
+				//$this->_imageLog('Move File Output');
 
 				$ouput = shell_exec("/scripts/product_image_to_imagebase.sh " . $new_image_name . " " . $manu_folder . " 2>&1");
 
 				//output records to the image script
+				/*
 				$this->_imageLog($_POST['nps-media-gallery-product-manu'] . ' ' . $_POST['nps-media-gallery-product-sku'] . ' - Shell Output' . "\n");
 				$this->_imageLog($ouput);
 				$this->_imageLog("\n\n");
+				 */
 
 				//insert the record into the db
-
 				$this->_addImageGalleryImage(
 					$_POST['nps-media-gallery-product-id'],
 					$new_image_name,
