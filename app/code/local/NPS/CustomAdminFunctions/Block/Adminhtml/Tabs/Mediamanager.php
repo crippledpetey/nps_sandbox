@@ -73,6 +73,8 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 				$ext = '.jpeg';
 			} elseif ($check['mime'] == 'image/jpg') {
 				$ext = '.jpg';
+			} elseif ($check['mime'] == 'image/gif') {
+				$ext = '.gif';
 			}
 
 			//if file extension is set
@@ -103,11 +105,10 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 				$this->_imageLog("\n\n");
 				 */
 
-				//insert the record into the db
-
+				//insert the record into the db as JPEG
 				$this->_addImageGalleryImage(
 					$_POST['nps-media-gallery-product-id'],
-					$new_image_name,
+					$this->convertFileNameToJPEG($new_image_name),
 					$_POST['nps-media-manager-image-order'],
 					$_POST['nps-media-gallery-image-type']
 				);
@@ -179,7 +180,7 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		$raw_delete = 'rm -f /home/img_usr/catalog/' . $folder . '/' . $img['manu'];
 
 		//size folders
-		$size_folders = array('65x65', '75x75', '80x80', '100x100', '185x185', '200x200', '250x250', '300x300', 'x1200', '1800x');
+		$size_folders = array('65x65', '75x75', '80x80', '100x100', '185x185', '200x200', '250x250', '300x300', 'x1200', '1800x', 'full');
 
 		//set base output
 		$output = array();
@@ -224,6 +225,9 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "image_upload.txt", "a+");
 		fwrite($fileHandle, $output);
 		fclose($fileHandle);
+	}
+	private function convertFileNameToJPEG($filename) {
+		return substr($filename, 0, strripos($filename, '.')) . '.jpeg';
 	}
 }
 if (!function_exists('outputToTestingText')) {
