@@ -72,10 +72,12 @@ $friendly_conversion = array(
 						<?php else: ?>
 							<?php foreach( $_mmImages as $img ): ?>
 							<?php 
-								//check if the file is present
+								//check if the file is present by checking file headers - REQUIRES THAT IMAGE HAS BEEN CONVERTED TO A JPEG
 								$img_src_base = 'http://images.needplumbingsupplies.com/catalog/product/';
 								$thumb = $img_src_base .  $this->convertManuToFolder($_mmProduct->getAttributeText('manufacturer')) . '/65x65/' . $img['file_name'];
-								if (file_exists($thumb)) {
+								$image_check = get_headers($thumb, 1);
+								$image_check = $image_check['Content-Type'];
+								if ($image_check == "image/jpeg") {
 							        $row_style = null;
 									$display_button = true;
 							    } else {
@@ -125,23 +127,23 @@ $friendly_conversion = array(
 							</tr>
 							<?php endforeach; ?>
 						<?php endif; ?>
-						<tr>
+						<tr style="height: 80px;">
 							<form name="nps-media-gallery-upload-form" method="post" enctype="multipart/form-data">
-							<td colspan="2">								
+							<td colspan="2" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">				
 								<input type="file" name="nps-media-manager-upload-input" id="nps-media-manager-upload-input">
 							</td>
-							<td>
+							<td style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
 								Image Type
 								<select name="nps-media-gallery-image-type">
 									<option value="prd_shot">Product Image</option>
 									<option value="app_shot">Application Image</option>
 								</select>								
 							</td>
-							<td>
+							<td style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
 								Display Order
 								<input type="number" name="nps-media-manager-image-order" min="0" max="<?php echo $_mmImageCount + 1 ?>" id="nps-media-manager-image-order" value="<?php echo $_mmImageCount + 1 ?>">
 							</td>
-							<td>
+							<td style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
 								<input type="submit" value="Upload Image">
 								<input type="hidden" name="MAX_FILE_SIZE" value="500000" />
 								<input type="hidden" name="nps-media-gallery-product-id" value="<?php echo $prd_id?>">
