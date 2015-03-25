@@ -59,16 +59,16 @@ $friendly_conversion = array(
 				<table id="nps-media-gallery-table">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Preview</th>
-							<th>Image Type</th>
-							<th>Display Order</th>
-							<th>Remove</th>
+							<th width="100">ID</th>
+							<th colspan="2">Preview</th>
+							<th colspan="4">Image Type</th>
+							<th colspan="2">Display Order</th>
+							<th colspan="4">Remove</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody style="text-align:center;font-size: 22px;color: #999;">
 						<?php if (empty( $_mmImages ) ):?>
-							<tr><td colspan="5">No Images Have Been Added</td></tr>
+							<tr><td colspan="13">No Images Have Been Added</td></tr>
 						<?php else: ?>
 							<?php foreach( $_mmImages as $img ): ?>
 							<?php 
@@ -78,16 +78,16 @@ $friendly_conversion = array(
 								$image_check = get_headers($thumb, 1);
 								$image_check = $image_check['Content-Type'];
 								if ($image_check == "image/jpeg") {
-							        $row_style = null;
+							        $row_style = 'background:rgba(121,193,121,1);color:#243924;text-shadow:1px 1px 2px #c9e6c9;';
 									$display_button = true;
 							    } else {
 							    	$thumb = $img_src_base . "needplumbingsupplies/65x65/noimagenps.jpeg";
-									$row_style = "background: rgba(212,14,18,.4);";
+									$row_style = "background:rgba(255,139,139,1);color:#663737;text-shadow:1px 2px 1px #ffd0d0;";
 									$display_button = false;
 								} 
 							?>
 							<tr style="<?php echo $row_style ?>">
-								<td><?php echo $img['id'] ?></td>
+								<td style="vertical-align: middle !important;"><?php echo $img['id'] ?></td>
 								<?php 
 									//setup source information
 									$img_src_base = 'http://images.needplumbingsupplies.com/catalog/';
@@ -97,53 +97,53 @@ $friendly_conversion = array(
 										$image_url = $img_src_base . 'product/';
 									}
 								?>
-								<td><img src="<?php echo $thumb ?>"></td>
-								<td><?php echo $friendly_conversion[ $img['type'] ] ?></td>
-								<td><?php echo $img['order'] ?></td>
-								<td>
-									<form method="post">
+								<td colspan="2" style="vertical-align: middle !important;"><img width="65" height="65" src="<?php echo $thumb ?>"></td>
+								<td colspan="4" style="vertical-align: middle !important;"><?php echo $friendly_conversion[ $img['type'] ] ?></td>
+								<td colspan="2" style="vertical-align: middle !important;"><?php echo $img['order'] ?></td>
+								<td colspan="4" style="vertical-align: middle !important;">
+								<?php if($display_button): ?>
+									<form method="post" id="nps-remove-gallery-image-<?php echo $img['id'] ?>-form">
 										<input type="hidden" name="nps-remove-image" value="<?php echo $img['id'] ?>">
 										<input type="hidden" name="nps-remove-image-manu" value="<?php echo $this->convertManuToFolder($_mmProduct->getAttributeText('manufacturer')) ?>">
 										<input type="hidden" name="nps-remove-image-filename" value="<?php echo $img['file_name'] ?>">
 										<input type="hidden" name="nps_function" value="nps-remove-gallery-image">
 										<input type="hidden" name="request-uri" value="<?php echo $_SERVER['REQUEST_URI'] ?>">
 										<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
-
-										<?php if($display_button): ?>
-											<button id="nps-remove-gallery-image-<?php echo $img['id'] ?>" title="Remove" type="button" class="scalable delete">
-												<span>
-													<span>
-														<span>Remove Image</span>
-													</span>
-												</span>
-											</button>
-										<?php else: ?>
-											<p>ATTEMPTING TO LOCATE IMAGE</p>
-										<?php endif; ?>
-
+										<input type="submit" class="remove-gallery-image" id="nps-remove-gallery-image-<?php echo $img['id'] ?>" title="Remove Image" value="Remove Image">
 									</form>
-									<script>jQuery("#nps-remove-gallery-image-<?php echo $img['id'] ?>").click(function(){jQuery(this).parents('form:first').submit();})</script>
+									<script>
+										jQuery("#nps-remove-gallery-image-<?php echo $img['id'] ?>").click(function(){
+											event.preventDefault();
+											if (confirm("Are you sure you want to delete this image?")){
+										    	jQuery("#nps-remove-gallery-image-<?php echo $img['id'] ?>-form").submit();
+										    }
+										});
+									</script>
+								<?php else: ?>
+										<p style="font-size: 15px;color: red;font-weight: bold;text-shadow: 1px 2px 1px pink;">UNABLE TO LOCATE IMAGE</p>
+								<?php endif; ?>
 								</td>
 							</tr>
 							<?php endforeach; ?>
 						<?php endif; ?>
-						<tr style="height: 80px;">
-							<form name="nps-media-gallery-upload-form" method="post" enctype="multipart/form-data">
-							<td colspan="2" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">				
+						<tr class="new-image-row">
+							<form id="nps-media-gallery-upload-form" name="nps-media-gallery-upload-form" method="post" enctype="multipart/form-data">
+							<td colspan="4" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">				
+								<span style="display:block;margin-bottom:8px;">Add New Image</span>
 								<input type="file" name="nps-media-manager-upload-input" id="nps-media-manager-upload-input">
 							</td>
-							<td style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
-								Image Type
-								<select name="nps-media-gallery-image-type">
+							<td colspan="3" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
+								<span style="display:block;margin-bottom:8px;">Image Type</span>
+								<select name="nps-media-gallery-image-type" style="height:34px;">
 									<option value="prd_shot">Product Image</option>
 									<option value="app_shot">Application Image</option>
 								</select>								
 							</td>
-							<td style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
-								Display Order
+							<td colspan="3" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
+								<span style="display:block;margin-bottom:8px;">Display Order</span>
 								<input type="number" name="nps-media-manager-image-order" min="0" max="<?php echo $_mmImageCount + 1 ?>" id="nps-media-manager-image-order" value="<?php echo $_mmImageCount + 1 ?>">
 							</td>
-							<td style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
+							<td colspan="3" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
 								<input type="submit" value="Upload Image">
 								<input type="hidden" name="MAX_FILE_SIZE" value="500000" />
 								<input type="hidden" name="nps-media-gallery-product-id" value="<?php echo $prd_id?>">
@@ -162,3 +162,104 @@ $friendly_conversion = array(
 		</div>
 	</div>
 </div>
+<style>
+	#nps-media-gallery-table .remove-gallery-image {
+		-moz-box-shadow:inset 0px 1px 0px 0px #ff1c1c;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #ff1c1c;
+		box-shadow:inset 0px 1px 0px 0px #ff1c1c;
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a8343a), color-stop(1, #eb0000));
+		background:-moz-linear-gradient(top, #a8343a 5%, #eb0000 100%);
+		background:-webkit-linear-gradient(top, #a8343a 5%, #eb0000 100%);
+		background:-o-linear-gradient(top, #a8343a 5%, #eb0000 100%);
+		background:-ms-linear-gradient(top, #a8343a 5%, #eb0000 100%);
+		background:linear-gradient(to bottom, #a8343a 5%, #eb0000 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a8343a', endColorstr='#eb0000',GradientType=0);
+		background-color:#a8343a;
+		-moz-border-radius:3px;
+		-webkit-border-radius:3px;
+		border-radius:3px;
+		border:1px solid #9c060e;
+		display:inline-block;
+		cursor:pointer;
+		color:#ffffff;
+		font-family:arial;
+		font-size:15px;
+		font-weight:bold;
+		padding:7px 31px;
+		text-decoration:none;
+		text-shadow:0px 1px 0px #ff0011;
+	}
+	#nps-media-gallery-table .remove-gallery-image:hover {
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #eb0000), color-stop(1, #a8343a));
+		background:-moz-linear-gradient(top, #eb0000 5%, #a8343a 100%);
+		background:-webkit-linear-gradient(top, #eb0000 5%, #a8343a 100%);
+		background:-o-linear-gradient(top, #eb0000 5%, #a8343a 100%);
+		background:-ms-linear-gradient(top, #eb0000 5%, #a8343a 100%);
+		background:linear-gradient(to bottom, #eb0000 5%, #a8343a 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eb0000', endColorstr='#a8343a',GradientType=0);
+		background-color:#eb0000;
+	}
+	#nps-media-gallery-table .remove-gallery-image:active {
+		position:relative;
+		top:1px;
+	}
+
+	#nps-media-gallery-table .new-image-row input,
+	#nps-media-gallery-table .new-image-row select {
+		width: 80%;
+		height: 30px;
+		font-size: 14px;
+	}
+	#nps-media-gallery-table .new-image-row input[type="file"],
+	#nps-media-gallery-table .new-image-row input[type="submit"] {
+		-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		box-shadow:inset 0px 1px 0px 0px #ffffff;
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
+		background:-moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+		background:-webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+		background:-o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+		background:-ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+		background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0);
+		background-color:#ffffff;
+		-moz-border-radius:3px;
+		-webkit-border-radius:3px;
+		border-radius:3px;
+		border:1px solid #dcdcdc;
+		display:inline-block;
+		cursor:pointer;
+		color:#666666;
+		font-family:arial;
+		font-size:15px;
+		font-weight:bold;
+		padding:7px 31px;
+		text-decoration:none;
+		text-shadow:0px 1px 0px #ffffff;
+	}
+	#nps-media-gallery-table .new-image-row input[type="file"]:hover,
+	#nps-media-gallery-table .new-image-row input[type="submit"]:hover {
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff));
+		background:-moz-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+		background:-webkit-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+		background:-o-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+		background:-ms-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+		background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff',GradientType=0);
+		background-color:#f6f6f6;
+	}
+	#nps-media-gallery-table .new-image-row input[type="file"]:active,
+	#nps-media-gallery-table .new-image-row input[type="submit"]:active {
+		position:relative;
+		top:1px;
+	}
+	#nps-media-gallery-table .new-image-row input[type="file"] {
+	  	padding: 0;
+	  	background: transparent;
+	  	border: none;
+	    box-shadow: none;
+	}
+	#nps-media-gallery-table .new-image-row input[type="file"]:hover {
+		background: transparent;
+	}
+</style>
