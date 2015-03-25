@@ -125,8 +125,14 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		}
 		return true;
 	}
+	public function _getImage($image_id) {
+		$query = "SELECT `id`,`product_id`,`manu`,`file_name`,`order`, `type`, `remove_flag` FROM `nps_product_media_gallery` WHERE `id` = " . $image_id;
+		$this->readConnection->query($query);
+		$results = $this->readConnection->fetchRow($query);
+		return $results;
+	}
 	public function _getImages($product_id, $include_removed = false) {
-		$query = "SELECT `id`,`product_id`,`file_name`,`order`, `type`, `remove_flag` FROM `nps_product_media_gallery` WHERE `product_id` = " . $product_id;
+		$query = "SELECT `id`,`product_id`,`manu`,`file_name`,`order`, `type`, `remove_flag` FROM `nps_product_media_gallery` WHERE `product_id` = " . $product_id;
 		//check for inclusion of removed
 		if (!$include_removed) {
 			$query .= " AND ( `remove_flag` IS NULL OR `remove_flag` = 0 OR `remove_flag` = FALSE) ";
@@ -140,10 +146,8 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		return $results;
 	}
 	public function _addImageGalleryImage($product_id, $file, $order, $type) {
-		/*
-		$query = "INSERT INTO `nps_product_media_gallery` (`product_id`,`file_name`,`order`,`type`) VALUES (" . $product_id . ",'" . $file . "'," . $order . ",'" . $type . "')";
-		$this->writeConnection->query($query);
-		 */
+		$manu_folder = strtolower(str_replace(array(' ', '-', '_'), null, $_POST['nps-media-gallery-product-manu']));
+
 		$connection = Mage::getSingleton('core/resource')->getConnection('core_write');
 		$connection->beginTransaction();
 		$__fields = array();
@@ -151,12 +155,57 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		$__fields['file_name'] = $file;
 		$__fields['order'] = $order;
 		$__fields['type'] = $type;
+		$__fields['manu'] = $manu_folder;
 		$connection->insert('nps_product_media_gallery', $__fields);
 		$connection->commit();
 	}
-	private function _removeImageGalleryImage($image_id) {
-		$query = "UPDATE `nps_product_media_gallery` SET `remove_flag` = 1 WHERE `id` = " . $image_id;
+	public function _removeImageGalleryImage($image_id) {
+
+		//get image info
+		$img = $this->_getImage($image_id);
+
+		//create the removal file
+		$remove_file = Mage::getBaseDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'img_tmp' . DIRECTORY_SEPARATOR . $image_id . '.txt';
+		$fileHandle = fopen($remove_file, "w+");
+
+		// get the image type
+		if ($img['type'] == 'prd_shot') {
+			$folder = 'product';
+		} else {
+			$folder = 'product_alt';
+		}
+
+		//set raw delete
+		$raw_delete = 'rm -f /home/img_usr/catalog/' . $folder . '/' . $img['manu'];
+
+		//size folders
+		$size_folders = array('65x65', '75x75', '80x80', '100x100', '185x185', '200x200', '250x250', '300x300', 'x1200', '1800x');
+
+		//set base output
+		$output = array();
+		foreach ($size_folders as $size) {
+			$output[] = $raw_delete . "/" . $size . "/" . $img['file_name'] . "\n";
+		}
+
+		//if there is content for the file write it
+		if (!empty($output)) {
+			$output = implode("\n", $output);
+			fwrite($fileHandle, $output);
+		}
+
+		//close the file connection
+		fclose($fileHandle);
+
+		//run shell command to send file to image base
+		shell_exec("/scripts/remove_images_from_imagebase.sh " . $remove_file . " 2>&1");
+
+		//remove the file
+		unlink($remove_file);
+
+		//flag database for removal
+		$query = "DELETE FROM `nps_product_media_gallery` WHERE `id` = " . $image_id;
 		$this->writeConnection->query($query);
+
 	}
 	private function _imageLog($data) {
 
