@@ -30,23 +30,22 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		parent::_construct();
 		$this->setTemplate('catalog/product/tab/mediamanager.phtml');
 
-		$this->_submissionHandler();
-
 		//sql connector
 		$this->resource = Mage::getSingleton('core/resource');
 		$this->readConnection = $this->resource->getConnection('core_read');
 		$this->writeConnection = $this->resource->getConnection('core_write');
+
+		$this->_submissionHandler();
 	}
 	private function _submissionHandler() {
 		$refresh = false;
 		if (!empty($_POST['nps_function'])) {
 			if ($_POST['nps_function'] == 'nps-media-manager-upload' && !empty($_FILES)) {
-
-				/**
-				MAY NEED TO USE THE VARIEN OBJECT TO CREATE THE UPLOAD FORM AND MANIPULATE THE FILES. i HAVE A FEELING THAT THE FILE IS STILL IN USE AND SO MAGE IS GETTING AN ERROR WHEN IT TRIES TO ACCESS IT WHILE IT'S PERFORMING THE BACKEND FUNCTIONS
-				 */
 				$this->_uploadImageHandler();
-				//$refresh = true;
+				$refresh = true;
+			} elseif ($_POST['nps_function'] == 'nps-remove-gallery-image') {
+				$this->_removeImageGalleryImage($_POST['nps-remove-image']);
+				$refresh = true;
 			}
 		}
 
@@ -126,8 +125,15 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		}
 		return true;
 	}
-	public function _getImages($product_id) {
-		$query = "SELECT `id`,`product_id`,`file_name`,`order`, `type` FROM `nps_product_media_gallery` WHERE `product_id` = " . $product_id . " ORDER BY `order` ";
+	public function _getImages($product_id, $include_removed = false) {
+		$query = "SELECT `id`,`product_id`,`file_name`,`order`, `type`, `remove_flag` FROM `nps_product_media_gallery` WHERE `product_id` = " . $product_id;
+		//check for inclusion of removed
+		if (!$include_removed) {
+			$query .= " AND ( `remove_flag` IS NULL OR `remove_flag` = 0 OR `remove_flag` = FALSE) ";
+		}
+
+		//add order by
+		$query .= " ORDER BY `order`";
 
 		$this->readConnection->query($query);
 		$results = $this->readConnection->fetchAll($query);
@@ -147,6 +153,10 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		$__fields['type'] = $type;
 		$connection->insert('nps_product_media_gallery', $__fields);
 		$connection->commit();
+	}
+	private function _removeImageGalleryImage($image_id) {
+		$query = "UPDATE `nps_product_media_gallery` SET `remove_flag` = 1 WHERE `id` = " . $image_id;
+		$this->writeConnection->query($query);
 	}
 	private function _imageLog($data) {
 

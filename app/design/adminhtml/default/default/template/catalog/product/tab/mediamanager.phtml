@@ -28,8 +28,9 @@ $prd_id = null;
 $_mmImages = array();
 $_mmImageCount = 0;
 if( !empty( $_mmProduct->getID() ) ){
+
 	$prd_id = $_mmProduct->getID();
-	$_mmImages = $this->_getImages( $prd_id );
+	$_mmImages = $this->_getImages( $prd_id, true );
 	$_mmImageCount = count( $_mmImages );
 
 }
@@ -70,7 +71,16 @@ $friendly_conversion = array(
 							<tr><td colspan="5">No Images Have Been Added</td></tr>
 						<?php else: ?>
 							<?php foreach( $_mmImages as $img ): ?>
-							<tr>
+							<?php 
+								//check pending removal and set necessary values
+								$row_style = null;
+								$display_button = true;
+								if( $img['remove_flag'] ){
+									$row_style = "background: rgba(212,14,18,.4);";
+									$display_button = false;
+								} 
+							?>
+							<tr style="<?php echo $row_style ?>">
 								<td><?php echo $img['id'] ?></td>
 								<?php 
 									//setup source information
@@ -84,7 +94,30 @@ $friendly_conversion = array(
 								<td><img src="<?php echo $image_url .  strtolower(str_replace(array(' ', '-', '_'), null, $_mmProduct->getAttributeText('manufacturer'))) . '/65x65/' . $img['file_name'] ?>"></td>
 								<td><?php echo $friendly_conversion[ $img['type'] ] ?></td>
 								<td><?php echo $img['order'] ?></td>
-								<td><button id="nps-remove-gallery-image" title="Remove" type="button" class="scalable add"><span><span><span>Duplicate</span></span></span></button></td>
+								<td>
+									<form method="post">
+										<input type="hidden" name="nps-remove-image" value="<?php echo $img['id'] ?>">
+										<input type="hidden" name="nps-remove-image-manu" value="<?php echo strtolower(str_replace(array(' ', '-', '_'), null, $_mmProduct->getAttributeText('manufacturer'))) ?>">
+										<input type="hidden" name="nps-remove-image-filename" value="<?php echo $img['file_name'] ?>">
+										<input type="hidden" name="nps_function" value="nps-remove-gallery-image">
+										<input type="hidden" name="request-uri" value="<?php echo $_SERVER['REQUEST_URI'] ?>">
+										<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
+
+										<?php if($display_button): ?>
+											<button id="nps-remove-gallery-image-<?php echo $img['id'] ?>" title="Remove" type="button" class="scalable delete">
+												<span>
+													<span>
+														<span>Remove Image</span>
+													</span>
+												</span>
+											</button>
+										<?php else: ?>
+											<p>PENDING REMOVAL</p>
+										<?php endif; ?>
+
+									</form>
+									<script>jQuery("#nps-remove-gallery-image-<?php echo $img['id'] ?>").click(function(){jQuery(this).parents('form:first').submit();})</script>
+								</td>
 							</tr>
 							<?php endforeach; ?>
 						<?php endif; ?>
