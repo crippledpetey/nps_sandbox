@@ -197,7 +197,7 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Mediamanager extends Mage_Ad
 		fclose($fileHandle);
 
 		//run shell command to send file to image base
-		shell_exec("/scripts/remove_images_from_imagebase.sh " . $remove_file . " 2>&1");
+		shell_exec("/scripts/remove_images_from_imagebase.sh " . $image_id . ".txt 2>&1");
 
 		//remove the file
 		unlink($remove_file);
