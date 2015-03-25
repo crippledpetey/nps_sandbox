@@ -72,10 +72,14 @@ $friendly_conversion = array(
 						<?php else: ?>
 							<?php foreach( $_mmImages as $img ): ?>
 							<?php 
-								//check pending removal and set necessary values
-								$row_style = null;
-								$display_button = true;
-								if( $img['remove_flag'] ){
+								//check if the file is present
+								$img_src_base = 'http://images.needplumbingsupplies.com/catalog/product/';
+								$thumb = $img_src_base .  $this->convertManuToFolder($_mmProduct->getAttributeText('manufacturer')) . '/65x65/' . $img['file_name'];
+								if (file_exists($thumb)) {
+							        $row_style = null;
+									$display_button = true;
+							    } else {
+							    	$thumb = $img_src_base . "needplumbingsupplies/65x65/noimagenps.jpeg";
 									$row_style = "background: rgba(212,14,18,.4);";
 									$display_button = false;
 								} 
@@ -91,13 +95,13 @@ $friendly_conversion = array(
 										$image_url = $img_src_base . 'product/';
 									}
 								?>
-								<td><img src="<?php echo $image_url .  strtolower(str_replace(array(' ', '-', '_'), null, $_mmProduct->getAttributeText('manufacturer'))) . '/65x65/' . $img['file_name'] ?>"></td>
+								<td><img src="<?php echo $thumb ?>"></td>
 								<td><?php echo $friendly_conversion[ $img['type'] ] ?></td>
 								<td><?php echo $img['order'] ?></td>
 								<td>
 									<form method="post">
 										<input type="hidden" name="nps-remove-image" value="<?php echo $img['id'] ?>">
-										<input type="hidden" name="nps-remove-image-manu" value="<?php echo strtolower(str_replace(array(' ', '-', '_'), null, $_mmProduct->getAttributeText('manufacturer'))) ?>">
+										<input type="hidden" name="nps-remove-image-manu" value="<?php echo $this->convertManuToFolder($_mmProduct->getAttributeText('manufacturer')) ?>">
 										<input type="hidden" name="nps-remove-image-filename" value="<?php echo $img['file_name'] ?>">
 										<input type="hidden" name="nps_function" value="nps-remove-gallery-image">
 										<input type="hidden" name="request-uri" value="<?php echo $_SERVER['REQUEST_URI'] ?>">
@@ -112,7 +116,7 @@ $friendly_conversion = array(
 												</span>
 											</button>
 										<?php else: ?>
-											<p>PENDING REMOVAL</p>
+											<p>ATTEMPTING TO LOCATE IMAGE</p>
 										<?php endif; ?>
 
 									</form>
