@@ -29,7 +29,7 @@ class NPS_CustomAdminFunctions_Model_Observer {
 
 		//check if type is grouped
 		if ($product->getAttributeSetId() == 93) {
-			$this->updateContainerProductAttributes($observer);
+			//$this->updateContainerProductAttributes($observer);
 		}
 	}
 
@@ -127,24 +127,31 @@ class NPS_CustomAdminFunctions_Model_Observer {
 		$select = $connection_write->select()->from('nps_attribute_options', array('id', 'attribute_id', 'options', 'parent_show', 'desc_show'))->where('parent_show=?', true);
 		$attributes = $connection_write->fetchAll($select);
 
+		outputToTestingText(null);
+
 		//loop through attributes
 		foreach ($attributes as $attr) {
 			//set control data
 			$data = json_decode($attr['options']);
 			$child_temp = array();
 
-			//loop through children to get attr values
-			foreach ($children as $child) {
-				if ($value = Mage::getResourceModel('catalog/product')->getAttributeRawValue($child['entity_id'], $data->attribute_id, Mage::app()->getStore()->getStoreId())) {
-					if ($data->attr_option_duplicate_handling == 'override') {
-						$updates[$data->attribute_id] = $value;
-					} elseif ($data->attr_option_duplicate_handling == 'append') {
-						if (empty($updates[$data->attribute_id])) {$updates[$data->attribute_id] = '';}
-						if (!stripos($updates[$data->attribute_id], $value)) {$updates[$data->attribute_id] .= ',' . $value;}
-					} elseif ($data->attr_option_duplicate_handling == 'hide') {
-						if (!empty($updates[$data->attribute_id]) && $updates[$data->attribute_id] !== $value) {unset($updates[$data->attribute_id]);}
-					} elseif ($data->attr_option_duplicate_handling == 'popular') {
-						$updates[$data->attribute_id] = $value;
+			//check to make sure data is present
+			if (!empty($data)) {
+				//loop through children to get attr values
+				foreach ($children as $child) {
+					if ($value = Mage::getResourceModel('catalog/product')->getAttributeRawValue($child['entity_id'], $data->attribute_id, Mage::app()->getStore()->getStoreId())) {
+						if ($data->attr_option_duplicate_handling == 'override') {
+							$updates[$data->attribute_id] = $value;
+						} elseif ($data->attr_option_duplicate_handling == 'append') {
+							if (empty($updates[$data->attribute_id])) {$updates[$data->attribute_id] = '';}
+							if (!stripos($updates[$data->attribute_id], $value)) {$updates[$data->attribute_id] .= ',' . $value;}
+						} elseif ($data->attr_option_duplicate_handling == 'hide') {
+							if (!empty($updates[$data->attribute_id]) && $updates[$data->attribute_id] !== $value) {unset($updates[$data->attribute_id]);}
+						} elseif ($data->attr_option_duplicate_handling == 'popular') {
+							$updates[$data->attribute_id] = $value;
+						} else {
+							$updates[$data->attribute_id] = $value;
+						}
 					}
 				}
 			}
@@ -152,9 +159,11 @@ class NPS_CustomAdminFunctions_Model_Observer {
 
 		//loop through updates
 		foreach ($updates as $attr_code => $attr_val) {
-			$product->setData($attr_code, $attr_val)->getResource()->saveAttribute($product, $attr_code);
+			$newAttr = $product->setData($attr_code, $attr_val);
+			if ($newAttr) {
+				$newAttr->save();
+			}
 		}
-
 	}
 
 	public function updateUrlReWrite(Varien_Event_Observer $observer) {
