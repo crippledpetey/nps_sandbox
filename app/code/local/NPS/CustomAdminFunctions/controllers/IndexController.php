@@ -499,12 +499,14 @@ HTML OUTPUT MEHTODS
 				$html .= '<input type="checkbox" name="attr_option_add_prd_desc" ' . $this->checked($existingArray['attr_option_add_prd_desc'], 1) . '>';
 				$html .= '</div>';
 
+				//display regions section start
 				$html .= '<div class="half-block">';
-				$html .= '<label for="attr_option_desc_location">Description Location</label>';
+				$html .= '<label for="attr_option_desc_location">Description Regions</label>';
 
 				//get the display locations
 				$display_locations = $existingArray['attr_option_desc_location'];
 				$html .= '<select name="attr_option_desc_location[]" multiple size="5">';
+				//loop through values
 				foreach ($this->getProductDescriptionZones() as $key => $value_array) {
 					$sVal = null;
 					if (in_array($key, $display_locations)) {
@@ -517,15 +519,22 @@ HTML OUTPUT MEHTODS
 
 				$html .= '<div class="clearer small"></div>';
 
-				//carry child up to container products
+				//unit of measurement
 				$html .= '<div class="half-block">';
 				$html .= '<label for="attr_option_add_uom">Unit of Measurement</label>';
 				$html .= '<input type="text" name="attr_option_add_uom" value="' . $existingArray['attr_option_add_uom'] . '">';
 				$html .= '</div>';
 
+				//omission values
+				$html .= '<div class="half-block">';
+				$html .= '<label for="attr_option_add_uom">Omission Settings</label>';
+				$html .= 'Active: <input type="checkbox" name="attr_option_omit_active" ' . $this->checked($existingArray['attr_option_omit_active'], 1) . '>';
+				$html .= '<br>Values: <input type="text" name="attr_option_omit_values" value="' . $existingArray['attr_option_omit_values'] . '">';
+				$html .= '</div>';
+
 				$html .= '<div class="clearer medium"></div>';
 
-				//description sections
+				//description region controls
 				$html .= '<div class="full-width">';
 				$html .= '<h3>Product Page Content Display Controls</h3>';
 				$html .= '<p class="page-head-note">The following sections control the way the information will be output on the product page. If you have any questions about usage or output please speak with the development team.</p>';
@@ -826,6 +835,7 @@ INFASTRUCTURE METHODS
 		$return = array(
 			'attr_option_carry_parent',
 			'attr_option_add_prd_desc',
+			'attr_option_omit_active',
 		);
 
 		//get the description zones
@@ -847,6 +857,8 @@ INFASTRUCTURE METHODS
 			'attr_option_add_prd_desc' => null,
 			'attr_option_add_uom' => null,
 			'attr_option_desc_location' => array(),
+			'attr_option_omit_active' => false,
+			'attr_option_omit_values' => 'No,',
 		);
 
 		//get the description zones
@@ -949,11 +961,17 @@ INFASTRUCTURE METHODS
 		Mage::getSingleton('adminhtml/session')->addSuccess('Removed ' . $count . ' options');
 	}
 	private function getAttributesForSelect($value_type = 'code', $checkValue = null, $separator = '-') {
+
+		//array of attributes to ignore
+		$blacklist = $this->getBlackListedAttributes();
+
+		//blank array for inserting options into
 		$options = array();
+
 		//get the list of attribute that can have options selected
 		$attributes = Mage::getResourceModel('catalog/product_attribute_collection')->getItems();
 		foreach ($attributes as $attribute) {
-			if ($attribute->getFrontendLabel() !== '' && !empty($attribute->getFrontendLabel())) {
+			if ($attribute->getFrontendLabel() !== '' && !empty($attribute->getFrontendLabel()) && !in_array($attribute->getId(), $blacklist)) {
 				if ($value_type == 'id') {
 					$attr_value = $attribute->getId();
 				} elseif ($value_type == 'code') {
@@ -961,10 +979,24 @@ INFASTRUCTURE METHODS
 				} elseif ($value_type == 'both') {
 					$attr_value = $attribute->getId() . $separator . $attribute->getAttributecode();
 				}
-				$options[] = '<option value="' . $attr_value . '" ' . $this->selected($checkValue, $attr_value) . '>' . $attribute->getFrontendLabel() . '</option>';
+
+				$key = strtolower(str_replace(array(' ', '_', '-'), null, $attribute->getFrontendLabel()));
+				//check if key is already set
+				if (!empty($options[$key])) {
+					$key .= date('U');
+				}
+				$options[$key] = '<option value="' . $attr_value . '" ' . $this->selected($checkValue, $attr_value) . '>' . $attribute->getFrontendLabel() . '</option>';
 			}
 		}
+		if (!empty($options)) {
+			ksort($options);
+
+		}
 		return $options;
+	}
+
+	private function getBlackListedAttributes() {
+		return array(97, 98, 100, 101, 103, 104, 105, 106, 109, 110, 270, 271, 272, 273, 274, 476, 481, 492, 493, 494, 495, 498, 503, 506, 507, 508, 509, 526, 531, 562, 567, 568, 569, 570, 571, 572, 573, 703, 704, 705, 836, 837, 838, 859, 860, 861, 862, 863, 873, 876, 879, 880, 881, 903, 904, 905, 906, 931, 932, 933, 935, 936, 941, 942, 943, 952, 960, 962, 1019, 1020, 1463, 1566, 1567, 1568, 1583, 1585, 1586, 1587, 1588, 1589, 1590, 1591, 1592, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1604, 1605, 96, 99, 102, 940);
 	}
 
 }
