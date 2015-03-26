@@ -47,26 +47,6 @@ class productView {
 
 		return $html;
 	}
-	private function generateSubDescTechListHtml($manufacturer, $display_attrs) {
-		$html = null;
-
-		foreach ($display_attrs as $attr) {
-
-			//set options
-			$options = json_decode($attr['options'], true);
-			//check for value
-			if ($options['nps_attr_option_tech_description']) {
-
-				$html .= '<div class="manufacturer-tech-block">';
-				$html .= '	<h3 class="manu-tech-list-label">' . ucwords( $manufacturer ) . ' ' . ucwords($attr['frontend_label']) . '</h3>';
-				$html .= '	<div class="manu-tech-list-value">' . $options['nps_attr_option_tech_description'] . '</div>';
-				$html .= '</div>';
-			}
-		}
-		if (!empty($html)) {$html .= '</ul>';}
-
-		return $html;
-	}
 
 	public function getFeatures($_product, $_shortcode_class) {
 
@@ -100,29 +80,17 @@ class productView {
 	}
 
 	public function getTech($_product, $_shortcode_class) {
-		//set manufacturer name
-		$manu = $_product->getResource()->getAttribute('manufacturer')->getFrontend()->getValue($_product);
-
 		//get attributes
 		$display_attrs = $this->getRelevantAttributes('tech');
-		$attribute_supp = $this->generateSubDescTechListHtml($manu, $display_attrs);
+		$attribute_supp = $this->generateSubDescListHtml($_product, $display_attrs, 'tech');
 
-		//begin output
 		$return = null;
 		$value = Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'nps_desc_region_tech', $this->storeID);
 		if (!empty($value) || !empty($attribute_supp)) {
-
 			//get the manufacturer
-			
+			$manu = $_product->getResource()->getAttribute('manufacturer')->getFrontend()->getValue($_product);
 			//Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'manufacturer', $this->storeID);
-			$return = '<div class="product-collateral product-subdescription manufacturer-technologies">';
-			$return .= '	<div class="box-collateral box-description" style="width: 100%;">';
-			$return .= '		<h2>' . ucwords($manu) . ' Technologies</h2>';
-			$return .= '		<div class="product-subdescription-autopop">' . $attribute_supp . '</div>';
-			$return .= '		<div class="std">' . $value . '</div>';
-			$return .= '	</div>';
-			$return .= '	<div class="clearer"></div>';
-			$return .= '</div>';
+			$return = '<div class="product-collateral product-subdescription"><div class="box-collateral box-description" style="width: 100%;"><h2>' . ucwords($manu) . ' Technologies</h2><div class="product-subdescription-autopop">' . $attribute_supp . '</div><div class="std">' . $value . '</div></div><div class="clearer"></div></div>';
 		}
 		$return = $this->processShortcodes($_shortcode_class, $return);
 		return $return;

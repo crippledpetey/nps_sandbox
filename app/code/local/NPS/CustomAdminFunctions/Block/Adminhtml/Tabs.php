@@ -5,8 +5,6 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs extends Mage_Adminhtml_Block
 
 	protected function _prepareLayout() {
 
-		$this->_product = $this->getProduct();
-
 		//This will get all existing tabs which is Default in Magento
 		$this->parent = parent::_prepareLayout();
 
