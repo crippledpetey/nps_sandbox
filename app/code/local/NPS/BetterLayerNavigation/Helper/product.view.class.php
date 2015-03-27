@@ -21,46 +21,52 @@ class productView {
 
 			//set options
 			$options = json_decode($attr['options'], true);
-			//check for value
-			if ($value = $_product->getResource()->getAttribute($attr['attribute_code'])->getFrontend()->getValue($_product)) {
-				//start list if necessary
-				if (empty($html)) {
-					$html = '<ul id="sub-desc-' . $region . '-list" class="prd-sub-desc-list">';
-				}
+			if ($_product->getResource()->getAttribute($attr['attribute_code'])) {
+				//check for value
+				if ($value = $_product->getResource()->getAttribute($attr['attribute_code'])->getFrontend()->getValue($_product)) {
+					//start list if necessary
+					if (empty($html)) {
+						$html = '<ul id="sub-desc-' . $region . '-list" class="prd-sub-desc-list">';
+					}
 
-				//check for supplemental information
-				$value_supp = null;
-				if (!empty($options['nps_attr_option_' . $region . '_list_supp'])) {
-					$value_supp = '<span class="sub-desc-list-supp">(' . $options['nps_attr_option_' . $region . '_list_supp'] . ')</span>';
-				}
+					//check for supplemental information
+					$value_supp = null;
+					if (!empty($options['nps_attr_option_' . $region . '_list_supp'])) {
+						$value_supp = '<span class="sub-desc-list-supp">(' . $options['nps_attr_option_' . $region . '_list_supp'] . ')</span>';
+					}
 
-				//check for uom
-				$uom = null;
-				if (!empty($options['attr_option_add_uom'])) {
-					$uom = '<span class="sub-desc-list-uom">' . $options['attr_option_add_uom'] . '</span>';
-				}
+					//check for uom
+					$uom = null;
+					if (!empty($options['attr_option_add_uom'])) {
+						$uom = '<span class="sub-desc-list-uom">' . $options['attr_option_add_uom'] . '</span>';
+					}
 
-				$html .= '<li><span class="sub-desc-list-label">' . ucwords($attr['frontend_label']) . ':</span><span class="sub-desc-list-value">' . $value . $uom . '</span>' . $value_supp . '</li>';
+					$html .= '<li><span class="sub-desc-list-label">' . ucwords($attr['frontend_label']) . ':</span><span class="sub-desc-list-value">' . $value . $uom . '</span>' . $value_supp . '</li>';
+				}
 			}
 		}
 		if (!empty($html)) {$html .= '</ul>';}
 
 		return $html;
 	}
-	private function generateSubDescTechListHtml($manufacturer, $display_attrs) {
+	private function generateSubDescTechListHtml($_product, $manufacturer, $display_attrs) {
 		$html = null;
-
+		//loop through attributes
 		foreach ($display_attrs as $attr) {
 
-			//set options
-			$options = json_decode($attr['options'], true);
-			//check for value
-			if ($options['nps_attr_option_tech_description']) {
+			//check if product has data for the attribute
+			$check_value = Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), $attr['attribute_code'], 0 );
+			if( $check_value ){
+				//set options
+				$options = json_decode($attr['options'], true);
+				//check for value
+				if ($options['nps_attr_option_tech_description']) {
 
-				$html .= '<div class="manufacturer-tech-block">';
-				$html .= '	<h3 class="manu-tech-list-label">' . ucwords($manufacturer) . ' ' . ucwords($attr['frontend_label']) . '</h3>';
-				$html .= '	<div class="manu-tech-list-value">' . $options['nps_attr_option_tech_description'] . '</div>';
-				$html .= '</div>';
+					$html .= '<div class="manufacturer-tech-block">';
+					$html .= '	<h3 class="manu-tech-list-label">' . ucwords($manufacturer) . ' ' . ucwords($attr['frontend_label']) . '</h3>';
+					$html .= '	<div class="manu-tech-list-value">' . $options['nps_attr_option_tech_description'] . '</div>';
+					$html .= '</div>';
+				}
 			}
 		}
 		if (!empty($html)) {$html .= '</ul>';}
@@ -105,7 +111,7 @@ class productView {
 
 		//get attributes
 		$display_attrs = $this->getRelevantAttributes('tech');
-		$attribute_supp = $this->generateSubDescTechListHtml($manu, $display_attrs);
+		$attribute_supp = $this->generateSubDescTechListHtml($_product, $manu, $display_attrs);
 
 		//begin output
 		$return = null;
@@ -170,6 +176,22 @@ class productView {
 	//attributes that will nevere be displayed as specs or carried to container products
 	public static function getBlackListedAttributes() {
 		return array(97, 98, 100, 101, 103, 104, 105, 106, 109, 110, 270, 271, 272, 273, 274, 476, 481, 492, 493, 494, 495, 498, 503, 506, 507, 508, 509, 526, 531, 562, 567, 568, 569, 570, 571, 572, 573, 703, 704, 705, 836, 837, 838, 859, 860, 861, 862, 863, 873, 876, 879, 880, 881, 903, 904, 905, 906, 931, 932, 933, 935, 936, 941, 942, 943, 952, 960, 962, 994, 1019, 1020, 1106, 1158, 1575, 1251, 1463, 1433, 1566, 1567, 1568, 1489, 1583, 1585, 1586, 1587, 1588, 1589, 1590, 1591, 1592, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1604, 1605, 96, 99, 102, 940);
+	}
+}
+if (!function_exists('outputToTestingText')) {
+	function outputToTestingText($data, $continue = false) {
+
+		ob_start();
+		var_dump($data);
+		$output = ob_get_clean();
+		if ($continue) {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "a+");
+		} else {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w+");
+		}
+
+		fwrite($fileHandle, $output);
+		fclose($fileHandle);
 	}
 }
 
