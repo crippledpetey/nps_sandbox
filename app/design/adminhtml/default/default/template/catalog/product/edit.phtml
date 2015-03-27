@@ -30,8 +30,6 @@
  */
 ?>
 
-
-
 <div class="content-header">
     <h3 class="icon-head head-products"><?php echo $this->getHeader() ?></h3>
     <p class="content-buttons form-buttons"><?php echo $this->getBackButtonHtml() ?>
@@ -45,6 +43,8 @@
     <?php if($this->getProductSetId() && $this->getIsConfigured()): ?>
         <?php echo $this->getSaveButtonHtml() ?>
         <?php echo $this->getSaveAndEditButtonHtml() ?>
+        <?php echo $this->getProcessAttributeButtonHtml() ?>
+        <?php echo $this->getViewOnPageButtonHtml() ?>
     <?php endif; ?>
     </p>
 </div>

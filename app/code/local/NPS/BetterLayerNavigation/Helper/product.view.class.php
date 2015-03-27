@@ -47,6 +47,26 @@ class productView {
 
 		return $html;
 	}
+	private function generateSubDescTechListHtml($manufacturer, $display_attrs) {
+		$html = null;
+
+		foreach ($display_attrs as $attr) {
+
+			//set options
+			$options = json_decode($attr['options'], true);
+			//check for value
+			if ($options['nps_attr_option_tech_description']) {
+
+				$html .= '<div class="manufacturer-tech-block">';
+				$html .= '	<h3 class="manu-tech-list-label">' . ucwords($manufacturer) . ' ' . ucwords($attr['frontend_label']) . '</h3>';
+				$html .= '	<div class="manu-tech-list-value">' . $options['nps_attr_option_tech_description'] . '</div>';
+				$html .= '</div>';
+			}
+		}
+		if (!empty($html)) {$html .= '</ul>';}
+
+		return $html;
+	}
 
 	public function getFeatures($_product, $_shortcode_class) {
 
@@ -80,17 +100,29 @@ class productView {
 	}
 
 	public function getTech($_product, $_shortcode_class) {
+		//set manufacturer name
+		$manu = $_product->getResource()->getAttribute('manufacturer')->getFrontend()->getValue($_product);
+
 		//get attributes
 		$display_attrs = $this->getRelevantAttributes('tech');
-		$attribute_supp = $this->generateSubDescListHtml($_product, $display_attrs, 'tech');
+		$attribute_supp = $this->generateSubDescTechListHtml($manu, $display_attrs);
 
+		//begin output
 		$return = null;
 		$value = Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'nps_desc_region_tech', $this->storeID);
 		if (!empty($value) || !empty($attribute_supp)) {
+
 			//get the manufacturer
 			$manu = $_product->getResource()->getAttribute('manufacturer')->getFrontend()->getValue($_product);
-			//Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'manufacturer', $this->storeID);
-			$return = '<div class="product-collateral product-subdescription"><div class="box-collateral box-description" style="width: 100%;"><h2>' . ucwords($manu) . ' Technologies</h2><div class="product-subdescription-autopop">' . $attribute_supp . '</div><div class="std">' . $value . '</div></div><div class="clearer"></div></div>';
+
+			$return = '<div class="product-collateral product-subdescription manufacturer-technologies">';
+			$return .= '	<div class="box-collateral box-description" style="width: 100%;">';
+			$return .= '		<h2>' . ucwords($manu) . ' Technologies</h2>';
+			$return .= '		<div class="product-subdescription-autopop">' . $attribute_supp . '</div>';
+			$return .= '		<div class="std">' . $value . '</div>';
+			$return .= '	</div>';
+			$return .= '	<div class="clearer"></div>';
+			$return .= '</div>';
 		}
 		$return = $this->processShortcodes($_shortcode_class, $return);
 		return $return;
@@ -134,7 +166,10 @@ class productView {
 		$select = $this->sqlwrite->select()->from('nps_prd_desc_region_' . $region, array('attribute_id', 'options', 'parent_show', 'desc_show', 'attribute_code', 'frontend_label', 'frontend_input'));
 		$rowsArray = $this->sqlread->fetchAll($select);
 		return $rowsArray;
-
+	}
+	//attributes that will nevere be displayed as specs or carried to container products
+	public static function getBlackListedAttributes() {
+		return array(97, 98, 100, 101, 103, 104, 105, 106, 109, 110, 270, 271, 272, 273, 274, 476, 481, 492, 493, 494, 495, 498, 503, 506, 507, 508, 509, 526, 531, 562, 567, 568, 569, 570, 571, 572, 573, 703, 704, 705, 836, 837, 838, 859, 860, 861, 862, 863, 873, 876, 879, 880, 881, 903, 904, 905, 906, 931, 932, 933, 935, 936, 941, 942, 943, 952, 960, 962, 994, 1019, 1020, 1106, 1158, 1575, 1251, 1463, 1433, 1566, 1567, 1568, 1489, 1583, 1585, 1586, 1587, 1588, 1589, 1590, 1591, 1592, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1604, 1605, 96, 99, 102, 940);
 	}
 }
 

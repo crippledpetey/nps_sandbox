@@ -52,6 +52,7 @@
             </customadminfunctions>
             <adminhtml>
                 <rewrite>
+                    <catalog_product_edit>NPS_CustomAdminFunctions_Block_Adminhtml_Catalog_Product_Edit</catalog_product_edit>
                     <catalog_product_edit_tabs>NPS_CustomAdminFunctions_Block_Adminhtml_Tabs</catalog_product_edit_tabs>
                     <sales_order_view_tabs>NPS_CustomAdminFunctions_Block_Adminhtml_Ordertabs</sales_order_view_tabs>
                 </rewrite>
