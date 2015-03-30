@@ -1,7 +1,11 @@
 jQuery(document).ready(function($){
 
 	function checkNameLength(){
-		if($("input#name").val().length >= 134 ){
+		var manuLen = $("#manufacturer option:selected").text().length;
+		var skuLen = $("#sku").val().length;
+		var nameLen = $("input#name").val().length;
+		
+		if( ( manuLen + skuLen + nameLen ) >= 134 ){
 			$("input#name").css({"box-shadow":"0 0 10px red"});
 		} else {
 			$("input#name").css({"box-shadow":"none"});
