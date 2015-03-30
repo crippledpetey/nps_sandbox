@@ -81,8 +81,8 @@ class vendorCorrespondence {
 }
 
 //instantiate class if vendor id is selected
-if (isset($_GET['vendor_id'])) {
-	$vendor = new vendorCorrespondence($_GET['vendor_id']);
+if (isset($argv[1])) {
+	$vendor = new vendorCorrespondence($argv[1]);
 }
 
 ?>
