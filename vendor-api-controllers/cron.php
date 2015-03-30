@@ -35,9 +35,12 @@ class vendorCorrespondence {
 		//set object scope props
 		$this->vendor_id = $vendor_id;
 
+		//object scope vendor Info
+		$this->vendorInfo = $this->_getVendorInfo($this->vendor_id);
+
 		//output updates
 		$updates = $this->_getVendorUpdates('`processed` = false');
-		echo "THERE ARE CURRENTLY " . count($updates) . " UNPROCESSED UPDATES\n\n";
+		echo "THERE ARE CURRENTLY " . count($updates) . " UNPROCESSED UPDATES FOR " . $this->vendorInfo['vendor_label'] . "\n\n";
 
 		//check for updates
 		if (count($updates) > 0) {
@@ -79,7 +82,6 @@ class vendorCorrespondence {
 		return $return;
 	}
 }
-
 //instantiate class if vendor id is selected
 if (isset($argv[1])) {
 	$vendor = new vendorCorrespondence($argv[1]);
