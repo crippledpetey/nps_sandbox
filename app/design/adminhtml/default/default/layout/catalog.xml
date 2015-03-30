@@ -308,6 +308,10 @@ Layout handle for configurable products
         <reference name="js">
             <block type="core/template" template="catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js" />
         </reference>
+        <reference name="head">
+            <action method="addCss"><script>nps.category.edit.css</script></action>
+            <action method="addJs"><script>custom/nps.category.edit.js</script></action>
+        </reference>
     </adminhtml_catalog_category_edit>
 
     <ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE>
