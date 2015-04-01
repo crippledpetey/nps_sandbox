@@ -19,13 +19,8 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Catalog_Product_Edit extends Mage
 		//prepare the layout
 		parent::_prepareLayout();
 
-		outputToTestingText( $this->getProduct()->getId() );
-
 		//check if editing or not
 		if (!is_null($this->getProduct()->getId())) {
-
-			outputToTestingText('Made It', true);
-			
 
 			//set the object scope frontend product url
 			$this->prdURL = Mage::getModel('core/url')->getUrl() . $this->_product->getUrlPath();
@@ -122,7 +117,6 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Catalog_Product_Edit extends Mage
 				//loop through children to get attr values
 				foreach ($children as $child) {
 					if ($value = Mage::getResourceModel('catalog/product')->getAttributeRawValue($child['entity_id'], $data->attribute_id, Mage::app()->getStore()->getStoreId())) {
-						outputToTestingText('Writing: ' . $data->attribute_id . '=' . $value);
 						//verify data is not empty
 						if (!empty($value) && $value !== '' && $value !== ' ') {
 							if ($data->attr_option_duplicate_handling == 'override') {

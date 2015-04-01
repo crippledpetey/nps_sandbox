@@ -23,28 +23,131 @@
 * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
 * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
+
+// get product
 $_mmProduct = $this->getProduct();
+//set product id to blank
 $prd_id = null;
+//set media images array as blank
 $_mmImages = array();
+//set media images count as blank
 $_mmImageCount = 0;
+//set finish images array as blank
+$_fImages = array();
+//ser finish images count as blank
+$fImageCount = 0;
+
+//assign var values if product is set
 if( !empty( $_mmProduct->getID() ) ){
 
+	//set product ID
 	$prd_id = $_mmProduct->getID();
-	$_mmImages = $this->_getImages( $prd_id, true );
+
+	//get media gallery images
+	$_mmImages = $this->_getImages( $prd_id );
 	$_mmImageCount = count( $_mmImages );
 
-}
+	//get finish option images
+	$_fImages = $this->_getChildGalleryImages($prd_id);
+	$fImageCount = count( $_fImages );
 
+	// check for images in media gallery
+	foreach( $_fImages as $key => $img ){
+		//set the start number to append
+		$start_num = 0;
+		
+		// check if image is only in nps media gallery
+		if( empty( $img['id'] ) ){
+
+			//get magento image information
+			$mage_img = $this->_getMageImage( $img['child_id'] );
+			foreach( $mage_img as $mI ){
+				if( !empty( $mI['product_id'] ) ){
+					//convert db image path 
+					$image_file = Mage::getBaseDir() . DS . 'media' . DS . 'catalog' . DS . 'product' . str_replace( '/', DS, $mI['image'] );
+					//set remaining image variables for sending to the processor
+					$sku = $mI['sku'];
+					$manu = $mI['manufacturer'];
+					$num_append = $start_num;
+					$product_id = $mI['product_id'];
+					$order = $start_num + 1;
+					$image_type = 'prd_shot';
+					
+					//send image to the image server
+					$this->_uploadImageHandler($image_file, $sku, $manu, $num_append, $product_id, $order, $image_type);
+
+					//increment the counter
+					$start_num++;
+
+					//reset the fImage array to make reload unnecessary
+					$_fImages[$key] = array(
+						'product_id' 		=> $prd_id,
+						'sku' 				=> $sku,
+						'sort_order' 		=> $order,
+						'child_id' 			=> $product_id,
+						'id' 				=> 'ON RELOAD',
+						'manu' 				=> $manu,
+						'file_name' 		=> 'ON RELOAD',
+						'order' 			=> $order,
+						'type' 				=> 'prd_shot',
+						'title' 			=> 'ON RELOAD',
+						'in_gallery' 		=> 'ON RELOAD',
+						'default_img' 		=> 'ON RELOAD',
+						);
+				}
+			}
+		}
+	}
+}
 //set array to show friendly values
 $friendly_conversion = array(
 	'app_shot'=>'Application Shot',
 	'prd_shot'=>'Product Shot',
-	);
+);
+
 
 ?>
+
 <div class="entry-edit">
 	<div class="entry-edit-head">
-		<h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Product Image Upload Manager') ?></h4>
+		<h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Product Finish Images') ?></h4>
+	</div>
+	<div class="fieldset" id="grop_fields">
+		<div id="finish_option_content">
+			<ul class="messages">
+				<li class="notice-msg hidden"><ul><li>Image type and information need to be specified for each store view.</li></ul></li>
+			</ul>
+			<div class="grid">
+				<table id="nps-media-gallery-table">
+					<thead>
+						<tr>
+							<th width="100">Database ID</th>
+							<th colspan="2">Preview</th>
+							<th colspan="2">Title</th>
+							<th colspan="2">Display Order</th>
+						</tr>
+					</thead>
+					<tbody style="text-align:center;font-size: 22px;color: #999;">
+						<?php if (empty( $_fImages ) ):?>
+							<tr><td colspan="5"><p>No Images Have Been Imported Yet. Missing Images will be refreshed on the next save</p></td></tr>
+						<?php else: ?>
+							<?php foreach( $_fImages as $img ): ?>
+								<tr>
+									<td colspan="5"><?php var_dump( $img ) ?></td>
+								</tr>							
+							<?php endforeach; ?>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- CONTAINER PRODUCT PRIMARY GALLERY IMAGES -->
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Product Gallery Images') ?></h4>
 	</div>
 	<div class="fieldset" id="grop_fields">
 		<div id="media_gallery_content">
@@ -99,7 +202,10 @@ $friendly_conversion = array(
 								?>
 								<td colspan="2" style="vertical-align: middle !important;"><img width="65" height="65" src="<?php echo $thumb ?>"></td>
 								<td colspan="4" style="vertical-align: middle !important;"><?php echo $friendly_conversion[ $img['type'] ] ?></td>
-								<td colspan="2" style="vertical-align: middle !important;"><?php echo $img['order'] ?></td>
+								<td colspan="2" style="vertical-align: middle !important;">
+									<input type="number" min="0" name="nps-gallery[<?php echo $img['id'] ?>][new-order]" value="<?php echo $img['order'] ?>">
+									<input type="hidden" name="nps-gallery[<?php echo $img['id'] ?>][old-order]" value="<?php echo $img['order'] ?>">
+								</td>
 								<td colspan="4" style="vertical-align: middle !important;">
 								<?php if($display_button): ?>
 									<form method="post" id="nps-remove-gallery-image-<?php echo $img['id'] ?>-form">
@@ -108,6 +214,7 @@ $friendly_conversion = array(
 										<input type="hidden" name="nps-remove-image-filename" value="<?php echo $img['file_name'] ?>">
 										<input type="hidden" name="nps_function" value="nps-remove-gallery-image">
 										<input type="hidden" name="request-uri" value="<?php echo $_SERVER['REQUEST_URI'] ?>">
+										<input type="hidden" name="nps-gallery-old-order" value="<?php echo $img['order'] ?>">
 										<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
 										<input type="submit" class="remove-gallery-image" id="nps-remove-gallery-image-<?php echo $img['id'] ?>" title="Remove Image" value="Remove Image">
 									</form>
@@ -141,7 +248,7 @@ $friendly_conversion = array(
 							</td>
 							<td colspan="3" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
 								<span style="display:block;margin-bottom:8px;">Display Order</span>
-								<input type="number" name="nps-media-manager-image-order" min="0" max="<?php echo $_mmImageCount + 1 ?>" id="nps-media-manager-image-order" value="<?php echo $_mmImageCount + 1 ?>">
+								<input type="number" name="nps-media-manager-image-order" min="0" id="nps-media-manager-image-order" value="<?php echo $_mmImageCount + 1 ?>">
 							</td>
 							<td colspan="3" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
 								<input type="submit" value="Upload Image">

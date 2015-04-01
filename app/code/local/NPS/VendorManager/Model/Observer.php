@@ -356,7 +356,6 @@ class NPS_CustomAdminFunctions_Model_Observer {
 
 			//if there are products selected run the insert
 			if (!empty($prd_table_data)) {
-				outputToTestingText($table_data);
 				//insert into the purchase order table
 				$this->_addVendorPurchaseOrder($obs_data['vendors'][$_POST['nps_source_vendor_id']]['inv_table_values']['inv-po-table'], $table_data);
 				//add order items to table

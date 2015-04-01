@@ -29,11 +29,6 @@
                         <class>NPS_CustomAdminFunctions_Model_Observer</class>
                         <method>updateGroupedProductInventory</method>  
                     </product_Save_Inv_Config>
-                    <!--<product_Save_Url_Rewrite>     
-                        <type>singleton</type>  
-                        <class>NPS_CustomAdminFunctions_Model_Observer</class>
-                        <method>updateUrlReWrite</method>  
-                    </product_Save_Url_Rewrite>-->
                 </observers>  
             </catalog_product_save_after> 
             <nps_vendor_order_processor>
@@ -53,7 +48,6 @@
             <adminhtml>
                 <rewrite>
                     <catalog_product_edit>NPS_CustomAdminFunctions_Block_Adminhtml_Catalog_Product_Edit</catalog_product_edit>
-                    <catalog_product_edit_tabs>NPS_CustomAdminFunctions_Block_Adminhtml_Tabs</catalog_product_edit_tabs>
                     <sales_order_view_tabs>NPS_CustomAdminFunctions_Block_Adminhtml_Ordertabs</sales_order_view_tabs>
                 </rewrite>
             </adminhtml>

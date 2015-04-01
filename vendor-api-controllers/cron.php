@@ -36,7 +36,7 @@ class vendorCorrespondence {
 		$this->vendor_id = $vendor_id;
 
 		//object scope vendor Info
-		$this->vendorInfo = $this->_getVendorInfo($this->vendor_id);
+		$this->vendorInfo = $this->_getVendorInfo();
 
 		//output updates
 		$updates = $this->_getVendorUpdates('`processed` = false');
@@ -80,6 +80,10 @@ class vendorCorrespondence {
 		$query = "SELECT `id`,`vendor_id`,`entity_id`,`code`,`message`,`created`,`updated`,`processed` FROM `nps_vendor_updates`" . $where;
 		$return = $this->sqlread->fetchAll($query);
 		return $return;
+	}
+	private function _setUpdateProcessed($update_id) {
+		$query = "UPDATE `nps_vendor_updates` SET `updated` = CURRENT_TIMESTAMP, `processed` = 1 WHERE `id` = " . $update_id;
+		$this->sqlwrite->query($query);
 	}
 }
 //instantiate class if vendor id is selected

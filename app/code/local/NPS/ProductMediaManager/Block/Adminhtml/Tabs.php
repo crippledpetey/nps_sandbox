@@ -1,6 +1,6 @@
 <?php
 
-class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs {
+class NPS_ProductMediaManager_Block_Adminhtml_Tabs extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs {
 	public $parent;
 
 	protected function _prepareLayout() {
@@ -13,7 +13,7 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs extends Mage_Adminhtml_Block
 		//Now here we are adding new tab
 		$this->addTab('mediamanager', array(
 			'label' => Mage::helper('catalog')->__('NPS Media Manager'),
-			'content' => $this->getLayout()->createBlock('customadminfunctions/adminhtml_tabs_mediamanager')->toHtml(),
+			'content' => $this->getLayout()->createBlock('productmediamanager/adminhtml_tabs_mediamanager')->toHtml(),
 		));
 
 		return $this->parent;

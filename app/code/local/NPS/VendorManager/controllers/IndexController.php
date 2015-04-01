@@ -89,14 +89,11 @@ PAGE LOAD FUNCTIONS THAT CONTROL UPDATES
 					$po_fields = explode("\n", $_POST['nps_vendor_po_table_fields']);
 					$po_fields = serialize($po_fields);
 					$updateFields['po_table_field_map'] = $po_fields;
-
-					outputToTestingText($po_fields);
 				}
 				if (!empty($_POST['nps_vendor_po_item_table_fields'])) {
 					$po_item_fields = explode("\n", $_POST['nps_vendor_po_item_table_fields']);
 					$po_item_fields = serialize($po_item_fields);
 					$updateFields['po_item_table_field_map'] = $po_item_fields;
-					outputToTestingText($po_item_fields, true);
 				}
 				//set refresh to true
 				$refresh = true;

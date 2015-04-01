@@ -1,0 +1,13 @@
+<pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = 1 WHERE `id` = 18'</font> <i>(length=66)</i>
+</pre><pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = `order` - 1 WHERE `product_id` = &#39;1540&#39; AND `order` BETWEEN (1 AND 1) AND `id` &lt;&gt; 18'</font> <i>(length=133)</i>
+</pre><pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = 2 WHERE `id` = 19'</font> <i>(length=66)</i>
+</pre><pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = `order` - 1 WHERE `product_id` = &#39;1540&#39; AND `order` BETWEEN (2 AND 2) AND `id` &lt;&gt; 19'</font> <i>(length=133)</i>
+</pre><pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = 4 WHERE `id` = 21'</font> <i>(length=66)</i>
+</pre><pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = `order` - 1 WHERE `product_id` = &#39;1540&#39; AND `order` BETWEEN (4 AND 4) AND `id` &lt;&gt; 21'</font> <i>(length=133)</i>
+</pre><pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = 2 WHERE `id` = 18'</font> <i>(length=66)</i>
+</pre><pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = `order` + 1 WHERE `product_id` = &#39;1540&#39; AND `order` BETWEEN (1 AND 2) AND `id` &lt;&gt; 18'</font> <i>(length=133)</i>
+</pre><pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = 3 WHERE `id` = 19'</font> <i>(length=66)</i>
+</pre><pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = `order` + 1 WHERE `product_id` = &#39;1540&#39; AND `order` BETWEEN (2 AND 3) AND `id` &lt;&gt; 19'</font> <i>(length=133)</i>
+</pre><pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = 1 WHERE `id` = 21'</font> <i>(length=66)</i>
+</pre><pre class='xdebug-var-dump' dir='ltr'><small>string</small> <font color='#cc0000'>'UPDATE `nps_product_media_gallery` SET `order` = `order` - 1 WHERE `product_id` = &#39;1540&#39; AND `order` BETWEEN (1 AND 4) AND `id` &lt;&gt; 21'</font> <i>(length=133)</i>
+</pre>

@@ -1,0 +1,63 @@
+<?php
+/**
+ * Our class name should follow the directory structure of
+ * our Observer.php model, starting from the namespace,
+ * replacing directory separators with underscores.
+ * i.e. app/code/local/SmashingMagazine/
+ *                     LogProductUpdate/Model/Observer.php
+ */
+class NPS_ProductMediaManager_Model_Observer {
+	/**
+	 * Magento passes a Varien_Event_Observer object as
+	 * the first parameter of dispatched events.
+	 */
+
+	public function __construct() {
+		//sql connector
+		$this->resource = Mage::getSingleton('core/resource');
+		$this->sqlread = $this->resource->getConnection('core_read');
+		$this->sqlwrite = $this->resource->getConnection('core_write');
+	}
+	public function updateGalleryOrder(Varien_Event_Observer $observer) {
+		$product = $observer->getEvent()->getProduct();
+		$params = Mage::app()->getRequest()->getParams();
+		$galleryArray = $params['nps-gallery'];
+
+		//check to see if any of the image orders have changed
+		foreach ($galleryArray as $imgID => $ordr) {
+			$old = $ordr['old-order'];
+			$new = $ordr['new-order'];
+
+			//if there was an update
+			if ($new !== $old) {
+				$updateThisImage = "UPDATE `nps_product_media_gallery` SET `order` = " . $new . " WHERE `id` = " . $imgID;
+
+				//going up or down?
+				if ($new > $old) {
+					//set query going up
+					$updateOtherImages = "UPDATE `nps_product_media_gallery` SET `order` = `order` - 1 WHERE ( `product_id` = '" . $product->getId() . "' ) AND ( `order` BETWEEN " . $old . " AND " . $new . ") AND ( `id` <> " . $imgID . " ) ";
+				} else {
+					//set query going down
+					$updateOtherImages = "UPDATE `nps_product_media_gallery` SET `order` = `order` + 1 WHERE ( `product_id` = '" . $product->getId() . "' ) AND ( `order` BETWEEN " . $new . " AND " . $old . ") AND ( `id` <> " . $imgID . " ) ";
+				}
+				//update the database
+				$this->sqlwrite->query($updateThisImage);
+				$this->sqlwrite->query($updateOtherImages);
+			}
+		}
+	}
+}
+if (!function_exists('outputToTestingText')) {
+	function outputToTestingText($data, $continue = false) {
+		ob_start();
+		var_dump($data);
+		$output = ob_get_clean();
+		if ($continue) {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "a+");
+		} else {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w+");
+		}
+		fwrite($fileHandle, $output);
+		fclose($fileHandle);
+	}
+}
