@@ -283,3 +283,20 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
 		return $this->getTable('catalog/product_eav_indexer_tmp');
 	}
 }
+if (!function_exists('outputToTestingText')) {
+	function outputToTestingText($data, $continue = false) {
+		//check for if on live server
+		if ($_SERVER['SERVER_ADDR'] !== "68.67.77.115") {
+			ob_start();
+			var_dump($data);
+			$output = ob_get_clean();
+			if ($continue) {
+				$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "a+");
+			} else {
+				$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w+");
+			}
+			fwrite($fileHandle, $output);
+			fclose($fileHandle);
+		}
+	}
+}
