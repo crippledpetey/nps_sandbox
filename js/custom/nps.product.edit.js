@@ -26,12 +26,12 @@ jQuery(document).ready(function($){
 			//set default to false
 			var change = false;
 			$("#product_info_tabs > li > a").each(function(){
-				
 				//check each tab for the change trigger
 				if($(this).hasClass("changed")){
-					
-					//set indication to true
-					change = true;
+					if($(this).attr("id") !== "product_info_tabs_mediamanager"){
+						//set indication to true
+						change = true;
+					} 
 				}
 			});	
 			if(change){
