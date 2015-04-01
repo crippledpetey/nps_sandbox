@@ -224,7 +224,7 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract {
 		}
 
 		try {
-			outputToTestingText($sql, true);
+			//outputToTestingText($sql, true);
 			return parent::query($sql, $bind);
 		} catch (PDOException $e) {
 			/**

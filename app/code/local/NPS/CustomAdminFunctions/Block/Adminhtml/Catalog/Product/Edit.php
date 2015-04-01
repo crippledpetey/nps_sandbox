@@ -123,7 +123,15 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Catalog_Product_Edit extends Mage
 								$updates[$data->attribute_id] = $value;
 							} elseif ($data->attr_option_duplicate_handling == 'append') {
 								if (empty($updates[$data->attribute_id])) {$updates[$data->attribute_id] = '';}
-								if (!stripos($updates[$data->attribute_id], $value)) {$updates[$data->attribute_id] .= ',' . $value;}
+
+								//remove duplicate options
+								$combine = $updates[$data->attribute_id] . ',' . $value;
+								$optionCheck = explode(',', str_replace(',,', ',', $combine));
+								$optionCheck = array_unique($optionCheck);
+								$newOptions = implode(",", $optionCheck);
+								//set update
+								$updates[$data->attribute_id] = ltrim($newOptions, ',');
+
 							} elseif ($data->attr_option_duplicate_handling == 'hide') {
 								if (!empty($updates[$data->attribute_id]) && $updates[$data->attribute_id] !== $value) {unset($updates[$data->attribute_id]);}
 							} elseif ($data->attr_option_duplicate_handling == 'popular') {

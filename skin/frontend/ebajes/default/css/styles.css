@@ -1305,7 +1305,7 @@ transition: background-color 250ms ease-in-out 0s;}
 /* View Type: Grid */
 .products-grid { position:relative;}
 .products-grid.last { border-bottom:0; }
-.products-grid li.item { float:left; width:162px; padding:0; margin-right: 25px;margin-bottom: 20px;height: 420px;overflow: hidden;
+.products-grid li.item { float:left; width:162px; padding:0; margin-right: 25px;margin-bottom: 20px;height: 460px;overflow: hidden;
 -moz-transition: all 200ms ease;
 -webkit-transition: all 200ms ease;
 -o-transition: all 200ms ease;
@@ -1389,7 +1389,8 @@ ul#category-list > li > div > div > a {display: block; padding: 15px 0 2px;font-
 .no-rating a{color: #9a9a9a }
 
 .ratings {border-bottom: 1px solid #d9d9d9;padding-bottom: 20px;}
-.ratings, .no-rating { font-size:12px; line-height:1; margin:7px 0; }
+.ratings, .no-rating { font-size:12px; line-height:1; margin:7px 0;}
+.catalog-category-view .ratings{ margin:20px 0 0 0; }
 .product-view .ratings, .product-view .no-rating{overflow:hidden;}
 .ratings strong { float:left; margin:-1px 5px 0 0; color: #000000;}
 .ratings .rating-links { margin:0; }

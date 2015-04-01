@@ -261,8 +261,8 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
 	 * @return Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
 	 */
 	protected function _saveIndexData(array $data) {
-		outputToTestingText($data, true);
-		outputToTestingText($this->getIdxTable(), true);
+		//outputToTestingText($data, true);
+		//outputToTestingText($this->getIdxTable(), true);
 		if (!$data) {
 			return $this;
 		}
