@@ -67,7 +67,7 @@ class vendorCorrespondence {
 	 */
 	private function _getVendorInfo() {
 		$query = "SELECT `id`,`vendor_id`,`file_name`,`inv_uid_col`,`inv_qty_col`,`inv_col_count`,`vendor_label`,`po_table`,`po_item_table`,`po_table_field_map`,`po_item_table_field_map` FROM `nps_vendor` WHERE `id` = " . $this->vendor_id;
-		$return = $this->sqlread->fetchAll($query);
+		$return = $this->sqlread->fetchRow($query);
 		return $return;
 	}
 	private function _getVendorUpdates($where = null) {

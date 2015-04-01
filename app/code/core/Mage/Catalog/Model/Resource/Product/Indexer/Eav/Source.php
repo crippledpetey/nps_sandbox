@@ -2,7 +2,7 @@
 if (!function_exists('outputToTestingText')) {
 	function outputToTestingText($data, $continue = false) {
 		//check for if on live server
-		if ($_SERVER['SERVER_ADDR'] !== "68.67.77.115") {
+		if ($_SERVER['SERVER_ADDR'] !== "22268.67.77.115") {
 			ob_start();
 			var_dump($data);
 			$output = ob_get_clean();
