@@ -266,6 +266,14 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 
 	}
 	public function _addImageGalleryImage($product_id, $file, $order, $type, $manu, $title, $in_gallery, $default_img) {
+
+		//verify order is available
+		$existing = _getImages($product_id);
+		foreach ($existing as $eimg) {
+			if ($order = $eimg['order']) {
+				$order++;
+			}
+		}
 		$manu_folder = $this->convertManuToFolder($manu);
 		$connection = Mage::getSingleton('core/resource')->getConnection('core_write');
 		$connection->beginTransaction();
