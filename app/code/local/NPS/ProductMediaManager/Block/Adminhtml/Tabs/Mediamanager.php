@@ -115,7 +115,7 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 					//manufacturer folder
 					$manu_folder = $this->convertManuToFolder($manu);
 					//set the new image name
-					$new_image_name = strtolower(str_replace(array(' ', '_', '#', '&', '(', ')'), array('-', '-', '-', '-', null, null), $sku) . '-' . $num_append . $ext);
+					$new_image_name = strtolower(str_replace(array(' ', '_', '#', '&', '(', ')', '.'), array('-', '-', '-', '-', null, null, '-'), $sku) . '-' . $num_append . $ext);
 					//set the new image path to the temp folder
 					$new_image_path = '/home/image_staging/' . $manu_folder . '/';
 					//set root image
