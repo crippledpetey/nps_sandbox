@@ -28,8 +28,6 @@ class NPS_ProductMediaManager_Model_Observer {
 		if (isset($params['nps-gallery'])) {
 			$galleryArray = $params['nps-gallery'];
 
-			outputToTestingText($galleryArray);
-
 			//check to see if any of the image orders have changed
 			foreach ($galleryArray as $imgID => $ordr) {
 
