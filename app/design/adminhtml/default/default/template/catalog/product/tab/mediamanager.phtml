@@ -72,9 +72,12 @@ if( !empty( $_mmProduct->getID() ) ){
 					$product_id = $mI['product_id'];
 					$order = $start_num + 1;
 					$image_type = 'prd_shot';
+					$title = '';
+					$in_gallery = 1;
+					$default_img = 0;
 					
 					//send image to the image server
-					$this->_uploadImageHandler($image_file, $sku, $manu, $num_append, $product_id, $order, $image_type);
+					$this->_uploadImageHandler($image_file, $sku, $manu, $num_append, $product_id, $order, $image_type, $title, $in_gallery, $default_img);
 
 					//increment the counter
 					$start_num++;
@@ -113,32 +116,41 @@ $friendly_conversion = array(
 		<h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Product Finish Images') ?></h4>
 	</div>
 	<div class="fieldset" id="grop_fields">
-		<div id="finish_option_content">
+		<div id="nps-finish-option-gallery">
 			<ul class="messages">
 				<li class="notice-msg hidden"><ul><li>Image type and information need to be specified for each store view.</li></ul></li>
 			</ul>
 			<div class="grid">
-				<table id="nps-media-gallery-table">
+				<table id="nps-finish-option-gallery-table">
 					<thead>
 						<tr>
 							<th width="100">Database ID</th>
 							<th colspan="2">Preview</th>
 							<th colspan="2">Title</th>
-							<th colspan="2">Display Order</th>
 						</tr>
 					</thead>
 					<tbody style="text-align:center;font-size: 22px;color: #999;">
 						<?php if (empty( $_fImages ) ):?>
-							<tr><td colspan="5"><p>No Images Have Been Imported Yet. Missing Images will be refreshed on the next save</p></td></tr>
+							<tr><td colspan="5"><p>No Images for finish options have been detected</p></td></tr>
 						<?php else: ?>
 							<?php foreach( $_fImages as $img ): ?>
 								<tr>
-									<td colspan="5"><?php //var_dump( $img ) ?></td>
+									<td width="100">
+										<?php echo $img['id'] ?>
+									</td>
+									<td colspan="2">
+										<img src="http://images.needplumbingsupplies.com/catalog/product/<?php echo $img['manu'] ?>/65x65/<?php echo $img['file_name'] ?>">
+									</td>
+									<td colspan="2">
+										<input type="text" class="nps-gallery-image-toggle" name="nps-gallery[<?php echo $img['id'] ?>][finish-title]" value="<?php echo $img['title'] ?>">
+										<input type="hidden" class="nps-gallery-image-update" name="nps-gallery[<?php echo $img['id'] ?>][finish-title-change]" value="false">
+									</td>
 								</tr>							
 							<?php endforeach; ?>
 						<?php endif; ?>
 					</tbody>
 				</table>
+				<script>decorateTable('nps-finish-option-gallery-table');</script>
 			</div>
 		</div>
 	</div>
@@ -150,7 +162,7 @@ $friendly_conversion = array(
 		<h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Product Gallery Images') ?></h4>
 	</div>
 	<div class="fieldset" id="grop_fields">
-		<div id="nps_media_gallery_content">
+		<div id="nps-media-gallery-content">
 			<ul class="messages">
 				<li class="notice-msg hidden">
 					<ul>
@@ -165,7 +177,10 @@ $friendly_conversion = array(
 							<th width="100">ID</th>
 							<th colspan="2">Preview</th>
 							<th colspan="4">Image Type</th>
+							<th colspan="4">Title</th>
+							<th colspan="2">Display In Gallery</th>
 							<th colspan="2">Display Order</th>
+							<th colspan="2">Default Image</th>
 							<th colspan="4">Remove</th>
 						</tr>
 					</thead>
@@ -202,9 +217,19 @@ $friendly_conversion = array(
 								?>
 								<td colspan="2" style="vertical-align: middle !important;"><img width="65" height="65" src="<?php echo $thumb ?>"></td>
 								<td colspan="4" style="vertical-align: middle !important;"><?php echo $friendly_conversion[ $img['type'] ] ?></td>
+								<td colspan="4" style="vertical-align: middle !important;">
+									<input type="text" class="nps-gallery-image-toggle" name="nps-gallery[<?php echo $img['id'] ?>][img-title]" value="<?php echo $img['title']?>">
+									<input type="hidden" class="nps-gallery-image-update" name="nps-gallery[<?php echo $img['id'] ?>][img-title-change]" value="false">
+								</td>
+								<td colspan="2" style="vertical-align: middle !important;">
+									<input type="checkbox" name="nps-gallery-in-gallery" <?php echo $this->checked($img['in_gallery'], 1) ?>>
+								</td>
 								<td colspan="2" style="vertical-align: middle !important;">
 									<input type="number" min="0" name="nps-gallery[<?php echo $img['id'] ?>][new-order]" value="<?php echo $img['order'] ?>">
 									<input type="hidden" name="nps-gallery[<?php echo $img['id'] ?>][old-order]" value="<?php echo $img['order'] ?>">
+								</td>
+								<td colspan="2" style="vertical-align: middle !important;">
+									<input type="checkbox" name="nps-gallery-default-image" <?php echo $this->checked($img['default_img'], 1) ?>>
 								</td>
 								<td colspan="4" style="vertical-align: middle !important;">
 								<?php if($display_button): ?>
@@ -235,9 +260,21 @@ $friendly_conversion = array(
 						<?php endif; ?>
 						<tr class="new-image-row">
 							<form id="nps-media-gallery-upload-form" name="nps-media-gallery-upload-form" method="post" enctype="multipart/form-data">
-							<td colspan="4" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">				
+							<td colspan="4" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
 								<span style="display:block;margin-bottom:8px;">Add New Image</span>
-								<input type="file" name="nps-media-manager-upload-input" id="nps-media-manager-upload-input">
+								<input type="file" name="nps-gallery-upload-input" id="nps-media-manager-upload-input">
+							</td>
+							<td colspan="4" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
+								<span style="display:block;margin-bottom:8px;">Title</span>
+								<input type="text" name="nps-gallery-image-title">
+							</td>
+							<td colspan="1" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
+								<span style="display:block;margin-bottom:8px;">Display</span>
+								<input type="checkbox" name="nps-gallery-in-gallery">
+							</td>
+							<td colspan="1" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
+								<span style="display:block;margin-bottom:8px;">Default Image</span>
+								<input type="checkbox" name="nps-gallery-default-image">
 							</td>
 							<td colspan="3" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
 								<span style="display:block;margin-bottom:8px;">Image Type</span>
@@ -248,125 +285,26 @@ $friendly_conversion = array(
 							</td>
 							<td colspan="3" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
 								<span style="display:block;margin-bottom:8px;">Display Order</span>
-								<input type="number" name="nps-media-manager-image-order" min="0" id="nps-media-manager-image-order" value="<?php echo $_mmImageCount + 1 ?>">
+								<input type="number" name="nps-media-gllery-order" min="0" id="nps-media-manager-image-order" value="<?php echo $_mmImageCount + 1 ?>">
 							</td>
-							<td colspan="3" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
-								<input type="submit" value="Upload Image">
+							<td colspan="5" style="vertical-align: bottom;padding-bottom: 24px;text-align: center;background: #efefef;">
+								<span class="hidden nps-change-notify">You must first save your changes before you can upload an image</span>
+								<input type="submit" class="nps-change-dependent" value="Upload Image" width="155" style="padding: 5px 2px;">
 								<input type="hidden" name="MAX_FILE_SIZE" value="500000" />
-								<input type="hidden" name="nps-media-gallery-product-id" value="<?php echo $prd_id?>">
-								<input type="hidden" name="nps-media-gallery-product-sku" value="<?php echo $_mmProduct->getSku() ?>">
-								<input type="hidden" name="nps-media-gallery-product-manu" value="<?php echo $_mmProduct->getAttributeText('manufacturer') ?>">
-								<input type="hidden" name="nps-media-gallery-start-count" value="<?php echo count($_mmImages) +1 ?>">
+								<input type="hidden" name="nps-gallery-product-id" value="<?php echo $prd_id?>">
+								<input type="hidden" name="nps-gallery-product-sku" value="<?php echo $_mmProduct->getSku() ?>">
+								<input type="hidden" name="nps-gallery-product-manu" value="<?php echo $_mmProduct->getAttributeText('manufacturer') ?>">
+								<input type="hidden" name="nps-gallery-start-count" value="<?php echo count($_mmImages) +1 ?>">
 								<input type="hidden" name="nps_function" value="nps-media-manager-upload">
-								<input type="hidden" name="nps-media-gallery-updated" value="false">
+								<input type="hidden" name="nps-gallery-updated" value="false">
 								<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
 							</td>
 							</form>
 						</tr>
 					</tbody>
 				</table>
+				<script>decorateTable('nps-media-gallery-table');</script>
 			</div>
 		</div>
 	</div>
 </div>
-<style>
-	#nps-media-gallery-table .remove-gallery-image {
-		-moz-box-shadow:inset 0px 1px 0px 0px #ff1c1c;
-		-webkit-box-shadow:inset 0px 1px 0px 0px #ff1c1c;
-		box-shadow:inset 0px 1px 0px 0px #ff1c1c;
-		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a8343a), color-stop(1, #eb0000));
-		background:-moz-linear-gradient(top, #a8343a 5%, #eb0000 100%);
-		background:-webkit-linear-gradient(top, #a8343a 5%, #eb0000 100%);
-		background:-o-linear-gradient(top, #a8343a 5%, #eb0000 100%);
-		background:-ms-linear-gradient(top, #a8343a 5%, #eb0000 100%);
-		background:linear-gradient(to bottom, #a8343a 5%, #eb0000 100%);
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a8343a', endColorstr='#eb0000',GradientType=0);
-		background-color:#a8343a;
-		-moz-border-radius:3px;
-		-webkit-border-radius:3px;
-		border-radius:3px;
-		border:1px solid #9c060e;
-		display:inline-block;
-		cursor:pointer;
-		color:#ffffff;
-		font-family:arial;
-		font-size:15px;
-		font-weight:bold;
-		padding:7px 31px;
-		text-decoration:none;
-		text-shadow:0px 1px 0px #ff0011;
-	}
-	#nps-media-gallery-table .remove-gallery-image:hover {
-		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #eb0000), color-stop(1, #a8343a));
-		background:-moz-linear-gradient(top, #eb0000 5%, #a8343a 100%);
-		background:-webkit-linear-gradient(top, #eb0000 5%, #a8343a 100%);
-		background:-o-linear-gradient(top, #eb0000 5%, #a8343a 100%);
-		background:-ms-linear-gradient(top, #eb0000 5%, #a8343a 100%);
-		background:linear-gradient(to bottom, #eb0000 5%, #a8343a 100%);
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eb0000', endColorstr='#a8343a',GradientType=0);
-		background-color:#eb0000;
-	}
-	#nps-media-gallery-table .remove-gallery-image:active {
-		position:relative;
-		top:1px;
-	}
-
-	#nps-media-gallery-table .new-image-row input,
-	#nps-media-gallery-table .new-image-row select {
-		width: 80%;
-		height: 30px;
-		font-size: 14px;
-	}
-	#nps-media-gallery-table .new-image-row input[type="file"],
-	#nps-media-gallery-table .new-image-row input[type="submit"] {
-		-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-		-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-		box-shadow:inset 0px 1px 0px 0px #ffffff;
-		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
-		background:-moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
-		background:-webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
-		background:-o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
-		background:-ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
-		background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0);
-		background-color:#ffffff;
-		-moz-border-radius:3px;
-		-webkit-border-radius:3px;
-		border-radius:3px;
-		border:1px solid #dcdcdc;
-		display:inline-block;
-		cursor:pointer;
-		color:#666666;
-		font-family:arial;
-		font-size:15px;
-		font-weight:bold;
-		padding:7px 31px;
-		text-decoration:none;
-		text-shadow:0px 1px 0px #ffffff;
-	}
-	#nps-media-gallery-table .new-image-row input[type="file"]:hover,
-	#nps-media-gallery-table .new-image-row input[type="submit"]:hover {
-		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff));
-		background:-moz-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
-		background:-webkit-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
-		background:-o-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
-		background:-ms-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
-		background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff',GradientType=0);
-		background-color:#f6f6f6;
-	}
-	#nps-media-gallery-table .new-image-row input[type="file"]:active,
-	#nps-media-gallery-table .new-image-row input[type="submit"]:active {
-		position:relative;
-		top:1px;
-	}
-	#nps-media-gallery-table .new-image-row input[type="file"] {
-	  	padding: 0;
-	  	background: transparent;
-	  	border: none;
-	    box-shadow: none;
-	}
-	#nps-media-gallery-table .new-image-row input[type="file"]:hover {
-		background: transparent;
-	}
-</style>

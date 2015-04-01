@@ -52,18 +52,26 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 		$refresh = false;
 		if (!empty($_POST['nps_function'])) {
 			if ($_POST['nps_function'] == 'nps-media-manager-upload' && !empty($_FILES)) {
+
 				//set method vars
-				$image_file = $_FILES["nps-media-manager-upload-input"]["tmp_name"];
-				$sku = $_POST['nps-media-gallery-product-sku'];
-				$manu = $_POST['nps-media-gallery-product-manu'];
-				$num_append = $_POST['nps-media-gallery-start-count'];
-				$product_id = $_POST['nps-media-gallery-product-id'];
-				$order = $_POST['nps-media-manager-image-order'];
+				$image_file = $_FILES["nps-gallery-upload-input"]["tmp_name"];
+				$title = $_POST['nps-gallery-image-title'];
+				$in_gallery = (!empty($_POST['nps-gallery-in-gallery']) ? 1 : 0);
+				$default_img = (!empty($_POST['nps-gallery-default-image']) ? 1 : 0);
+				$sku = $_POST['nps-gallery-product-sku'];
+				$manu = $_POST['nps-gallery-product-manu'];
+				$num_append = $_POST['nps-gallery-start-count'];
+				$product_id = $_POST['nps-gallery-product-id'];
+				$order = $_POST['nps-media-gllery-order'];
 				$image_type = $_POST['nps-media-gallery-image-type'];
 
-				$this->_uploadImageHandler($image_file, $sku, $manu, $num_append, $product_id, $order, $image_type);
+				//process the uploaded image
+				$this->_uploadImageHandler($image_file, $sku, $manu, $num_append, $product_id, $order, $image_type, $title, $in_gallery, $default_img);
 				$refresh = true;
+
 			} elseif ($_POST['nps_function'] == 'nps-remove-gallery-image') {
+
+				//remove image
 				$this->_removeImageGalleryImage($_POST['nps-remove-image']);
 				$refresh = true;
 			}
@@ -77,16 +85,19 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 	/**
 	SUBMISSION HANDLER CHILD FUNCTIONS
 	 */
-	public function _uploadImageHandler($image_file, $sku, $manu, $num_append, $product_id, $order, $image_type) {
+	public function _uploadImageHandler($image_file, $sku, $manu, $num_append, $product_id, $order, $image_type, $title, $in_gallery, $default_img) {
 		//default return value
 		$return = false;
 
 		//make sure file exists
 		if (file_exists($image_file)) {
+
 			//vefiy file is an image outputs array(width, height, version, size string, bits, mime type)
 			$check = getimagesize($image_file);
+
 			//if is image
 			if ($check) {
+
 				//set file extension if is jpeg or png
 				$ext = null;
 				if ($check['mime'] == 'image/png') {
@@ -98,6 +109,7 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 				} elseif ($check['mime'] == 'image/gif') {
 					$ext = '.gif';
 				}
+
 				//if file extension is set
 				if (!empty($ext)) {
 					//manufacturer folder
@@ -118,7 +130,10 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 						$this->convertFileNameToJPEG($new_image_name),
 						$order,
 						$image_type,
-						$manu
+						$manu,
+						$title,
+						$in_gallery,
+						$default_img
 					);
 				}
 			}
@@ -250,7 +265,7 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 		return $results;
 
 	}
-	public function _addImageGalleryImage($product_id, $file, $order, $type, $manu) {
+	public function _addImageGalleryImage($product_id, $file, $order, $type, $manu, $title, $in_gallery, $default_img) {
 		$manu_folder = $this->convertManuToFolder($manu);
 		$connection = Mage::getSingleton('core/resource')->getConnection('core_write');
 		$connection->beginTransaction();
@@ -260,6 +275,9 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 		$__fields['order'] = $order;
 		$__fields['type'] = $type;
 		$__fields['manu'] = $manu_folder;
+		$__fields['title'] = $title;
+		$__fields['in_gallery'] = $in_gallery;
+		$__fields['default_img'] = $default_img;
 		$connection->insert('nps_product_media_gallery', $__fields);
 		$connection->commit();
 	}
@@ -270,6 +288,39 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 			$query = "UPDATE `nps_product_media_gallery` SET `order` = `order` - 1 WHERE `product_id` = '" . $product_id . "' AND `order` BETWEEN " . $new_order . " AND " . $old . " AND `id` <> " . $image_id;
 		}
 		$this->writeConnection->query($query);
+	}
+	public function checked($value, $test, $noOutput = false) {
+		if ($value == $test) {
+			if ($noOutput) {
+				return true;
+			} else {
+				return ' checked ';
+			}
+		} else {
+			return false;
+		}
+	}
+	public function selected($value, $test, $noOutput = false) {
+		if ($value == $test) {
+			if ($noOutput) {
+				return true;
+			} else {
+				return ' selected ';
+			}
+		} else {
+			return false;
+		}
+	}
+	public function active($value, $test, $noOutput = false) {
+		if ($value == $test) {
+			if ($noOutput) {
+				return true;
+			} else {
+				return ' active ';
+			}
+		} else {
+			return false;
+		}
 	}
 }
 if (!function_exists('outputToTestingText')) {
