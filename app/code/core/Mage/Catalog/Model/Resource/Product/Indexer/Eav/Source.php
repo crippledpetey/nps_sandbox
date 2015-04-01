@@ -279,10 +279,10 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
 	 * @return Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
 	 */
 	protected function _saveIndexData(array $data) {
+		outputToTestingText($data);
 		if (!$data) {
 			return $this;
 		}
-		outputToTestingText($data);
 		$adapter = $this->_getWriteAdapter();
 		$adapter->insertArray($this->getIdxTable(), array('entity_id', 'attribute_id', 'store_id', 'value'), $data);
 		return $this;
