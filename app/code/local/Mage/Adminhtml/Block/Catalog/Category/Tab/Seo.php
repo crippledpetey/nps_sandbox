@@ -295,19 +295,3 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Seo extends Mage_Adminhtml_Block
 	}
 
 }
-if (!function_exists('outputToTestingText')) {
-	function outputToTestingText($data, $continue = false) {
-
-		ob_start();
-		var_dump($data);
-		$output = ob_get_clean();
-		if ($continue) {
-			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "a+");
-		} else {
-			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w+");
-		}
-
-		fwrite($fileHandle, $output);
-		fclose($fileHandle);
-	}
-}

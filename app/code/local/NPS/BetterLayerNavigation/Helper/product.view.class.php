@@ -55,8 +55,8 @@ class productView {
 		foreach ($display_attrs as $attr) {
 
 			//check if product has data for the attribute
-			$check_value = Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), $attr['attribute_code'], 0 );
-			if( $check_value ){
+			$check_value = Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), $attr['attribute_code'], 0);
+			if ($check_value) {
 				//set options
 				$options = json_decode($attr['options'], true);
 				//check for value
@@ -178,21 +178,4 @@ class productView {
 		return array(97, 98, 100, 101, 103, 104, 105, 106, 109, 110, 270, 271, 272, 273, 274, 476, 481, 492, 493, 494, 495, 498, 503, 506, 507, 508, 509, 526, 531, 562, 567, 568, 569, 570, 571, 572, 573, 703, 704, 705, 836, 837, 838, 859, 860, 861, 862, 863, 873, 876, 879, 880, 881, 903, 904, 905, 906, 931, 932, 933, 935, 936, 941, 942, 943, 952, 960, 962, 994, 1019, 1020, 1106, 1158, 1575, 1251, 1463, 1433, 1566, 1567, 1568, 1489, 1583, 1585, 1586, 1587, 1588, 1589, 1590, 1591, 1592, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1604, 1605, 96, 99, 102, 940);
 	}
 }
-if (!function_exists('outputToTestingText')) {
-	function outputToTestingText($data, $continue = false) {
-
-		ob_start();
-		var_dump($data);
-		$output = ob_get_clean();
-		if ($continue) {
-			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "a+");
-		} else {
-			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w+");
-		}
-
-		fwrite($fileHandle, $output);
-		fclose($fileHandle);
-	}
-}
-
 ?>

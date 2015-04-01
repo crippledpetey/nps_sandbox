@@ -331,19 +331,3 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 		}
 	}
 }
-if (!function_exists('outputToTestingText')) {
-	function outputToTestingText($data, $continue = false) {
-		$DS = DIRECTORY_SEPARATOR;
-		ob_start();
-		var_dump($data);
-		$output = ob_get_clean();
-		if ($continue) {
-			$fileHandle = fopen(Mage::getBaseDir() . $DS . "testing.txt", "a+");
-		} else {
-			$fileHandle = fopen(Mage::getBaseDir() . $DS . "testing.txt", "w+");
-		}
-
-		fwrite($fileHandle, $output);
-		fclose($fileHandle);
-	}
-}
