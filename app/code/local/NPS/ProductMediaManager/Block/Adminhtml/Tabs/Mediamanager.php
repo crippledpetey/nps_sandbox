@@ -117,7 +117,13 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 					//set the new image name
 					$search_str = array(' ', '_', '#', '&', '.', '--', '(', ')');
 					$replac_str = array('-', '-', '-', '-', '-', '-', null, null);
-					$new_image_name = strtolower(str_replace($search_str, $replac_str, $sku) . '-' . $num_append . $ext);
+
+					//check the name
+					$test_name = strtolower(str_replace($search_str, $replac_str, $sku) . '-' . $num_append . $ext);
+					$new_image_name = $this->_checkName($product_id, $test_name, $num_append);
+					outputToTestingText($new_image_name);
+
+					//$new_image_name = strtolower(str_replace($search_str, $replac_str, $sku) . '-' . $num_append . $ext);
 					//set the new image path to the temp folder
 					$new_image_path = '/home/image_staging/' . $manu_folder . '/';
 					//set root image
@@ -126,6 +132,7 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 					$move = move_uploaded_file($root_img, $new_image_path . $new_image_name);
 					//run script
 					//$ouput = shell_exec("/scripts/product_image_to_imagebase.sh " . $new_image_name . " " . $manu_folder . " 2>&1");
+
 					//insert the record into the db as JPEG
 					$this->_addImageGalleryImage(
 						$product_id,
@@ -233,6 +240,25 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 		$this->readConnection->query($query);
 		$results = $this->readConnection->fetchAll($query);
 		return $results;
+	}
+	public function _checkName($product_id, $test_name, $number) {
+		//set base name
+		$final_name = $test_name;
+		//getg image
+		$images = $this->_getImages($product_id);
+		//create array for names
+		$imageNames = array();
+		foreach ($images as $img) {
+			$imageNames[] = $img['file_name'];
+		}
+		//check if image name exists
+		if (in_array($test_name, $imageNames)) {
+			//if it exists then increase the counter and try again
+			$new_name = str_replace($number . '.jpeg', $number++ . '.jpeg', $test_name);
+			$final_name = $this->_checkName($product_id, $new_name, $number);
+		}
+
+		return $final_name;
 	}
 	public function _getChildGalleryImages($product_id) {
 
