@@ -125,7 +125,7 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 					//move the image to the temp directory
 					$move = move_uploaded_file($root_img, $new_image_path . $new_image_name);
 					//run script
-					$ouput = shell_exec("/scripts/product_image_to_imagebase.sh " . $new_image_name . " " . $manu_folder . " 2>&1");
+					//$ouput = shell_exec("/scripts/product_image_to_imagebase.sh " . $new_image_name . " " . $manu_folder . " 2>&1");
 					//insert the record into the db as JPEG
 					$this->_addImageGalleryImage(
 						$product_id,
