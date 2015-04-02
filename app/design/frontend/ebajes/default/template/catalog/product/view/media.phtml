@@ -31,79 +31,96 @@
  */
 ?>
 <?php
+    //set the product object
     $_product = $this->getProduct();
-    $_helper = $this->helper('catalog/output');
-    $setting = Mage::helper('ebajessettings');
-    $w = $setting->getImageProduct_BaseImageWidth(330);
-    $h = $setting->getImageProduct_BaseImageHeight(330);
-    $wmoreview = $setting->getImageProduct_ThumbImageWidth(70);
-    $hmoreview = $setting->getImageProduct_ThumbImageHeight(70);
-    
-    //get product images for all product options
-    $product_id = $_product->getId();
-    $option_image_query = "SELECT DISTINCT i.image_file FROM `catalog_product_option` AS p INNER JOIN `catalog_product_option_type_value` AS o ON o.option_id = p.option_id INNER JOIN `custom_options_option_type_image` AS i ON i.option_type_id = o.option_type_id WHERE p.product_id = " . $product_id . " ORDER BY o.sort_order";
-
-    $gallery_image_query = "SELECT DISTINCT i.value FROM `catalog_product_entity_media_gallery` as i INNER JOIN `catalog_product_entity_media_gallery_value` AS o ON o.value_id = i.value_id WHERE i.entity_id = " . $product_id . " ORDER BY o.position";
-
-    $resource = Mage::getSingleton('core/resource');
-    $readConnection = $resource->getConnection('core_read');
-    $option_images = $readConnection->fetchAll($option_image_query);
-    $gallery_images = $readConnection->fetchAll($gallery_image_query);
-?>
- <?php
-    if ($_product->getImage() != 'no_selection' && $_product->getImage()){
-        $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';   
+    $_product_id = $_product->getId();
+    //set manufacturer var
+    $_manufacturer = $_product->getAttributeText('manufacturer');
+    $_manufacturer = $_manufacturer;
+    $_manufacturer_folder = $this->_convertManuToFolder($_manufacturer);
+    //get finishes
+    $_finishes = $this->_getChildrenProducts( $_product_id );
+    //get the images for each finish
+    $finishImages = $this->_getChildGalleryImages( $_product->getId() );
+    //get remaining gallery images
+    $galleryImages = $this->_getImages( $_product->getId() );
+    //combine to make all images
+    $allImages = array_merge($finishImages, $galleryImages);
+    //get selected finish
+    $current_finish = $this->_getSelectedFinish($_product_id);
+    $current_stock = $this->_getStockStatus( $current_finish );
+    if( $current_stock > 0 ){
+        $inStockClass = "";
+        $outStockClass = "hidden";
     } else {
-        $_img = '<img class="hidden" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
+        $inStockClass = "hidden";
+        $outStockClass = "";
     }
+
+    outputToTestingText( $finishImages);
+    outputToTestingText( $galleryImages,true);
+    outputToTestingText( $_finishes, true);
+    outputToTestingText( $_manufacturer, true);
+    outputToTestingText( $_manufacturer_folder, true);
+    outputToTestingText( $current_finish, true);
+    outputToTestingText( $current_stock, true);
+
+
+
+
+/**
+
+OLD THEME SHIT
+
+*/
+    $_helper = $this->helper('catalog/output');
     
 ?>
-<p class="product-image include-loader-bkg">
-    <span><?php echo $_helper->productAttribute($_product, $_img, 'image'); ?></span>
-    <!--<div id="prd-loading-spinner"><div class="dot1"></div><div class="dot2"></div></div>-->
-</p>
 
-<?php if ($this->displayProductStockStatus()): ?>
-    <?php if ($_product->isAvailable()): ?>
-        <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span id="prd-page-availability"><?php echo $this->__('In stock') ?></span></p>
+<div id="active-image-holder">
+</div>
+<div id="pending-image-holder">
+<?php foreach( $finishImages as $key => $fImg ):?>
+    <a class="fancybox" data-option-id="<?php echo $_finishes[$fImg['product_id']]['option_type_id'] ?>" id="prd-img-lnk-<?php echo $_finishes[$fImg['product_id']]['option_type_id'] ?>" rel="main-gallery" title="<?php echo $fImg['title'] ?>" href="//images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/full/<?php echo $fImg['file_name'] ?>" data-inv-qty="<?php echo $_finishes[$fImg['product_id']]['qty'] ?>">
+        <img id="prd-img-<?php echo $key ?>" src="//images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/300x300/<?php echo $fImg['file_name'] ?>" alt="<?php echo $fImg['title'] ?>">
+    </a>
+<?php endforeach; ?>
+</div>
+
+<!--<div id="prd-loading-spinner"><div class="dot1"></div><div class="dot2"></div></div>-->
+<div id="prd-img-availability">
+<?php foreach( $_finishes as $pid => $prd ): ?>
+    <?php if( $prd['qty'] !== '0' ): ?>
+    <p id="prd-inv-img-noti-<?php echo $prd['option_type_id'] ?>" class="availability in-stock <?php echo ($current_finish == $pid ? null : "hidden"); ?>"><?php echo $this->__('Availability:') ?> <span><span class="prd-avail-numerator"><?php echo $prd['qty'] ?></span> <?php echo $this->__(' In stock') ?></span></p>
     <?php else: ?>
-        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span id="prd-page-availability"><?php echo $this->__('Out of stock') ?></span></p>
+    <p id="prd-inv-img-noti-<?php echo $prd['option_type_id'] ?>" class="availability out-of-stock <?php echo ($current_finish == $pid ? null : "hidden"); ?>"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
     <?php endif; ?>
-<?php endif; ?>
+<?php endforeach; ?>
+</div>
 
 <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
 
-
-
-<?php 
-    $imgs = array();
-    $_images = Mage::getModel('catalog/product')->load($_product->getId())->getMediaGalleryImages();  
-    
-    if($_images){   
-        foreach($_images as $_image){ 
-            $val = '<li><a class="fancybox" rel="group" title="' . $this->htmlEscape($_image->getLabel()) . '" href="' . $this->helper('catalog/image')->init($_product, 'image', $_image->getFile()) . '"><img src="' . $this->helper('catalog/image')->init($_product, 'image', $_image->getFile()) . '" alt="' . $this->htmlEscape($_image->getLabel()) . '" /></a></li>';
-            $imgs[] = $val;
-        } 
-    }
-    
-?>
-<?php if ( count($imgs) > 0 || count($option_images) > 0 ): ?>
-<div id="product-more-views" class="more-views">
-    <h2><?php echo $this->__('More Views') ?><span class="help-text"><?php echo $this->__('CLICK TO ENLARGE') ?></span></h2>
-    <ul>
-        <?php 
-        
-        if ( count($option_images) > 0) {
-            foreach ($option_images as $key=>$_image) {
-                $url = $_image['image_file'];
-                //output the elements
-                echo '<li>';
-                echo '  <a class="fancybox" rel="group" title="" href="/media/customoptions/' . $url . '"><img src="/media/customoptions/' . $url . '" alt="" /></a>';
-                echo '</li>';
-            }
-        }
-        ?>
-        <?php echo implode( null, $imgs); ?>
+<?php if ( count($allImages) > 0 ): ?>
+    <ul id="product-main-gallery-link">
+<?php foreach( $allImages as $key => $img ):?>
+        <li>
+            <a class="fancybox" rel="main-gallery" title="<?php echo $img['title'] ?>" href="//images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/full/<?php echo $img['file_name'] ?>">
+                <img src="//images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/75x75/<?php echo $img['file_name'] ?>" alt="<?php echo $img['title'] ?>">
+            </a>
+        </li>
+<?php endforeach; ?>
     </ul>
-</div>
+    <div id="product-gallery-container" class="">
+        <div id="product-gallery-img-title">
+        </div>
+        <div id="product-gallery-img-display">
+            <div class="gallery-scroll left"></div>
+            <div class="gallery-scroll right"></div>
+        </div>
+        <div id="product-gallery-img-controls">
+            <div id="product-gallery-img-thumbs"></div>
+            <div id="product-gallery-img-text">
+            </div>
+        </div>
+    </div>
 <?php endif; ?>

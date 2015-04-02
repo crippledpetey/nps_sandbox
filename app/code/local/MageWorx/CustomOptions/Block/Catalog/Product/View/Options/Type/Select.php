@@ -182,7 +182,7 @@ class MageWorx_CustomOptions_Block_Catalog_Product_View_Options_Type_Select exte
 								'<a href="' . $arr['big_img_url'] . '" onclick="' . $onClick . '">' .
 								'<img src="' . $arr['url'] . '" title="' . $title . '" alt="' . $title . '" class="swatch small-image-preview v-middle" />' .
 								'</a>' .
-								(($helper->isQntyInputEnabled() && $_option->getQntyInput() && $_option->getType() == MageWorx_CustomOptions_Model_Catalog_Product_Option::OPTION_TYPE_MULTISWATCH) ? '<div><label><b>' . $helper->getDefaultOptionQtyLabel() . '</b> <input type="text" class="qty' . ($selected ? ' validate-greater-than-zero' : '') . '" value="' . $optionValueQty . '" maxlength="12" id="options_' . $_option->getId() . '_' . $_value->getOptionTypeId() . '_qty" name="options_' . $_option->getId() . '_' . $_value->getOptionTypeId() . '_qty" onchange="' . $optionJs . '" onKeyPress="if(event.keyCode==13){' . $optionJs . '}" ' . ($selected ? $disabled : 'disabled') . '></label></div>':'') .
+								(($helper->isQntyInputEnabled() && $_option->getQntyInput() && $_option->getType() == MageWorx_CustomOptions_Model_Catalog_Product_Option::OPTION_TYPE_MULTISWATCH) ? '<div><label><b>' . $helper->getDefaultOptionQtyLabel() . '</b> <input type="text" class="qty' . ($selected ? ' validate-greater-than-zero' : '') . '" value="' . $optionValueQty . '" maxlength="12" id="options_' . $_option->getId() . '_' . $_value->getOptionTypeId() . '_qty" name="options_' . $_option->getId() . '_' . $_value->getOptionTypeId() . '_qty" onchange="' . $optionJs . '" onKeyPress="if(event.keyCode==13){' . $optionJs . '}" ' . ($selected ? $disabled : 'disabled') . '></label></div>' : '') .
 								'</li>';
 							}
 						} elseif ($image['source'] == 2) {
@@ -193,7 +193,7 @@ class MageWorx_CustomOptions_Block_Catalog_Product_View_Options_Type_Select exte
 							'<div class="swatch-color" style="background:' . $image['image_file'] . ';">&nbsp;</div>' .
 							'</div>' .
 							'</a>' .
-							(($helper->isQntyInputEnabled() && $_option->getQntyInput() && $_option->getType() == MageWorx_CustomOptions_Model_Catalog_Product_Option::OPTION_TYPE_MULTISWATCH) ? '<div><label><b>' . $helper->getDefaultOptionQtyLabel() . '</b> <input type="text" class="qty' . ($selected ? ' validate-greater-than-zero' : '') . '" value="' . $optionValueQty . '" maxlength="12" id="options_' . $_option->getId() . '_' . $_value->getOptionTypeId() . '_qty" name="options_' . $_option->getId() . '_' . $_value->getOptionTypeId() . '_qty" onchange="' . $optionJs . '" onKeyPress="if(event.keyCode==13){' . $optionJs . '}" ' . ($selected ? $disabled : 'disabled') . '></label></div>':'') .
+							(($helper->isQntyInputEnabled() && $_option->getQntyInput() && $_option->getType() == MageWorx_CustomOptions_Model_Catalog_Product_Option::OPTION_TYPE_MULTISWATCH) ? '<div><label><b>' . $helper->getDefaultOptionQtyLabel() . '</b> <input type="text" class="qty' . ($selected ? ' validate-greater-than-zero' : '') . '" value="' . $optionValueQty . '" maxlength="12" id="options_' . $_option->getId() . '_' . $_value->getOptionTypeId() . '_qty" name="options_' . $_option->getId() . '_' . $_value->getOptionTypeId() . '_qty" onchange="' . $optionJs . '" onKeyPress="if(event.keyCode==13){' . $optionJs . '}" ' . ($selected ? $disabled : 'disabled') . '></label></div>' : '') .
 							'</li>';
 						}
 					}
@@ -222,7 +222,7 @@ class MageWorx_CustomOptions_Block_Catalog_Product_View_Options_Type_Select exte
 			}
 
 			if ($showImgFlag) {
-				$showImgFunc = 'optionImages.showImage(this);';
+				$showImgFunc = ''; //'optionImages.showImage(this);';
 			} else {
 				$showImgFunc = '';
 			}
