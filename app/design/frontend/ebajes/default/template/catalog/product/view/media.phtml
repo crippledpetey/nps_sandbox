@@ -97,9 +97,9 @@
 <div id="active-image-holder">
 <?php if( empty($_GET['chid']) ) : ?>
     <?php  if( $default_image['file_name'] !== 'noimagenps.jpeg' ) : ?>
-    <a class="fancybox" data-option-id="<?php echo $default_image['id'] ?>" id="prd-img-lnk-<?php echo $default_image['id'] ?>" rel="main-gallery" title="<?php echo $default_image['title'] ?>" href="images.needplumbingsupplies.com/catalog/product/<?php echo $default_image['manu'] ?>/full/<?php echo $default_image['file_name'] ?>" data-inv-qty="<?php echo $this->_getStockStatus($default_image['id']) ?>">
+    <a class="fancybox" data-option-id="<?php echo $default_image['id'] ?>" id="prd-img-lnk-<?php echo $default_image['id'] ?>" rel="main-gallery" title="<?php echo $default_image['title'] ?>" href="http://images.needplumbingsupplies.com/catalog/product/<?php echo $default_image['manu'] ?>/full/<?php echo $default_image['file_name'] ?>" data-inv-qty="<?php echo $this->_getStockStatus($default_image['id']) ?>">
     <?php endif; ?>
-        <img id="prd-img-<?php echo $default_image['id'] ?>" src="images.needplumbingsupplies.com/catalog/product/<?php echo $default_image['manu'] ?>/300x300/<?php echo $default_image['file_name'] ?>" alt="<?php echo $default_image['title'] ?>">
+        <img id="prd-img-<?php echo $default_image['id'] ?>" src="http://images.needplumbingsupplies.com/catalog/product/<?php echo $default_image['manu'] ?>/300x300/<?php echo $default_image['file_name'] ?>" alt="<?php echo $default_image['title'] ?>">
     <?php  if( $default_image['file_name'] !== 'noimagenps.jpeg' ) : ?>
     </a>
     <?php endif; ?>
@@ -110,8 +110,8 @@
 <div id="pending-image-holder">
 <?php if( !empty($_GET['chid']) ) : ?>
     <?php foreach( $finishImages as $key => $fImg ):?>
-    <a class="fancybox" data-option-id="<?php echo $_finishes[$fImg['product_id']]['option_type_id'] ?>" id="prd-img-lnk-<?php echo $_finishes[$fImg['product_id']]['option_type_id'] ?>" rel="main-gallery" title="<?php echo $fImg['title'] ?>" href="images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/full/<?php echo $fImg['file_name'] ?>" data-inv-qty="<?php echo $_finishes[$fImg['product_id']]['qty'] ?>">
-        <img id="prd-img-<?php echo $key ?>" src="images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/300x300/<?php echo $fImg['file_name'] ?>" alt="<?php echo $fImg['title'] ?>">
+    <a class="fancybox" data-option-id="<?php echo $_finishes[$fImg['product_id']]['option_type_id'] ?>" id="prd-img-lnk-<?php echo $_finishes[$fImg['product_id']]['option_type_id'] ?>" rel="main-gallery" title="<?php echo $fImg['title'] ?>" href="http://images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/full/<?php echo $fImg['file_name'] ?>" data-inv-qty="<?php echo $_finishes[$fImg['product_id']]['qty'] ?>">
+        <img id="prd-img-<?php echo $key ?>" src="http://images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/300x300/<?php echo $fImg['file_name'] ?>" alt="<?php echo $fImg['title'] ?>">
     </a>
     <?php endforeach; ?>
 <?php endif; ?>
@@ -138,8 +138,8 @@
     <ul id="product-main-gallery-link">
 <?php foreach( $allImages as $key => $img ):?>
         <li>
-            <a class="fancybox" rel="main-gallery" title="<?php echo $img['title'] ?>" href="//images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/full/<?php echo $img['file_name'] ?>">
-                <img src="//images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/75x75/<?php echo $img['file_name'] ?>" alt="<?php echo $img['title'] ?>">
+            <a class="fancybox" rel="main-gallery" title="<?php echo $img['title'] ?>" href="http://images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/full/<?php echo $img['file_name'] ?>">
+                <img src="http://images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/75x75/<?php echo $img['file_name'] ?>" alt="<?php echo $img['title'] ?>">
             </a>
         </li>
 <?php endforeach; ?>
