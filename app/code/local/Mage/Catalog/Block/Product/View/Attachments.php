@@ -185,7 +185,6 @@ class Mage_Catalog_Block_Product_View_Attachments extends Mage_Core_Block_Templa
 
 						//set file location variable
 						$file_location = $protocol . $settings['domain'] . $settings['folder'] . '/' . $manufacturer . '/' . $asset_file_name;
-						outputToTestingText($file_location, true);
 
 						//check if file exists
 						if ($this->remoteFileExists($file_location)) {
@@ -211,7 +210,7 @@ class Mage_Catalog_Block_Product_View_Attachments extends Mage_Core_Block_Templa
 				}
 			}
 		}
-
+		outputToTestingText($return_data, true);
 		return $return_data;
 	}
 

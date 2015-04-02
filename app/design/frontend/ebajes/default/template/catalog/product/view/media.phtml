@@ -57,6 +57,30 @@
         $outStockClass = "";
     }
 
+    $default_image = array(
+        'id' => '999',
+        'product_id' => $_product_id,
+        'manu' => 'needplumbingsupplies',
+        'file_name' => 'noimagenps.jpeg',
+        'order' => '1',
+        'type' => 'prd_shot',
+        'title' => 'We\'re sorry but we are having trouble locating this image',
+        'in_gallery' => '1',
+        'default_image' => '1',
+    );
+    $image_path = "http://images.needplumbingsupplies.com/catalog/product/" . $_manufacturer_folder . "/";
+    //set default image for when there are no finish options
+    if( !empty( $galleryImages ) ){
+        //check to make sure image exists
+        if( getimagesize( $image_path . '65x65/' . $galleryImages[0]['file_name'] ) ){
+            $default_image = $galleryImages[0];
+        } else {
+            //put missing image record in file {ID - PRODUCT ID - MANUFACTURER FOLDER - FILENAME}
+            $write_data = $galleryImages[0]['id'] . ' - ' . $galleryImages[0]['product_id'] . ' - ' . $_manufacturer_folder . ' - ' . $galleryImages[0]['file_name'];
+            outputToCustomLog('missing_images.txt',$write_data);
+        }      
+    } 
+    /*
     outputToTestingText( $finishImages);
     outputToTestingText( $galleryImages,true);
     outputToTestingText( $_finishes, true);
@@ -64,30 +88,38 @@
     outputToTestingText( $_manufacturer_folder, true);
     outputToTestingText( $current_finish, true);
     outputToTestingText( $current_stock, true);
+    outputToTestingText( $image_path . 'full/' . $galleryImages[0]['file_name'], true );
+    */
 
-
-
-
-/**
-
-OLD THEME SHIT
-
-*/
     $_helper = $this->helper('catalog/output');
-    
 ?>
-
+<!-- ACTIVE IMAGE CONTAINER -->
 <div id="active-image-holder">
+<?php if( empty($_GET['chid']) ) : ?>
+    <?php  if( $default_image['file_name'] !== 'noimagenps.jpeg' ) : ?>
+    <a class="fancybox" data-option-id="<?php echo $default_image['id'] ?>" id="prd-img-lnk-<?php echo $default_image['id'] ?>" rel="main-gallery" title="<?php echo $default_image['title'] ?>" href="//images.needplumbingsupplies.com/catalog/product/<?php echo $default_image['manu'] ?>/full/<?php echo $default_image['file_name'] ?>" data-inv-qty="<?php echo $this->_getStockStatus($default_image['id']) ?>">
+    <?php endif; ?>
+        <img id="prd-img-<?php echo $default_image['id'] ?>" src="//images.needplumbingsupplies.com/catalog/product/<?php echo $default_image['manu'] ?>/300x300/<?php echo $default_image['file_name'] ?>" alt="<?php echo $default_image['title'] ?>">
+    <?php  if( $default_image['file_name'] !== 'noimagenps.jpeg' ) : ?>
+    </a>
+    <?php endif; ?>
+<?php endif; ?>
 </div>
+
+<!-- PENDING IMAGES CONTAINER -->
 <div id="pending-image-holder">
-<?php foreach( $finishImages as $key => $fImg ):?>
+<?php if( !empty($_GET['chid']) ) : ?>
+    <?php foreach( $finishImages as $key => $fImg ):?>
     <a class="fancybox" data-option-id="<?php echo $_finishes[$fImg['product_id']]['option_type_id'] ?>" id="prd-img-lnk-<?php echo $_finishes[$fImg['product_id']]['option_type_id'] ?>" rel="main-gallery" title="<?php echo $fImg['title'] ?>" href="//images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/full/<?php echo $fImg['file_name'] ?>" data-inv-qty="<?php echo $_finishes[$fImg['product_id']]['qty'] ?>">
         <img id="prd-img-<?php echo $key ?>" src="//images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/300x300/<?php echo $fImg['file_name'] ?>" alt="<?php echo $fImg['title'] ?>">
     </a>
-<?php endforeach; ?>
+    <?php endforeach; ?>
+<?php endif; ?>
 </div>
-
+<!-- LOADING SPINNER -->
 <!--<div id="prd-loading-spinner"><div class="dot1"></div><div class="dot2"></div></div>-->
+
+<!-- AVAILABILITY TEXT -->
 <div id="prd-img-availability">
 <?php foreach( $_finishes as $pid => $prd ): ?>
     <?php if( $prd['qty'] !== '0' ): ?>
@@ -98,8 +130,10 @@ OLD THEME SHIT
 <?php endforeach; ?>
 </div>
 
+<!-- REVIEW SUMMARY -->
 <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
 
+<!-- GALLERY IMAGES -->
 <?php if ( count($allImages) > 0 ): ?>
     <ul id="product-main-gallery-link">
 <?php foreach( $allImages as $key => $img ):?>

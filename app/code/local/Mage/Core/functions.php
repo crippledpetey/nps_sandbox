@@ -386,3 +386,19 @@ if (!function_exists('outputToTestingText')) {
     	//}
     }
 }
+if (!function_exists('outputToCustomLog')) {
+    function outputToCustomLog($file,$data,$continue = true) {
+    	//check for if on live server
+		ob_start();
+		var_dump(date('U'));
+        var_dump($data);
+        $output = ob_get_clean();
+        if ($continue) {
+            $fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . $file, "a+");
+        } else {
+            $fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . $file, "w+");
+        }
+        fwrite($fileHandle, $output);
+        fclose($fileHandle);
+    }
+}

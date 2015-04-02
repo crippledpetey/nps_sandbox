@@ -13,12 +13,15 @@ jQuery(document).ready(function($){
 	    }
 	});
 
-	//populate selected image
-	activateFinishImage( $(".preselected-finish .inventory-controller select option:selected").val() )
-	//change image on finish change
-	$(".preselected-finish .inventory-controller select").change(function(){
-		activateFinishImage( $(".preselected-finish .inventory-controller select option:selected").val() );
-	});
+	if ( $( ".preselected-finish .inventory-controller select" ).length ) {
+		//populate selected image
+		activateFinishImage( $(".preselected-finish .inventory-controller select option:selected").val() )
+		//change image on finish change
+		$(".preselected-finish .inventory-controller select").change(function(){
+			activateFinishImage( $(".preselected-finish .inventory-controller select option:selected").val() );
+		});
+	};
+
 	/* ================== MOVE THE ACTIVE FINISH IMAGE TO THE DISPLAY PORT ================== */
 	function activateFinishImage(optionId){
 		//changing image

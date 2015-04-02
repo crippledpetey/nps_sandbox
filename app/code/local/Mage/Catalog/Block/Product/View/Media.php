@@ -89,11 +89,11 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
 			$selected = $_GET['chid'];
 		} else {
 			//check if there are children
-			if ($this->_checkIfChildren()) {
+			if ($this->_checkIfChildren($product_id)) {
 				$children = $this->_getChildrenProducts();
 				$selected = array_values($children)[0]['entity_id'];
 			} else {
-				$selected = $_product_id;
+				$selected = $product_id;
 			}
 		}
 		return $selected;
@@ -103,22 +103,22 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
 		$selected_id = $this->_getSelectedFinish($product_id);
 
 	}
-	public function _checkIfChildren() {
+	public function _checkIfChildren($product_id) {
 		//start product drop helper
 		require_once Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php';
 		$nps_prdctrl = new productDrop;
-		$test = $nps_prdctrl->getUrlOptionsForProduct($this->_product->getId());
+		$test = $nps_prdctrl->getUrlOptionsForProduct($product_id);
 		if (!empty($test)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	public function _getFirstChildLink() {
+	public function _getFirstChildLink($product_id) {
 		//start product drop helper
 		require_once Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php';
 		$nps_prdctrl = new productDrop;
-		$urls = $nps_prdctrl->getUrlOptionsForProduct($this->_product->getId());
+		$urls = $nps_prdctrl->getUrlOptionsForProduct($product_id);
 		if (!empty($urls)) {
 			return '?npsf=' . $urls[0]['npsf'] . '&chid=' . $urls[0]['chid'];
 		} else {
@@ -146,8 +146,9 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
 		}
 		return $return;
 	}
-	public function _getImages($product_id) {
-		$query = "SELECT `id`,`product_id`,`manu`,`file_name`,`order`, `type`, `title`, `in_gallery`, `default_img` FROM `nps_product_media_gallery` WHERE `product_id` = " . $product_id . " ORDER BY `order`";
+	public function _getImages($product_id, $primary = false) {
+		$query = "SELECT `id`,`product_id`,`manu`,`file_name`,`order`, `type`, `title`, `in_gallery`, `default_img` FROM `nps_product_media_gallery` WHERE `product_id` = " . $product_id;
+		$query .= " ORDER BY `order`";
 		$this->readConnection->query($query);
 		$results = $this->readConnection->fetchAll($query);
 		return $results;
