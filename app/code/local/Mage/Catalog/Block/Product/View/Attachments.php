@@ -176,7 +176,7 @@ class Mage_Catalog_Block_Product_View_Attachments extends Mage_Core_Block_Templa
 
 				foreach ($asset_file_names as $asset_file_name) {
 					if (!empty($asset_file_name)) {
-						outputToTestingText($asset_file_name, true);
+
 						//make sure .pdf is on the end
 						$file_check = strtolower(substr($asset_file_name, -3));
 						if ($file_check !== 'pdf') {
@@ -185,6 +185,7 @@ class Mage_Catalog_Block_Product_View_Attachments extends Mage_Core_Block_Templa
 
 						//set file location variable
 						$file_location = $protocol . $settings['domain'] . $settings['folder'] . '/' . $manufacturer . '/' . $asset_file_name;
+						outputToTestingText($file_location, true);
 
 						//check if file exists
 						if ($this->remoteFileExists($file_location)) {
