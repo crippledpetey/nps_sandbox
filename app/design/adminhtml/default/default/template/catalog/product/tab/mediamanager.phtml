@@ -68,7 +68,6 @@ if( !empty( $_mmProduct->getID() ) ){
 					//set remaining image variables for sending to the processor
 					$sku = $mI['sku'];
 					$manu = $mI['manufacturer'];
-					$num_append = $start_num;
 					$product_id = $mI['product_id'];
 					$order = $start_num + 1;
 					$image_type = 'prd_shot';
@@ -77,7 +76,7 @@ if( !empty( $_mmProduct->getID() ) ){
 					$default_img = 0;
 					
 					//send image to the image server
-					$this->_uploadImageHandler($image_file, $sku, $manu, $num_append, $product_id, $order, $image_type, $title, $in_gallery, $default_img);
+					$this->_uploadImageHandler($image_file, $sku, $manu, $product_id, $order, $image_type, $title, $in_gallery, $default_img);
 
 					//increment the counter
 					$start_num++;

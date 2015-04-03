@@ -60,13 +60,12 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 				$default_img = (!empty($_POST['nps-gallery-default-image']) ? 1 : 0);
 				$sku = $_POST['nps-gallery-product-sku'];
 				$manu = $_POST['nps-gallery-product-manu'];
-				$num_append = $_POST['nps-gallery-start-count'];
 				$product_id = $_POST['nps-gallery-product-id'];
 				$order = $_POST['nps-media-gllery-order'];
 				$image_type = $_POST['nps-media-gallery-image-type'];
 
 				//process the uploaded image
-				$this->_uploadImageHandler($image_file, $sku, $manu, $num_append, $product_id, $order, $image_type, $title, $in_gallery, $default_img);
+				$this->_uploadImageHandler($image_file, $sku, $manu, $product_id, $order, $image_type, $title, $in_gallery, $default_img);
 				$refresh = true;
 
 			} elseif ($_POST['nps_function'] == 'nps-remove-gallery-image') {
@@ -85,7 +84,7 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 	/**
 	SUBMISSION HANDLER CHILD FUNCTIONS
 	 */
-	public function _uploadImageHandler($image_file, $sku, $manu, $num_append, $product_id, $order, $image_type, $title, $in_gallery, $default_img) {
+	public function _uploadImageHandler($image_file, $sku, $manu, $product_id, $order, $image_type, $title, $in_gallery, $default_img) {
 		//default return value
 		$return = false;
 
@@ -119,9 +118,8 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 					$replac_str = array('-', '-', '-', '-', '-', '-', null, null);
 
 					//check the name
-					$test_name = strtolower(str_replace($search_str, $replac_str, $sku) . '-' . $num_append . $ext);
-					$new_image_name = $this->_checkName($product_id, $test_name, $num_append);
-					outputToTestingText($new_image_name);
+					$num_append = $this->_getNextImageNumber(strtolower(str_replace($search_str, $replac_str, $sku)));
+					$new_image_name = strtolower(str_replace($search_str, $replac_str, $sku) . '-' . $num_append . '.jpeg');
 
 					//$new_image_name = strtolower(str_replace($search_str, $replac_str, $sku) . '-' . $num_append . $ext);
 					//set the new image path to the temp folder
@@ -242,25 +240,6 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 		$results = $this->readConnection->fetchAll($query);
 		return $results;
 	}
-	public function _checkName($product_id, $test_name, $number) {
-		//set base name
-		$final_name = $test_name;
-		//getg image
-		$images = $this->_getImages($product_id);
-		//create array for names
-		$imageNames = array();
-		foreach ($images as $img) {
-			$imageNames[] = $img['file_name'];
-		}
-		//check if image name exists
-		if (in_array($test_name, $imageNames)) {
-			//if it exists then increase the counter and try again
-			$new_name = str_replace($number . '.jpeg', $number++ . '.jpeg', $test_name);
-			$final_name = $this->_checkName($product_id, $new_name, $number);
-		}
-
-		return $final_name;
-	}
 	public function _getChildGalleryImages($product_id) {
 
 		$query = " SELECT ";
@@ -292,6 +271,16 @@ class NPS_ProductMediaManager_Block_Adminhtml_Tabs_Mediamanager extends Mage_Adm
 		$this->readConnection->query($query);
 		$results = $this->readConnection->fetchAll($query);
 		return $results;
+
+	}
+	public function _getNextImageNumber($converted_sku) {
+		$query = "SELECT MAX(REPLACE(REPLACE(`file_name`,'" . $converted_sku . "-',''),'.jpeg','')) + 1 as `nums` FROM `nps_product_media_gallery` WHERE `file_name` like '%" . $converted_sku . "%'";
+		$results = $this->readConnection->fetchRow($query);
+		if ($results) {
+			return $results['nums'];
+		} else {
+			return 1;
+		}
 
 	}
 	public function _addImageGalleryImage($product_id, $file, $order, $type, $manu, $title, $in_gallery, $default_img) {
