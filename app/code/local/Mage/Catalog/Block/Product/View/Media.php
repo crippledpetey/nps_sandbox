@@ -173,7 +173,6 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
 		//get all children
 		$all_products = array();
 		$kids = $this->_getChildrenProducts($product_id);
-		outputToTestingText($kids);
 		foreach ($kids as $pid => $prd) {
 			$product = Mage::getModel('catalog/product')->load($pid);
 			$title = $product->getName();
