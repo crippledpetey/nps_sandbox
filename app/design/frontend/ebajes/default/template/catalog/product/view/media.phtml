@@ -38,6 +38,8 @@
     $_manufacturer = $_product->getAttributeText('manufacturer');
     $_manufacturer = $_manufacturer;
     $_manufacturer_folder = $this->_convertManuToFolder($_manufacturer);
+    //set default title
+    $default_title = $_manufacturer . ' ' . $_product->getSku('sku') . ' - ' . $_product->getName();
     //get finishes
     $_finishes = $this->_getChildrenProducts( $_product_id );
     //get the images for each finish
@@ -90,6 +92,9 @@
     outputToTestingText( $current_stock, true);
     outputToTestingText( $image_path . 'full/' . $galleryImages[0]['file_name'], true );
     */
+
+    //get the product titles for switching
+    $_titles = $this->_getTitles($_product_id);
 
     $_helper = $this->helper('catalog/output');
 ?>
@@ -157,4 +162,14 @@
             </div>
         </div>
     </div>
+<?php endif; ?>
+
+<!-- PRODUCT TITLE CONTAINER -->
+<?php if( isset( $_GET['chid'] ) ): ?>
+<div id="prd-finish-titles" class="hidden">
+    <div id="default-page-title"><?php echo $default_title ?></div>
+    <?php foreach( $_titles as $option_id => $prd ): ?>
+        <div id="page-title-<?php echo $option_id ?>"><?php echo $prd['manu'] . ' ' . $prd['sku'] . ' - ' . $prd['title'] ?></div>
+    <?php endforeach; ?>
+</div>
 <?php endif; ?>

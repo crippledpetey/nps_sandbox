@@ -12,16 +12,6 @@ jQuery(document).ready(function($){
 	        $(this).removeAttr("selected");
 	    }
 	});
-
-	if ( $( ".preselected-finish .inventory-controller select" ).length ) {
-		//populate selected image
-		activateFinishImage( $(".preselected-finish .inventory-controller select option:selected").val() )
-		//change image on finish change
-		$(".preselected-finish .inventory-controller select").change(function(){
-			activateFinishImage( $(".preselected-finish .inventory-controller select option:selected").val() );
-		});
-	};
-
 	/* ================== MOVE THE ACTIVE FINISH IMAGE TO THE DISPLAY PORT ================== */
 	function activateFinishImage(optionId){
 		//changing image
@@ -33,15 +23,27 @@ jQuery(document).ready(function($){
 		$(noti).siblings().addClass("hidden");
 		$(noti).removeClass("hidden");
 		//check qty for animate color scream
-		console.log( $(img).data("invQty") );
 		if( $(img).data("invQty") == 0 ){
 			var bshadow = "rgba(255,0,0,1)";
 		} else {
 			var bshadow = "rgba(0,255,0,1)";
 		}
+		//animate the flash
 		$("#active-image-holder").animate({boxShadow:"0 0 40px "+bshadow},function(){
 			$("#active-image-holder").animate({boxShadow : "none"});
 		});
+	}
+	function activateFinishTitle(optionId){
+		console.log(optionId);
+		if( optionId == typeof undefined || optionId == '' ){
+			var t = $("#default-page-title").text();
+		} else {
+			var t = $("#page-title-"+optionId).text();
+		}
+		$("#product-page-title").empty();
+		$("#product-page-title").text(t);
+		$(".product-title").empty();
+		$(".product-title").text(t);
 	}
 	/* ================== FIX PRODUCT PAGE CONTENT BOXES TO NORMALIZE HEIGHT AND / OR WIDTH ================== */
 	function fixPrdContentBoxDimensions(windowWidth) {
@@ -106,6 +108,18 @@ jQuery(document).ready(function($){
 			});
 		});
 	}
+
+	if ( $( ".preselected-finish .inventory-controller select" ).length ) {
+		//populate selected image
+		activateFinishImage( $(".preselected-finish .inventory-controller select option:selected").val() )
+		activateFinishTitle( $(".preselected-finish .inventory-controller select option:selected").val() );
+		//change image on finish change
+		$(".preselected-finish .inventory-controller select").change(function(){
+			activateFinishImage( $(".preselected-finish .inventory-controller select option:selected").val() );
+			activateFinishTitle( $(".preselected-finish .inventory-controller select option:selected").val() );
+		});
+	};
+
 
 	$(".video-pop").each(function(){
 		var height = $(window).height()*.8;

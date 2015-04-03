@@ -168,4 +168,18 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
 	public function _convertManuToFolder($manu) {
 		return strtolower(str_replace(array(' ', '-', '_'), null, $manu));
 	}
+	public function _getTitles($product_id) {
+		$return = array();
+		//get all children
+		$all_products = array();
+		$kids = $this->_getChildrenProducts($product_id);
+		outputToTestingText($kids);
+		foreach ($kids as $pid => $prd) {
+			$product = Mage::getModel('catalog/product')->load($pid);
+			$title = $product->getName();
+			$manu = $product->getAttributeText('manufacturer');
+			$return[$prd['option_type_id']] = array('title' => $title, 'sku' => $prd['sku'], 'manu' => $manu);
+		}
+		return $return;
+	}
 }
