@@ -181,4 +181,38 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
 		}
 		return $return;
 	}
+	protected function _facebookLink($url) {
+		return 'https://www.facebook.com/sharer/sharer.php?u=' . htmlspecialchars($url);
+	}
+	protected function _twitterLink($url) {
+		return 'https://twitter.com/home?status=' . htmlspecialchars($url);
+	}
+	protected function _googleplusLink($url) {
+		return 'https://plus.google.com/share?url=' . htmlspecialchars($url);
+	}
+	protected function _pinterestLink($image_src, $description = null) {
+		$base = 'https://pinterest.com/pin/create/button/?url=' . $image_src . '&media=' . $image_src;
+		if (!empty($description)) {$base .= '&description=' . $description;}
+		return $base;
+	}
+	public function _generatSocialShareList($url, $image_url = null, $exclude = array()) {
+
+		//start html
+		$html = '<div id="product-pg-social-share"><ul>';
+		if (!in_array('facebook', $exclude)) {
+			$html .= '<li class="social-share-icon" id="shareme-facebook"><a target="_blank" href="' . $this->_facebookLink($url) . '" title="Share this on Facebook"><img src="/media/social/facebook-gray.png" title="Share this on Facebook"></a>';
+		}
+		if (!in_array('twitter', $exclude)) {
+			$html .= '<li class="social-share-icon" id="shareme-twitter"><a target="_blank" href="' . $this->_twitterLink($url) . '" title="Tweet about this"><img src="/media/social/twitter-gray.png" title="Tweet about this"></a>';
+		}
+		if (!in_array('googleplus', $exclude)) {
+			$html .= '<li class="social-share-icon" id="shareme-googleplus"><a target="_blank" href="' . $this->_googleplusLink($url) . '" title="Plus one this"><img src="/media/social/googleplus-gray.png" title="Plus one this"></a>';
+		}
+		if (!in_array('pinterest', $exclude) && $image_url) {
+			$html .= '<li class="social-share-icon" id="shareme-pinterest"><a target="_blank" href="' . $this->_pinterestLink($url) . '" title="Pin this"><img src="/media/social/pinterest-gray.png" title="Pin this"></a>';
+		}
+		$html .= '</ul></div>';
+
+		return $html;
+	}
 }

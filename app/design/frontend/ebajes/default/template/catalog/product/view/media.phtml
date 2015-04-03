@@ -127,6 +127,7 @@
 
 <!-- REVIEW SUMMARY -->
 <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+<?php echo $this->_generatSocialShareList(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . ltrim($_SERVER['REQUEST_URI'], '/'),array('pinterest'))  ?>
 
 <!-- GALLERY IMAGES -->
 <?php if ( count($allImages) > 0 ): ?>

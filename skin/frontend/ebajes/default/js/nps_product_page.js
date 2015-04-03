@@ -72,6 +72,7 @@ jQuery(document).ready(function($){
 			//$("#product-more-views > ul").css("width",windowWidth-100);
 		}
 	}
+	/* ================== TRIGGER A POPUP FOR ALL THE IMAGES IN THE PRODUCT BODY ================== */
 	function triggerPopUp(popup){
 		$("#page-overlay-dark").removeClass("hidden");
 		$(popup).find(".video-pop-close").removeClass("hidden");
@@ -108,7 +109,26 @@ jQuery(document).ready(function($){
 			});
 		});
 	}
+	/* ================== TRIGGER REVIEW WINDOW POPUP ================== */
+	function reviewWindowPopup(elem){
+		//check window height to make sure the window will fit
+		if( $(window).height() < 600 ){
+    		var h = $(window).height() - 50;
+    	} else {
+    		var h = 600;
+    	}
 
+    	//check width to make sure the widnow will fit
+    	if( $(window).width() < 450 ){
+    		var w = $(window).width() - 20;
+    	} else {
+    		var w = 450;
+    	}
+        newwindow=window.open($(elem).attr('href'),'','height='+h+',width='+w);
+        if (window.focus) {newwindow.focus()}
+        event.preventDefault();
+        return false;
+	}
 	if ( $( ".preselected-finish .inventory-controller select" ).length ) {
 		//populate selected image
 		activateFinishImage( $(".preselected-finish .inventory-controller select option:selected").val() )
@@ -202,7 +222,9 @@ jQuery(document).ready(function($){
 			console.log( $(".video-stream") );
 			$(".video-stream").stopVideo();
 		}
-	})
-
+	});
+    $('p.no-rating > a').click(function(){reviewWindowPopup($(this));});
+    $("p.rating-links > a").click(function(){reviewWindowPopup($(this));});
+	
 });
 

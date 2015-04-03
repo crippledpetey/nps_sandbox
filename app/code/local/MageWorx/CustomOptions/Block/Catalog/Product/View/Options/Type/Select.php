@@ -138,7 +138,7 @@ class MageWorx_CustomOptions_Block_Catalog_Product_View_Options_Type_Select exte
 				}
 
 				if ($enabledInventory) {
-					$qty = ' (' . ($customoptionsQty > 0 ? $customoptionsQty . ' Available' : $helper->__('Out of Stock')) . ')';
+					$qty = ' (' . ($customoptionsQty > 0 ? $customoptionsQty . ' In Stock' : $helper->__('Out of Stock')) . ')';
 				}
 
 				$priceStr = $helper->getFormatedOptionPrice($this->getProduct(), $_option, $_value);
@@ -301,7 +301,7 @@ class MageWorx_CustomOptions_Block_Catalog_Product_View_Options_Type_Select exte
 				$disabled = (!$inventory && $outOfStockOptions == 0) || ($enabledDependent && $_option->getIsDependent()) ? 'disabled="disabled"' : '';
 				if ($enabledInventory) {
 					if ($displayQty && $customoptionsQty !== '') {
-						$qty = ' (' . ($customoptionsQty > 0 ? $customoptionsQty . ' Available' : $helper->__('Out of stock')) . ')';
+						$qty = ' (' . ($customoptionsQty > 0 ? $customoptionsQty . ' In Stock' : $helper->__('Out of stock')) . ')';
 					}
 				}
 

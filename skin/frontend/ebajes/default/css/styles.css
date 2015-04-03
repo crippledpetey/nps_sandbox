@@ -1391,7 +1391,7 @@ ul#category-list > li > div > div > a {display: block; padding: 15px 0 2px;font-
 .ratings {border-bottom: 1px solid #d9d9d9;padding-bottom: 20px;}
 .ratings, .no-rating { font-size:12px; line-height:1; margin:7px 0;}
 .catalog-category-view .ratings{ margin:20px 0 0 0; }
-.product-view .ratings, .product-view .no-rating{overflow:hidden;}
+.product-view .ratings, .product-view .no-rating{overflow:hidden; text-align: center;}
 .ratings strong { float:left; margin:-1px 5px 0 0; color: #000000;}
 .ratings .rating-links { margin:0; }
 .ratings .rating-links .separator { margin:0 2px; }
@@ -1400,7 +1400,7 @@ ul#category-list > li > div > div > a {display: block; padding: 15px 0 2px;font-
 .rating-box { width:69px; height:12px; font-size:0; line-height:0; background:url(../images/bkg_rating.png) 0 0 repeat-x; text-indent:-999em; overflow:hidden; }
 .rating-box .rating { float:left; height:12px; background:url(../images/bkg_rating.png) 0 100% repeat-x; }
 .ratings .rating-box { float:left; margin-right:3px; }
-.ratings a {color: #9a9a9a;}
+.ratings a {color: #9a9a9a;margin-left: 15px;}
 
 .ratings-table th,
 .ratings-table td { font-size:11px; line-height:1.45; padding:3px 0; }
@@ -1581,6 +1581,46 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#1a82f7), to(#2F2727))
 #pending-image-holder img {display: none;}
 #product-main-gallery-link > li { display: inline-block; }
 .prd-avail-numerator { padding: 0 !important;text-decoration: underline;}
+
+#product-pg-social-share {
+	height: 40px;
+	position: relative;
+	top: -13px;
+	border-bottom: 1px dotted #d0d0d0;
+	padding-bottom: 11px;
+}
+#product-pg-social-share > ul {
+	width: auto;
+	display:block;
+	margin: 0 auto;
+}
+#product-pg-social-share  li {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  display: inline-block;
+  width: 25%;
+  padding: 7px;
+  margin: 0;
+  opacity: .6;
+  text-align: center;
+  padding-top: 15px;
+}
+#product-pg-social-share li img,
+#product-pg-social-share li img {
+	opacity: .9;
+	width: 45%;
+	transition: all .4s;
+	-moz-transition: all .4s;
+	-webkit-transition: all .4s;
+}
+#product-pg-social-share li:hover img,
+#product-pg-social-share li:active img {
+	opacity: 1;
+	width: 60%;
+	position: relative;
+	top:-10%;
+}
 
 
 .product-view .product-img-box { float:left; width: 280px;  margin-right:15px; padding: 0 0 15px 0;margin-bottom: 20px;}
