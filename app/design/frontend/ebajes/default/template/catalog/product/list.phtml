@@ -49,12 +49,47 @@ $nps_prdctrl = new productDrop;
 <?php else: ?>
 <div class="category-products">
     <?php echo $this->getToolbarHtml() ?>
+<?php
+    /**
+
+
+
+
+        LIST
+
+
+
+
+    */
+
+?>
+
+
     <?php // List mode ?>
     <?php if($this->getMode()!='grid'): ?>
     <?php $_iterator = 0; ?>
     <ol class="products-list" id="products-list">
     <?php foreach ($_productCollection as $_product): ?>
     <?php
+
+         //get image information
+        $prd_images = $this->_getImages($_product->getId());
+        //set default use image
+        $use_image = array(
+            'src'=>'http://images.needplumbingsupplies.com/catalog/product/needplumbingsupplies/250x250/noimagenps.jpeg',
+            'title'=>'Sorry there is not yet an image available for this item',
+            );
+        //check for configured image
+        if( !empty( $prd_images ) ){
+            $prd_image = $prd_images[0];
+            if(  @getimagesize( 'http://images.needplumbingsupplies.com/catalog/product/' . $prd_image['manu'] . '/250x250/' . $prd_image['file_name'] ) ){
+                $prd_image = $prd_images[0];
+                $use_image = array(
+                    'src'=>'http://images.needplumbingsupplies.com/catalog/product/' . $prd_image['manu'] . '/250x250/' . $prd_image['file_name'],
+                    'title'=>$prd_image['title'],
+                    );
+            }
+        }  
 
         /**
         GET THE URL FOR LINKING TO THE CORRECT PAGE
@@ -69,10 +104,11 @@ $nps_prdctrl = new productDrop;
         } else {
             $_parentprdURL = $_product->getProductUrl();
         }
+
     ?>
         <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
             <?php // Product Image ?>
-            <a href="<?php echo $_parentprdURL ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($widthlist, $heightlist); ?>" width="<?php echo $widthlist ?>" height="<?php echo $heightlist ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+            <a href="<?php echo $_parentprdURL ?>" title="<?php echo $use_image['title'] ?>" class="product-image"><img src="<?php echo $use_image['title'] ?>" alt="<?php echo $use_image['title'] ?>" /></a>
 
             <div class="product-shop">
                 <div class="f-fix">
@@ -133,15 +169,48 @@ $nps_prdctrl = new productDrop;
 
     <?php else: ?>
 
-    <?php // Grid Mode ?>
+<?php
+    /**
+
+
+
+
+        GRID 
+
+
+
+
+    */
+
+?>
 
     <?php $_collectionSize = $_productCollection->count() ?>
     <?php $_columnCount = $this->getColumnCount(); ?>
-	<?php //if ($i++%$_columnCount==0): ?>
 	<ul class="products-grid">
 	<?php //endif ?>
 	<?php $i=0; foreach ($_productCollection as $_product): ?>
     <?php
+
+        //get image information
+        $prd_images = $this->_getImages($_product->getId());
+        //set default use image
+        $use_image = array(
+            'src'=>'http://images.needplumbingsupplies.com/catalog/product/needplumbingsupplies/250x250/noimagenps.jpeg',
+            'title'=>'Sorry there is not yet an image available for this item',
+            );
+        //check for configured image
+        if( !empty( $prd_images ) ){
+            $prd_image = $prd_images[0];
+            if(  @getimagesize( 'http://images.needplumbingsupplies.com/catalog/product/' . $prd_image['manu'] . '/250x250/' . $prd_image['file_name'] ) ){
+                $prd_image = $prd_images[0];
+                $use_image = array(
+                    'src'=>'http://images.needplumbingsupplies.com/catalog/product/' . $prd_image['manu'] . '/250x250/' . $prd_image['file_name'],
+                    'title'=>$prd_image['title'],
+                    );
+            }
+        }       
+
+
         /**
         GET THE URL FOR LINKING TO THE CORRECT PAGE
         */
@@ -211,7 +280,7 @@ $nps_prdctrl = new productDrop;
         }
     ?>
             <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
-                <a href="<?php echo $_parentprdURL ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($widthgrid, $heightgrid); ?>" width="<?php echo $widthgrid ?>" height="<?php echo $heightgrid ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+                <a href="<?php echo $_parentprdURL ?>" title="<?php echo $use_image['title'] ?>" class="product-image"><img src="<?php echo $use_image['src'] ?>" alt="<?php echo $use_image['title'] ?>" /></a>
                 <h2 class="product-name"><a href="<?php echo $_parentprdURL ?>" title="<?php echo $this->stripTags($nps_product_title, null, true) ?>"><?php echo $nps_product_title; ?></a></h2>
                 <?php if($_product->getRatingSummary()): ?>
                 <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
