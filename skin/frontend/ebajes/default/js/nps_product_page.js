@@ -225,6 +225,7 @@ jQuery(document).ready(function($){
 	});
     $('p.no-rating > a').click(function(){reviewWindowPopup($(this));});
     $("p.rating-links > a").click(function(){reviewWindowPopup($(this));});
+    $("#product-pg-social-share a").click(function(){reviewWindowPopup($(this));});
 	
 });
 
