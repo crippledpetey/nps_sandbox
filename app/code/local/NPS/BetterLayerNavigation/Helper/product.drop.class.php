@@ -99,6 +99,25 @@ class productDrop {
 		}
 		return $url;
 	}
+	public function _getImages($product_id, $include_default = false) {
+		$query = "SELECT `id`,`product_id`,`manu`,`file_name`,`order`, `type`, `title`, `in_gallery`, `default_img` FROM `nps_product_media_gallery` WHERE `product_id` = " . $product_id;
+		$query .= " ORDER BY `order`";
+		$this->sqlread->query($query);
+		$results = $this->sqlread->fetchAll($query);
+		if (!$results) {
+			if ($include_default) {
+				$results = array(
+					'manu' => 'needplumbingsupplies',
+					'file_name' => 'noimagenps.jpeg',
+					'title' => 'We\'re currently havign trouble locating this image',
+				);
+			} else {
+				$results = array();
+			}
+
+		}
+		return $results;
+	}
 }
 
 ?>
