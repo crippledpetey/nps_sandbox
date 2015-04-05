@@ -407,30 +407,36 @@ if (!function_exists('startHipChat')) {
 	function startHipChat($token = null) {
 		//check for token and use default if not
 		if (empty($token)) {$token = '0b89599e58a44361cb822dc9b2f77d';}
-		//get the file an start the class
-		$search = 'Mage' . DIRECTORY_SEPARATOR . 'Core';
-		$replace = 'NPS' . DIRECTORY_SEPARATOR . 'HipChat';
-		define('_NPS_HIPCHAT_DIR_', str_replace($search, $replace, __DIR__));
+
+		//check if defined constant
+		if (!defined('_NPS_HIPCHAT_DIR_')) {
+			//get the file an start the class
+			$search = 'Mage' . DIRECTORY_SEPARATOR . 'Core';
+			$replace = 'NPS' . DIRECTORY_SEPARATOR . 'HipChat';
+			define('_NPS_HIPCHAT_DIR_', str_replace($search, $replace, __DIR__));
+		}
+
+		//start hipchat
 		require_once _NPS_HIPCHAT_DIR_ . DIRECTORY_SEPARATOR . 'Helper' . DIRECTORY_SEPARATOR . 'Hipchat.php';
 		return new NPS_HipChat_Helper_HipChat($token);
 	}
 }
 if (!function_exists('hipChatMsg')) {
 	//start hipchat
-	function hipChatMsg($room, $message, $include_admin_name=false) {
+	function hipChatMsg($room, $message, $include_admin_name = false) {
 		$output = true;
 		//if admin is required
-		if($include_admin_name){
+		if ($include_admin_name) {
 			//get user information
 			$admin = Mage::getSingleton('admin/session')->getUser();
 			if ($admin->getId()) {
 				//output notification to the merchandiser chat
-				$message = ucwords( $admin->getUsername() ) . $message;
+				$message = ucwords($admin->getUsername()) . $message;
 			} else {
 				$output = false;
 			}
-		} 
-		if( $output ){
+		}
+		if ($output) {
 			//send message
 			$hc = startHipChat();
 			$hc->message_room($room, 'API', $message);
