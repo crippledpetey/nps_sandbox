@@ -27,6 +27,11 @@ class NPS_CustomAdminFunctions_Model_Observer {
 		//check if product is container type and update attributes if so
 		$attributeSet = Mage::getModel("eav/entity_attribute_set")->load($product->getAttributeSetId())->_data['attribute_set_name'];
 
+		//set the HipChat Message
+		$message = ' has updated the ' . $product->getAttributeText('manufacturer') . ' ' . $product->getSku() . ' (id# ' . $product->getID() . ')';
+		//output with admin name
+		hipChatMsg('Merchandising', $message, true);
+
 		//check if type is grouped
 		if ($product->getAttributeSetId() == 93) {
 			//$this->updateContainerProductAttributes($observer);
@@ -84,6 +89,13 @@ class NPS_CustomAdminFunctions_Model_Observer {
 			$connection_write->query($sql, array($inv_total, $inv_total, $product->getId()));
 
 		}
+	}
+	public function notifyHipChatEdit(Varien_Event_Observer $observer) {
+		$product = $observer->getEvent()->getProduct();
+		//set the HipChat Message
+		$message = ' opened the ' . $product->getAttributeText('manufacturer') . ' ' . $product->getSku() . ' for editing (id# ' . $product->getID() . ')';
+		//output with admin name
+		hipChatMsg('Merchandising', $message, true);
 	}
 	private function getChildrenProducts($product_id) {
 		$query = "SELECT DISTINCT e.entity_id FROM catalog_product_option AS p INNER JOIN catalog_product_option_type_value AS o ON o.option_id = p.option_id INNER JOIN catalog_product_entity AS e ON e.sku = o.sku WHERE p.product_id = " . $product_id;
@@ -413,4 +425,5 @@ class NPS_CustomAdminFunctions_Model_Observer {
 			$connection_write->query($query);
 		}
 	}
+
 }

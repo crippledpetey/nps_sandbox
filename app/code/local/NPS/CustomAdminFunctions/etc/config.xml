@@ -31,6 +31,15 @@
                     </product_Save_Inv_Config>
                 </observers>  
             </catalog_product_save_after> 
+            <catalog_product_edit_form_render_recurring>
+                <observers>     
+                    <product_notify_hip_chat>     
+                        <type>singleton</type>  
+                        <class>NPS_CustomAdminFunctions_Model_Observer</class>
+                        <method>notifyHipChatEdit</method>  
+                    </product_notify_hip_chat>
+                </observers>
+            </catalog_product_edit_form_render_recurring>
             <nps_vendor_order_processor>
                 <observers>
                     <vendor_order_sourcing>

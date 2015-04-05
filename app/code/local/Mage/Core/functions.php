@@ -370,35 +370,70 @@ if (!function_exists('sys_get_temp_dir')) {
 }
 
 if (!function_exists('outputToTestingText')) {
-    function outputToTestingText($data, $continue = false) {
-    	//check for if on live server
-    	//if( $_SERVER['SERVER_ADDR'] !== "68.67.77.115" ){
-    		ob_start();
-	        var_dump($data);
-	        $output = ob_get_clean();
-	        if ($continue) {
-	            $fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "a+");
-	        } else {
-	            $fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w+");
-	        }
-	        fwrite($fileHandle, $output);
-	        fclose($fileHandle);
-    	//}
-    }
+	function outputToTestingText($data, $continue = false) {
+		//check for if on live server
+		//if( $_SERVER['SERVER_ADDR'] !== "68.67.77.115" ){
+		ob_start();
+		var_dump($data);
+		$output = ob_get_clean();
+		if ($continue) {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "a+");
+		} else {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w+");
+		}
+		fwrite($fileHandle, $output);
+		fclose($fileHandle);
+		//}
+	}
 }
 if (!function_exists('outputToCustomLog')) {
-    function outputToCustomLog($file,$data,$continue = true) {
-    	//check for if on live server
+	function outputToCustomLog($file, $data, $continue = true) {
+		//check for if on live server
 		ob_start();
 		var_dump(date('U'));
-        var_dump($data);
-        $output = ob_get_clean();
-        if ($continue) {
-            $fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . $file, "a+");
-        } else {
-            $fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . $file, "w+");
-        }
-        fwrite($fileHandle, $output);
-        fclose($fileHandle);
-    }
+		var_dump($data);
+		$output = ob_get_clean();
+		if ($continue) {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . $file, "a+");
+		} else {
+			$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . $file, "w+");
+		}
+		fwrite($fileHandle, $output);
+		fclose($fileHandle);
+	}
+}
+if (!function_exists('startHipChat')) {
+	//start hipchat
+	function startHipChat($token = null) {
+		//check for token and use default if not
+		if (empty($token)) {$token = '0b89599e58a44361cb822dc9b2f77d';}
+		//get the file an start the class
+		$search = 'Mage' . DIRECTORY_SEPARATOR . 'Core';
+		$replace = 'NPS' . DIRECTORY_SEPARATOR . 'HipChat';
+		define('_NPS_HIPCHAT_DIR_', str_replace($search, $replace, __DIR__));
+		require_once _NPS_HIPCHAT_DIR_ . DIRECTORY_SEPARATOR . 'Helper' . DIRECTORY_SEPARATOR . 'Hipchat.php';
+		return new NPS_HipChat_Helper_HipChat($token);
+	}
+}
+if (!function_exists('hipChatMsg')) {
+	//start hipchat
+	function hipChatMsg($room, $message, $include_admin_name=false) {
+		$output = true;
+		//if admin is required
+		if($include_admin_name){
+			//get user information
+			$admin = Mage::getSingleton('admin/session')->getUser();
+			if ($admin->getId()) {
+				//output notification to the merchandiser chat
+				$message = ucwords( $admin->getUsername() ) . $message;
+			} else {
+				$output = false;
+			}
+		} 
+		if( $output ){
+			//send message
+			$hc = startHipChat();
+			$hc->message_room($room, 'API', $message);
+		}
+	}
 }

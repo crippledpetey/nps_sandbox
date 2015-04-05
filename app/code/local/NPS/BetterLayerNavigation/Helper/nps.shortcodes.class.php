@@ -81,21 +81,23 @@ class needPlumbingShortcodes {
 		return $shortcode_data;
 	}
 
-	public function processShortcodeData($shortcodes, $content) {
+	public function processShortcodeData($shortcodes, $content, $remove = false) {
 
 		foreach ($shortcodes as $root_key => $root_elem) {
-
-			$data_array = json_decode('{' . $root_elem['json'] . '}', TRUE);
-			$replace_value = null;
-			if (count($data_array) > 0) {
-				foreach ($data_array as $key => $info) {
-					if (!empty($this->shortcode_functions[$key])) {
-						$function = $this->shortcode_functions[$key];
-						$replace_value = $this->$function($info);
+			if ($remove) {
+				$content = str_replace($root_elem['code_string'], null, $content);
+			} else {
+				$data_array = json_decode('{' . $root_elem['json'] . '}', TRUE);
+				$replace_value = null;
+				if (count($data_array) > 0) {
+					foreach ($data_array as $key => $info) {
+						if (!empty($this->shortcode_functions[$key])) {
+							$function = $this->shortcode_functions[$key];
+							$replace_value = $this->$function($info);
+						}
 					}
+					$content = str_replace($root_elem['code_string'], $replace_value, $content);
 				}
-
-				$content = str_replace($root_elem['code_string'], $replace_value, $content);
 			}
 		}
 

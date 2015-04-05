@@ -27,8 +27,60 @@
 <meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
 <title><?php echo $this->getTitle() ?></title>
 <meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
-<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
 <meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<?php
+	//NPS SEO Functions
+	if( $this->_isProduct() ){
+		$_product = Mage::registry('current_product');
+		$_productId = $_product->getId();
+		$attrSetName = $this->_getProductAttr($_product);
+		$productType = $_product->getTypeID();
+
+		//check if simple product
+		if( $productType == "simple" ){
+			// validate not container
+			if($attrSetName !== "Container Product"){
+				//check for parent
+				$parentId = $this->_getContainerProductID($_productId);
+				if( $parentId ){
+					//set the url for products to compensate for those with parents
+			        if( $this->_getChildOptionTypeID( $_productId ) ){
+			            $nps_args = array(
+			                'npsf'=> $this->_getChildOptionTypeID( $_productId )[0]['option_type_id'],
+			                'chid'=> $_productId,
+			                );
+			            $_parentprdURL = $this->_getContainerProductURL( $_productId, $nps_args );
+			        } else {
+			            $_parentprdURL = $_product->getProductUrl();
+			        }
+					
+					echo '<link rel="canonical" href="' . $_parentprdURL . '" />';
+				}
+			} else {
+				echo '<link rel="canonical" href="' . $_product->getProductUrl() . '" />';
+			}
+		} else { //product is grouped
+			//check for parent
+			$parentId = $this->_getContainerProductID($_productId);
+			if( $parentId ){
+				//set the url for products to compensate for those with parents
+		        if( $this->_getChildOptionTypeID( $_productId ) ){
+		            $nps_args = array(
+		                'npsf'=> $this->_getChildOptionTypeID( $_productId )[0]['option_type_id'],
+		                'chid'=> $_productId,
+		                );
+		            $_parentprdURL = $this->_getContainerProductURL( $_productId, $nps_args );
+		        } else {
+		            $_parentprdURL = $_product->getProductUrl();
+		        }
+				echo '<link rel="canonical" href="' . $_parentprdURL . '" />';
+			} else {
+				echo '<link rel="canonical" href="' . $_product->getProductUrl() . '" />';
+			}
+		}		
+	}
+
+?>
 <link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
 <link href='//fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'/>
