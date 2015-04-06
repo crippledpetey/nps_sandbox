@@ -68,5 +68,16 @@ jQuery(document).ready(function($){
 	$(document).click(function(){
 		checkForChange();
 	});
+
+	//import mage image controller
+	$("#nps-mage-image-import-button").click(function(){
+		event.preventDefault();
+		$(this).addClass("disabled");
+		$(this).prop("disabled","disabled");
+		$("#nps-mage-image-import-trigger").val("true");
+		$("#nps-mage-image-import-msg").empty();
+		$("#nps-mage-image-import-msg").text("The magento image will be imported on save");
+		$("#nps-mage-image-import-msg").parents(".notice-msg").removeClass("hidden");
+	});
 });
 

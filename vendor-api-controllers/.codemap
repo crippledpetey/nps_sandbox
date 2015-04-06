@@ -1,21 +1,21 @@
-1	=>	PURCHASE ORDER STATUS UPDATE ($MSG = {'BACKORDERED','SHIPPED','ON_HOLD','CANCELLED','PROCESSED'})
-2	=>	PO ITEM STATUS UPDATE ($MSG = {'BACKORDERED','SHIPPED','ON_HOLD','CANCELLED','PROCESSED'},{TRACKING NUMBER})
-3	=>	
-4	=>	
-5	=>	
-6	=>	
-7	=>	
-8	=>	
-9	=>	
-10	=>	
-11	=>	
-12	=>	
-13	=>	
-14	=>	
-15	=>	
-16	=>	
-17	=>	
-18	=>	
+1	=>	PURCHASE ORDER STATUS UPDATE ($CMND = {'BACKORDERED','SHIPPED','ON_HOLD','CANCELLED','PROCESSED'})
+2	=>	PO ITEM STATUS UPDATE ($CMND = {'BACKORDERED','SHIPPED','ON_HOLD','CANCELLED','PROCESSED'},{TRACKING NUMBER})
+3	=>	SHIPPING UPDATE ($CMND = {})
+4	=>	PRODUCT INVENTORY CHANGE = ($CMND = {}) 
+5	=>	UNAVAILABLE PRODUCT ($CMND = {'replacement_product_unique_identifier','time_until_available',''})
+6	=>	 = ($CMND = {}) 
+7	=>	 = ($CMND = {}) 
+8	=>	 = ($CMND = {}) 
+9	=>	 = ($CMND = {}) 
+10	=>	 = ($CMND = {}) 
+11	=>	 = ($CMND = {}) 
+12	=>	 = ($CMND = {}) 
+13	=>	 = ($CMND = {}) 
+14	=>	 = ($CMND = {}) 
+15	=>	 = ($CMND = {}) 
+16	=>	 = ($CMND = {}) 
+17	=>	 = ($CMND = {}) 
+18	=>	 = ($CMND = {}) 
 19	=>	
 20	=>	
 21	=>	

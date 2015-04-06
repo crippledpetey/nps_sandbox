@@ -19,6 +19,11 @@
                         <class>NPS_ProductMediaManager_Model_Observer</class>
                         <method>updateGalleryOrder</method>  
                     </product_save_media_gallery_order>
+                    <import_mage_product_image>     
+                        <type>singleton</type>  
+                        <class>NPS_ProductMediaManager_Model_Observer</class>
+                        <method>mageImageToMediaGallery</method>  
+                    </import_mage_product_image>
                 </observers>  
             </catalog_product_save_after> 
         </events>

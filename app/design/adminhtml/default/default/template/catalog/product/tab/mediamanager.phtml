@@ -108,6 +108,22 @@ $friendly_conversion = array(
 );
 ?>
 
+<div class="entry-edit hidden">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Media Manager Options') ?></h4>
+	</div>
+	<div class="fieldset" id="grop_fields">
+		<div id="nps-finish-option-gallery">
+			<ul class="messages">
+				<li class="notice-msg hidden"><ul><li id="nps-mage-image-import-msg">Image type and information need to be specified for each store view.</li></ul></li>
+			</ul>
+			<div class="grid">
+				<button class="button" id="nps-mage-image-import-button" title="Import Magento Image">IMPORT MAGENTO IMAGE</button>
+				<input type="hidden" id="nps-mage-image-import-trigger" name="nps-mage-image-import-trigger" value="false">
+			</div>
+		</div>
+	</div>
+</div>
 <div class="entry-edit">
 	<div class="entry-edit-head">
 		<h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Product Finish Images') ?></h4>

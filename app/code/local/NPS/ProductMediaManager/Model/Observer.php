@@ -20,6 +20,22 @@ class NPS_ProductMediaManager_Model_Observer {
 		$this->sqlwrite = $this->resource->getConnection('core_write');
 
 	}
+	public function mageImageToMediaGallery(Varien_Event_Observer $observer) {
+		/*
+	$product = $observer->getEvent()->getProduct();
+	$params = Mage::app()->getRequest()->getParams();
+	if ($params['nps-mage-image-import-trigger'] == 'true') {
+	$image = $params['product']['media_gallery'];
+	$images = json_decode($image['images']);
+	outputToTestingText(null);
+	foreach ($images as $key => $value) {
+	outputToTestingText('KEY:', true);
+	outputToTestingText($key, true);
+	outputToTestingText('VALUE:', true);
+	outputToTestingText($value, true);
+	}
+	}*/
+	}
 	public function updateGalleryOrder(Varien_Event_Observer $observer) {
 
 		$product = $observer->getEvent()->getProduct();
