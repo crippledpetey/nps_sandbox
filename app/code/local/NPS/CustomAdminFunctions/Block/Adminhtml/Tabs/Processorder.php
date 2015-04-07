@@ -113,12 +113,3 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_Processorder extends Mage_Ad
 		return $results;
 	}
 }
-/*
-ob_start();
-var_dump($prdAttr->getAttributeText('manufacturer'));
-var_dump($prdAttr->getResource()->getAttribute('container_productid')->getFrontend()->getValue($prdAttr) );
-$output = ob_get_clean();
-$fileHandle = fopen(Mage::getBaseDir() . DIRECTORY_SEPARATOR . "testing.txt", "w");
-fwrite($fileHandle, $output);
-fclose($fileHandle);
- */

@@ -77,7 +77,7 @@ class NPS_CustomAdminFunctions_Block_Adminhtml_Tabs_PurchaseOrders extends Mage_
 
 	}
 	public function _getVendorShippingMethod($vendor_id, $po_code) {
-		$query = "SELECT `id`,`vendor_id`, `mage_code`, `label`, `po_code`, `courier` FROM `nps_dev`.`nps_vendor_shipment_translator` WHERE `vendor_id` = " . $vendor_id . " AND `po_code` = '" . $po_code . "'";
+		$query = "SELECT `id`,`vendor_id`, `mage_code`, `label`, `po_code`, `courier` FROM `nps_vendor_shipment_translator` WHERE `vendor_id` = " . $vendor_id . " AND `po_code` = '" . $po_code . "'";
 
 		$this->readConnection->query($query);
 		$results = $this->readConnection->fetchRow($query);

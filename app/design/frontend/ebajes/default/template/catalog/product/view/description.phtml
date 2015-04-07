@@ -86,10 +86,8 @@ for( $i=1; $i<=6; $i++){
         <?php
         	//get the description
         	$prd_desc = $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description');
-
         	//get array of description shortcode locations
-        	$shortcodes = $npsSC->getShotcodeLocations( $prd_desc );
-        	
+        	$shortcodes = $npsSC->getShotcodeLocations( $prd_desc );        	
         	//if there are shortcodes process them
         	if( $shortcodes ){
         		//get the data
@@ -97,7 +95,6 @@ for( $i=1; $i<=6; $i++){
         		//reset the description with the new shortcodes
         		$prd_desc = $npsSC->processShortcodeData( $shortcodes, $prd_desc );
         	}
-
         	//ouput description
         	echo $prd_desc;
         ?>

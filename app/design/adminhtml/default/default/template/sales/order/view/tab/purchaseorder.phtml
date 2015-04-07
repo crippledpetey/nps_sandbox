@@ -61,10 +61,12 @@
                                                     <th class="a-center"><span class="nobr">Vendor Product ID</span></th>
                                                     <th class="a-center"><span class="nobr">QTY Ordered</span></th>
 
+                                                    <th class="a-center"><span class="nobr">Unit Price</span></th>
+                                                    <th class="a-center"><span class="nobr">Unit Price w/ Tax</span></th>
+                                                    <th class="a-center"><span class="nobr">Line Price</span></th>
+                                                    <th class="a-center"><span class="nobr">Line Price w/ Tax</span></th>
                                                     <th class="a-center"><span class="nobr">Unit Cost</span></th>
-                                                    <th class="a-center"><span class="nobr">Unit Cost w/ Tax</span></th>
                                                     <th class="a-center"><span class="nobr">Line Cost</span></th>
-                                                    <th class="a-center"><span class="nobr">Line Cost w/ Tax</span></th>
 
                                                     <th class="a-center"><span class="nobr">Shipped</span></th>
                                                     <th class="a-center"><span class="nobr">Tracking</span></th>
@@ -91,6 +93,8 @@
                                                     <td class="a-center"><?php echo $po_item['unit_price_incl_tax'] ?></td>
                                                     <td class="a-center"><?php echo $po_item['line_price'] ?></td>
                                                     <td class="a-center"><?php echo $po_item['line_price_incl_tax'] ?></td>
+                                                    <td class="a-center"><?php echo $po_item['unit_cost'] ?></td>
+                                                    <td class="a-center"><?php echo $po_item['line_cost'] ?></td>
 
                                                     <?php 
                                                         if($po_item['shipped']){
