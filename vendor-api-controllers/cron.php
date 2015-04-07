@@ -77,7 +77,7 @@ class vendorCorrespondence {
 		} else {
 			$where = ' WHERE ( `vendor_id` = ' . $this->vendor_id . ') AND (' . $where . ')';
 		}
-		$query = "SELECT `id`,`vendor_id`,`entity_id`,`code`,`message`,`created`,`updated`,`processed` FROM `nps_vendor_updates`" . $where;
+		$query = "SELECT `id`,`vendor_id`,`entity_id`,`code`,`command`,`created`,`updated`,`processed` FROM `nps_vendor_updates`" . $where;
 		$return = $this->sqlread->fetchAll($query);
 		return $return;
 	}
