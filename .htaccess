@@ -1,4 +1,9 @@
 ############################################
+## Fix case sensitivity
+    CheckSpelling On
+    CheckCaseOnly On
+
+############################################
 ## uncomment these lines for CGI mode
 ## make sure to specify the correct cgi php binary file name
 ## it might be /cgi-bin/php-cgi
@@ -116,6 +121,8 @@
     Options +FollowSymLinks
     RewriteEngine on
 
+############################################
+## manufacturer product url rewrite
     #ENABLES /product/manufacturer/url_key/finish URLS
     RewriteRule ^product/(.*)/?$ /${prdfinder:$1} [R,L,NC,QSA]
 
