@@ -246,11 +246,10 @@
                         <class>varnishcache/observer</class>
                         <method>sanitizeCacheControlHeader</method>
                     </varnishcache_sanitize_header>
-                    <!--
                     <varnishcache_form_keys>
                         <class>varnishcache/observer</class>
                         <method>replaceFormKeys</method>
-                    </varnishcache_form_keys>-->
+                    </varnishcache_form_keys>
                     <!-- END CUSTOM CODE FIX -->
 
 
