@@ -94,6 +94,7 @@
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
+<div id="form-key-helper" class="hidden" data-form-key="<?php echo ''?>"><?php echo $this->getBlockHtml('formkey') ?></div>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-view">
     <div class="product-essential">
