@@ -63,10 +63,17 @@ class Phoenix_VarnishCache_Helper_Esi extends Mage_Core_Helper_Abstract {
 		/** @var $session Mage_Core_Model_Session */
 		$session = Mage::getSingleton('core/session');
 
+        if( !empty( $_COOKIE[FORMKEY_COOKIE] ) ){
+            $fKey = $_COOKIE[FORMKEY_COOKIE];    
+        } else {
+            $fKey = $this->getFormKeyEsiTag()
+        }
+        
+
 		// replace all occurrences of form key with esi tag
 		$content = str_replace(
 			$session->getFormKey(),
-			$this->getFormKeyEsiTag(),
+			$fKey,
 			$content
 		);
 
