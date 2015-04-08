@@ -211,7 +211,7 @@ class Mage_Catalog_Block_Product_View_Attachments extends Mage_Core_Block_Templa
 				}
 			}
 		}
-		outputToTestingText($return_data, true);
+
 		return $return_data;
 	}
 

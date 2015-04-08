@@ -135,4 +135,11 @@ class NPS_BetterLayerNavigation_Model_Observer {
 		$cookieDomain = '/';
 		setcookie($cookie_id, $cookieValue, $cookieExpire, $cookieDomain);
 	}
+
+	public function updateFormKeyForCaching(Varien_Event_Observer $observer) {
+		//set the product that was clicked
+		//$product = $observer->getEvent()->getProduct();
+		$sessionKey = Mage::getSingleton('core/session')->getFormKey();
+		$observer->getEvent()->getRequest()->setParam('form_key', $sessionKey);
+	}
 }

@@ -53,20 +53,16 @@ function showHoverHelperClassHoverOff(elem,oldText){
     }
 }
 
-
-   
-
 jQuery(document).ready(function($){
 
-    '%3Cesi:include src=%22http://sandbox.needplumbingsupplies.com/varnishcache/getformkey/%22 /%3E/"'.replace(/\+/g, $("input[name='form_key']").val());
+    //'%3Cesi:include src=%22http://sandbox.needplumbingsupplies.com/varnishcache/getformkey/%22 /%3E/"'.replace(/\+/g, $("input[name='form_key']").val());
     console.log($("input[name='form_key']").val());
    
     function standardizeMainNav(){
         if( $(window).width() > 768 ){
             var navfullWidth = $("#nav").innerWidth();
             var navMenuItems = $("#nav > li").length;
-            //console.log( 'width'+navfullWidth );
-            //console.log( 'items:'+navMenuItems );
+
             $("#nav > li").each(function(){
                 $(this).css("width", navfullWidth / navMenuItems );
             });

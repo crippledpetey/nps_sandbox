@@ -80,7 +80,7 @@ Default layout, loads most of the pages
                 <action method="addItem"><type>skin_js</type><name>js/jquery.nouislider.min.js</name></action> 
                 <action method="addItem"><type>skin_js</type><name>js/jquery.nouislider.all.min.js</name></action> 
 
-                <action method="addItem"><type>skin_js</type><name>js/ebajes.min.js</name></action> 
+                <action method="addItem"><type>skin_js</type><name>js/ebajes.js</name></action> 
             </block>
 
             <block type="core/text_list" name="after_body_start" as="after_body_start" translate="label">
