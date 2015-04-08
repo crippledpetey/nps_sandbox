@@ -202,8 +202,7 @@
 ############################################
 ## SANDBOX DENY ACCESS FROM OUTSIDE NETWORKS
     Order deny,allow
-    #Deny from all
-    Allow from all
+    Deny from all
     Allow from 127.0.0.1
     Allow from 10.1.*.*
 
