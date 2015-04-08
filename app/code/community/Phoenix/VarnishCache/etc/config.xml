@@ -302,14 +302,14 @@
                 </observers>
             </wishlist_add_product>
             <http_response_send_before>
-                <!-- ORIG CODE
+
                 <observers>
                     <varnishcache>
                         <class>varnishcache/observer</class>
                         <method>replaceFormKeys</method>
                     </varnishcache>
                 </observers>
-                -->
+
             </http_response_send_before>
             <controller_action_predispatch>
                 <observers>
