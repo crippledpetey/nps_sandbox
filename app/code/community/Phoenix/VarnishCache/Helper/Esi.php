@@ -21,8 +21,8 @@
 class Phoenix_VarnishCache_Helper_Esi extends Mage_Core_Helper_Abstract {
 	const ESI_FORMKEY_URL = 'varnishcache/getformkey/';
 	const FORMKEY_COOKIE = 'PAGECACHE_FORMKEY';
-	const ESI_INCLUDE_OPEN = "<esi:include src='";
-	const ESI_INCLUDE_CLOSE = "' />";
+	const ESI_INCLUDE_OPEN = '<esi:include src="';
+	const ESI_INCLUDE_CLOSE = '" />';
 
 	/**
 	 * return if used magento version uses form keys
@@ -69,6 +69,14 @@ class Phoenix_VarnishCache_Helper_Esi extends Mage_Core_Helper_Abstract {
 			$this->getFormKeyEsiTag(),
 			$content
 		);
+
+		/* CUSTOM CODE
+		$content = str_replace(
+		'"' . $session->getFormKey() . '"',
+		"'" . $this->getFormKeyEsiTag() . "'",
+		$content
+		);
+		 */
 
 		return $content;
 	}
