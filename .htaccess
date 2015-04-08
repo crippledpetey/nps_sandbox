@@ -117,11 +117,6 @@
     RewriteEngine on
 
 ############################################
-## varnish caching exclusion
-
-#    RewriteRule ^varnishcache($|/) - [L]
-
-############################################
 ## manufacturer product url rewrite
     #ENABLES /product/manufacturer/url_key/finish URLS
     RewriteRule ^product/(.*)/?$ /${prdfinder:$1} [R,L,NC,QSA]
