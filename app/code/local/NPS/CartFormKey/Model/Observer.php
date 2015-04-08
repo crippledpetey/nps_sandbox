@@ -16,10 +16,10 @@ class NPS_CartFormKey_Model_Observer {
 		);
 		$route = $observer->getEvent()->getControllerAction()->getFullActionName();
 		outputToTestingText($route, true);
-		/*
-	if (in_array($route, $events) && !empty(Mage::getSingleton('core/session')->getFormKey()) && Mage::getSingleton('core/session')->getFormKey()) {
-	$key = Mage::getSingleton('core/session')->getFormKey();
-	Mage::app()->getRequest()->setParam('form_key', $key);
-	}*/
+
+		if (in_array($route, $events) && !empty(Mage::getSingleton('core/session')->getFormKey()) && Mage::getSingleton('core/session')->getFormKey()) {
+			$key = Mage::getSingleton('core/session')->getFormKey();
+			Mage::app()->getRequest()->setParam('form_key', $key);
+		}
 	}
 }

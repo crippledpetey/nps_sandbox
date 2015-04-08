@@ -6,6 +6,7 @@
         </NPS_BetterLayerNavigation>
     </modules>
     <global>
+        <!--
         <models>
             <checkout>
                 <rewrite>
@@ -13,6 +14,7 @@
                 </rewrite>
             </checkout>
         </models>    
+        -->
         <events>     
             <catalog_controller_product_view>      
                 <observers>     
@@ -23,6 +25,7 @@
                     </update_product_cookies_for_npsf>
                 </observers>  
             </catalog_controller_product_view> 
+            
             <checkout_cart_product_add_before>
                 <observers>
                     <type>singleton</type>  
@@ -30,29 +33,22 @@
                     <method>updateFormKeyForCaching</method>  
                 </observers>
             </checkout_cart_product_add_before>
+        
         </events>  
     </global>  
     <frontend>
         <routers>
-            <!-- This node's name should be the same as our alias -->
             <betterlayernavigation>
-                <!-- use parameter specifies which of basic routers needs to be used.
-This can be "standard" for frontend or "admin" for backend -->
                 <use>standard</use>
-                <!-- router arguments block -->
                 <args>
-                    <!-- This parameter specifies the full name of out module -->
                     <module>NPS_BetterLayerNavigation</module>
-                    <!-- This parameter sets module alias -->
                     <frontName>betterlayernavigation</frontName>
                 </args>
             </betterlayernavigation>
         </routers>
         <layout>
             <updates>
-                <!-- module alias -->
                 <betterlayernavigation>
-                    <!-- File for loading -->
                     <file>betterlayernavigation.xml</file>
                 </betterlayernavigation>
             </updates>
