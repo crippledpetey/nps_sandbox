@@ -403,9 +403,17 @@ class Phoenix_VarnishCache_Model_Observer {
 	 * @param Varien_Event_Observer $observer
 	 */
 	public function registerCookieFormKey(Varien_Event_Observer $observer) {
+		/**ORIG CODE
 		if ($formKey = Mage::helper('varnishcache/esi')->getCookieFormKey()) {
-			$session = Mage::getSingleton('core/session');
-			$session->setData('_form_key', $formKey);
+		$session = Mage::getSingleton('core/session');
+		$session->setData('_form_key', $formKey);
+		}
+		 */
+		if ($this->_isCacheEnabled()) {
+			if ($formKey = Mage::helper('varnishcache/esi')->getCookieFormKey()) {
+				$session = Mage::getSingleton('core/session');
+				$session->setData('_form_key', $formKey);
+			}
 		}
 	}
 }
