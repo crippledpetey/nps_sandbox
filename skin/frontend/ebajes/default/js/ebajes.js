@@ -58,8 +58,8 @@ function showHoverHelperClassHoverOff(elem,oldText){
 
 jQuery(document).ready(function($){
 
-    '%3Cesi:include src=%22http://sandbox.needplumbingsupplies.com/varnishcache/getformkey/%22 /%3E/"'.replace(/\+/g, $("input[name='form_key']"));
-    console.log($("input[name='form_key']"));
+    '%3Cesi:include src=%22http://sandbox.needplumbingsupplies.com/varnishcache/getformkey/%22 /%3E/"'.replace(/\+/g, $("input[name='form_key']").val());
+    console.log($("input[name='form_key']").val());
    
     function standardizeMainNav(){
         if( $(window).width() > 768 ){
