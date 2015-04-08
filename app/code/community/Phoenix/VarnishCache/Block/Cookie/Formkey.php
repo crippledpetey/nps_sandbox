@@ -47,8 +47,8 @@ class Phoenix_VarnishCache_Block_Cookie_Formkey extends Mage_Core_Block_Template
 
 		// or create new one via esi
 		if (empty($formKey)) {
-			if (!empty($_COOKIE[FORMKEY_COOKIE])) {
-				$formKey = $_COOKIE[FORMKEY_COOKIE];
+			if (!empty($_COOKIE['PAGECACHE_FORMKEY'])) {
+				$formKey = $_COOKIE['PAGECACHE_FORMKEY'];
 			} else {
 				$formKey = Mage::helper('varnishcache/esi')->getFormKeyEsiTag();
 			}
