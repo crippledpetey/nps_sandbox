@@ -131,7 +131,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Seo extends Mage_Adminhtml_Block
 		//SEO Category Type
 		$fieldset->addField('_category_type', 'select', array(
 			'label' => 'Category Type',
-			'required' => ( $seoValues['is_new'] ? false : true),
+			//'required' => ( $seoValues['is_new'] ? false : true),
 			'name' => 'seo_category_type',
 			'values' => array('' => '--SELECT TYPE--', 'distinct' => 'Distinct Category', 'redirect' => 'Redirect', 'canonical' => 'Canonical'),
 			'value' => $seoValues['category_type'],
