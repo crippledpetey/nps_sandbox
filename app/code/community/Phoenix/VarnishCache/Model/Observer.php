@@ -362,6 +362,8 @@ class Phoenix_VarnishCache_Model_Observer {
 	 * @param Varien_Event_Observer $observer
 	 */
 	public function replaceFormKeys(Varien_Event_Observer $observer) {
+
+		$esiHelper = Mage::helper('varnishcache/esi');
 		if ($this->_isCacheEnabled()) {
 			$esiHelper = Mage::helper('varnishcache/esi');
 			/* @var $esiHelper Phoenix_VarnishCache_Helper_Esi */
@@ -380,21 +382,6 @@ class Phoenix_VarnishCache_Model_Observer {
 
 			$response->setBody($html);
 		}
-
-		/**ORIG CODE
-
-	$esiHelper = Mage::helper('varnishcache/esi');
-	/* @var $esiHelper Phoenix_VarnishCache_Helper_Esi
-	if (!$esiHelper->hasFormKey() || Mage::app()->getRequest()->isPost()) {
-	return false;
-	}
-
-	$response = $observer->getResponse();
-	$html     = $response->getBody();
-	$html     = $esiHelper->replaceFormKey($html);
-
-	$response->setBody($html);
-	 */
 	}
 
 	/**
@@ -403,12 +390,6 @@ class Phoenix_VarnishCache_Model_Observer {
 	 * @param Varien_Event_Observer $observer
 	 */
 	public function registerCookieFormKey(Varien_Event_Observer $observer) {
-		/**ORIG CODE
-		if ($formKey = Mage::helper('varnishcache/esi')->getCookieFormKey()) {
-		$session = Mage::getSingleton('core/session');
-		$session->setData('_form_key', $formKey);
-		}
-		 */
 		if ($this->_isCacheEnabled()) {
 			if ($formKey = Mage::helper('varnishcache/esi')->getCookieFormKey()) {
 				$session = Mage::getSingleton('core/session');
