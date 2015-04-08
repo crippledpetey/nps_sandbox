@@ -117,6 +117,11 @@
     RewriteEngine on
 
 ############################################
+## varnish caching exclusion
+
+#    RewriteRule ^varnishcache($|/) - [L]
+
+############################################
 ## manufacturer product url rewrite
     #ENABLES /product/manufacturer/url_key/finish URLS
     RewriteRule ^product/(.*)/?$ /${prdfinder:$1} [R,L,NC,QSA]
@@ -235,10 +240,10 @@
    Allow from 204.93.104.58
 
 ## DEZI
-    Allow from 73.41.121.182
+    Allow from 73.220.240.120
 
 ## RANDOM
-    Allow from 67.174.62.7
+    Allow from 67.187.252.216
 
 ## TDP OFFICE ENTRIES
     Allow from 71.12.97.202
