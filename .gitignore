@@ -227,3 +227,4 @@ app/code/community/HALO/Haloebajessettings/etc/system.xml
 /media
 /rewrite/*
 testing.txt
+/shell
