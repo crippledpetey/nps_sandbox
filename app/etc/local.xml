@@ -64,4 +64,17 @@
             </adminhtml>
         </routers>
     </admin>
+    <default>
+         <!-- Overriding defaults -->
+        <reference name="breadcrumbs">
+          <action method="setEsiOptions">
+            <params>
+              <access>private</access>
+              <registry_keys>
+                <current_category />
+              </registry_keys>
+            </params>
+          </action>
+        </reference>
+    <default>
 </config>
