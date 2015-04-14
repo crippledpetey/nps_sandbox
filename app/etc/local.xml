@@ -65,7 +65,6 @@
         </routers>
     </admin>
     <default>
-         <!-- Overriding defaults -->
         <reference name="breadcrumbs">
           <action method="setEsiOptions">
             <params>
@@ -76,5 +75,5 @@
             </params>
           </action>
         </reference>
-    <default>
+    </default>
 </config>
