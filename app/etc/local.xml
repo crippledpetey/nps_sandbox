@@ -65,7 +65,17 @@
         </routers>
     </admin>
     <default>
-        <reference name="breadcrumbs">
+        <reference name="formkey">
+          <action method="setEsiOptions">
+            <params>
+              <access>private</access>
+              <registry_keys>
+                <current_category />
+              </registry_keys>
+            </params>
+          </action>
+        </reference>
+        <reference name="top.main">
           <action method="setEsiOptions">
             <params>
               <access>private</access>
