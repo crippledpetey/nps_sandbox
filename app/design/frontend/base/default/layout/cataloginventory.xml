@@ -33,7 +33,7 @@ Product view
 -->
     <catalog_product_view>
         <reference name="product.info.extrahint">
-            <block type="cataloginventory/qtyincrements" name="product.info.extrahint.qtyincrements" template="cataloginventory/qtyincrements.phtml"/>
+            <!--<block type="cataloginventory/qtyincrements" name="product.info.extrahint.qtyincrements" template="cataloginventory/qtyincrements.phtml"/>-->
         </reference>
     </catalog_product_view>
 

@@ -41,7 +41,10 @@
 <?php if ($this->canEmailToFriend()): ?>
     <br><li><span class="separator">+</span><a class="email-friend" href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></li>
 <?php endif; ?>
-<li><span class="separator">+</span><a href="<?php echo $this->escapeHtml($this->getSignupUrl()) ?>" title="<?php echo $this->escapeHtml($this->getSignupLabel()); ?>"><?php echo $this->escapeHtml($this->getSignupLabel()); ?></a></li>
+	<li class="hidden">
+		<span class="separator">+</span>
+		<a href="<?php echo $this->escapeHtml($this->getSignupUrl()) ?>" title="<?php echo $this->__('Sign up for Price Alert'); ?>"><?php echo $this->__('Sign up for Price Alert'); ?></a>
+	</li>
 </ul>
 <div class="clearer"></div>
 <div id="product-int-id">NPS-ID: <span><?php echo $_product->getId(); ?></span></div>
