@@ -36,6 +36,10 @@ INCLUDING CUSTOM NPS PRODUCT PAGE CLASS AND INSTANTIATE
 */
 require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php');
 $nps_filter = new productDrop;
+
+// set database connectors
+$connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+$tablePrefix = (string) Mage::getConfig()->getTablePrefix();
 ?>
 <?php if($this->canShowBlock()): ?>
 <div class="block block-layered-nav">
@@ -169,27 +173,6 @@ $nps_filter = new productDrop;
                             </span>
                         </button>
                     </dd>
-                   
-                    <?php
-                        /* <script type="text/javascript" src="/skin/frontend/ebajes/default/js/price.slider.js"> */
-                        /**
-                        TESTING - 
-                        Loading the query to check for variations that need to be edited
-                        */                        
-                        
-                        // set relation template
-                        $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
-                        $tablePrefix = (string) Mage::getConfig()->getTablePrefix();
-
-                        // transfer relation
-                        $select = $connection->select()->from($tablePrefix . 'catalog_product_option', array('option_id', 'in_group_id'))->where('product_id = XX AND in_group_id > 65535');
-
-                        //var_dump( $select );
-
-
-
-                    ?>
-
                     <?php } ?>
 
                 <?php if($_filter->getItemsCount() && $_filter->getName() !== 'Price') : ?>

@@ -150,4 +150,16 @@ jQuery(document).ready(function($){
 			});	
 		}
 	});
+
+	/* ADD SCROLL BARS TO LONG LAYER NAV SECTIONS */
+	$("#narrow-by-list dd").each(function(){
+		console.log($(this).height());
+		if( $(this).height() > 200 ){
+			$(this).css({
+				"height"	 	: 200,
+				"overflow-y"	: "scroll",
+			});
+		}
+	});
+
 });
